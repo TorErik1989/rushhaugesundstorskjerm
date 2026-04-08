@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rush Storskjerm</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: Arial, sans-serif;
+}
+
+.wrap {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Presentasjon urørt */
+.slide-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #000;
+  z-index: 1;
+}
+
+/* Myk mørkning nederst så boksene leses bedre */
+.bottom-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.45));
+  z-index: 2;
+}
+
+/* Kun skjul Google-linjen helt nederst */
+.google-cover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 58px;
+  background: #000;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Båndstripe ligger litt over bunnen */
+.bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  height: 14vh;
+  min-height: 112px;
+  padding: 0 10px 0 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  color: white;
+  z-index: 4;
+  background: transparent;
+}
+
+.clock {
+  min-width: 96px;
+  padding-bottom: 8px;
+  font-size: 4.1vh;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.65);
+}
+
+.rows {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+.row {
+  flex: 1;
+  min-width: 0;
+  min-height: 58px;
+  padding: 14px 14px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font-weight: 800;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+  border: 1px solid rgba(255,255,255,0.16);
+}
+
+.row.first {
+  flex: 1.15;
+}
+
+.row span:first-child {
+  font-size: 1.75vw;
+  line-height: 1;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+
+.row span:last-child {
+  font-size: 1.2vw;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Transparente farger */
+.black  { background: rgba(0,0,0,0.62); color: white; }
+.white  { background: rgba(255,255,255,0.68); color: black; }
+.pink   { background: rgba(234,100,197,0.68); color: black; }
+.red    { background: rgba(217,0,0,0.68); color: white; }
+.grey   { background: rgba(124,124,124,0.68); color: white; }
+.green  { background: rgba(25,163,74,0.68); color: white; }
+.orange { background: rgba(242,140,0,0.70); color: black; }
+.blue   { background: rgba(27,103,216,0.68); color: white; }
+.yellow { background: rgba(242,220,0,0.70); color: black; }
+.purple { background: rgba(122,57,194,0.68); color: white; }
+
+@media (max-width: 1400px) {
+  .row span:first-child { font-size: 1.95vw; }
+  .row span:last-child { font-size: 1.4vw; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <iframe
+    class="slide-frame"
+    src="https://docs.google.com/presentation/d/e/2PACX-1vQqMYC-UePTy50-UFzUtnS1D9nRH-bBJuaihR7Lt6CeCBMiRvIQtqfr0zQvXE4lx9hGTQu9WA0Xl_IW/embed?start=true&loop=true&delayms=5000"
+    allowfullscreen="true">
+  </iframe>
+
+  <div class="bottom-fade"></div>
+  <div class="google-cover"></div>
+  <div id="bottom" class="bottom"></div>
+</div>
+
+<script>
+const previewTime = null;
+
+function now() {
+  if (!previewTime) return new Date();
+  const [d, t] = previewTime.split(" ");
+  const [y, m, day] = d.split("-").map(Number);
+  const [h, min] = t.split(":").map(Number);
+  return new Date(y, m - 1, day, h, min, 0, 0);
+}
+
+const sequence = [
+  "black","black","black","pink","red","grey","green","orange","blue","yellow","purple",
+  "black","white","pink","red","grey","green","orange","blue","yellow","purple",
+  "black","white","pink","red","grey","green"
+];
+
+const labels = {
+  black:"SVART",
+  white:"HVIT",
+  pink:"ROSA",
+  red:"RØD",
+  grey:"GRÅ",
+  green:"GRØNN",
+  orange:"ORANSJE",
+  blue:"BLÅ",
+  yellow:"GUL",
+  purple:"LILLA"
+};
+
+const start = "08:30:00";
+const end = "22:00:00";
+const visible = 5;
+
+function timeToday(str) {
+  const d = new Date();
+  const [h, m, s] = str.split(":").map(Number);
+  d.setHours(h, m, s, 0);
+  return d;
+}
+
+function formatClock(d) {
+  return d.toLocaleTimeString("no-NO", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+function short(ms) {
+  ms = Math.max(0, ms);
+  const s = Math.floor(ms / 1000);
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  if (h > 0) return `${h} t ${m} min`;
+  return `${m} min`;
+}
+
+function full(ms) {
+  ms = Math.max(0, ms);
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${m} min ${sec} sek`;
+}
+
+function render() {
+  const el = document.getElementById("bottom");
+  el.innerHTML = "";
+
+  const n = now();
+
+  const clock = document.createElement("div");
+  clock.className = "clock";
+  clock.textContent = formatClock(n);
+  el.appendChild(clock);
+
+  const rows = document.createElement("div");
+  rows.className = "rows";
+  el.appendChild(rows);
+
+  const startT = timeToday(start);
+  const endT = timeToday(end);
+
+  if (n < startT) {
+    const div = document.createElement("div");
+    div.className = "row black first";
+    div.innerHTML = `<span>STARTER</span><span>${short(startT - n)}</span>`;
+    rows.appendChild(div);
+    return;
+  }
+
+  if (n >= endT) {
+    const div = document.createElement("div");
+    div.className = "row black first";
+    div.innerHTML = `<span>FERDIG</span><span>Stengt</span>`;
+    rows.appendChild(div);
+    return;
+  }
+
+  const total = endT - startT;
+  const slot = total / sequence.length;
+  const index = Math.floor((n - startT) / slot);
+
+  for (let i = 0; i < visible; i++) {
+    const idx = index + i;
+    if (idx >= sequence.length) break;
+
+    const endSlot = new Date(startT.getTime() + (idx + 1) * slot);
+
+    const div = document.createElement("div");
+    div.className = `row ${sequence[idx]} ${i === 0 ? "first" : ""}`;
+
+    const txt = i === 0 ? full(endSlot - n) : short(endSlot - n);
+
+    div.innerHTML = `
+      <span>${labels[sequence[idx]]}</span>
+      <span>${txt}</span>
+    `;
+
+    rows.appendChild(div);
+  }
+}
+
+setInterval(render, 1000);
+render();
+</script>
+
+</body>
+</html>
