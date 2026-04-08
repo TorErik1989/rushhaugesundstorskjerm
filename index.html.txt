@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rush Storskjerm</title>
+
+<meta http-equiv="refresh" content="300">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: Arial, sans-serif;
+}
+
+.wrap {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.slide-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  z-index: 1;
+}
+
+.bottom-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.45));
+  z-index: 2;
+}
+
+.google-cover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60px;
+  background: #000;
+  z-index: 3;
+}
+
+.bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  height: 14vh;
+  min-height: 110px;
+  display: flex;
+  gap: 10px;
+  padding: 0 10px;
+  align-items: flex-end;
+  z-index: 4;
+}
+
+.clock {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.rows {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+}
+
+.row {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  backdrop-filter: blur(4px);
+}
+
+.row.first {
+  flex: 1.2;
+}
+
+.black  { background: rgba(0,0,0,0.6); color: white; }
+.white  { background: rgba(255,255,255,0.7); color: black; }
+.pink   { background: rgba(234,100,197,0.7); color: black; }
+.red    { background: rgba(217,0,0,0.7); color: white; }
+.grey   { background: rgba(124,124,124,0.7); color: white; }
+.green  { background: rgba(25,163,74,0.7); color: white; }
+.orange { background: rgba(242,140,0,0.7); color: black; }
+.blue   { background: rgba(27,103,216,0.7); color: white; }
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<iframe class="slide-frame"
+src="https://docs.google.com/presentation/d/e/2PACX-1vQqMYC-UePTy50-UFzUtnS1D9nRH-bBJuaihR7Lt6CeCBMiRvIQtqfr0zQvXE4lx9hGTQu9WA0Xl_IW/embed?start=true&loop=true&delayms=5000">
+</iframe>
+
+<div class="bottom-fade"></div>
+<div class="google-cover"></div>
+<div id="bottom" class="bottom"></div>
+
+</div>
+
+<script>
+const sequence = ["black","pink","red","grey","green","orange","blue"];
+
+const labels = {
+  black:"SVART",
+  pink:"ROSA",
+  red:"RØD",
+  grey:"GRÅ",
+  green:"GRØNN",
+  orange:"ORANSJE",
+  blue:"BLÅ"
+};
+
+function render() {
+  const el = document.getElementById("bottom");
+  el.innerHTML = "";
+
+  const now = new Date();
+
+  const clock = document.createElement("div");
+  clock.className = "clock";
+  clock.textContent = now.toLocaleTimeString("no-NO",{hour:"2-digit",minute:"2-digit"});
+  el.appendChild(clock);
+
+  const rows = document.createElement("div");
+  rows.className = "rows";
+  el.appendChild(rows);
+
+  for (let i = 0; i < 5; i++) {
+    const div = document.createElement("div");
+    div.className = "row " + sequence[i] + (i===0?" first":"");
+    div.innerHTML = `<span>${labels[sequence[i]]}</span><span>${Math.floor(Math.random()*60)} min</span>`;
+    rows.appendChild(div);
+  }
+}
+
+setInterval(render, 1000);
+render();
+</script>
+
+</body>
+</html>
