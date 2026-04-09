@@ -14,21 +14,23 @@ html, body {
   background: #17232e;
   font-family: Arial, Helvetica, sans-serif;
 }
-body { color: #f4f4f4; }
+body {
+  color: #f4f4f4;
+}
 
 #page {
-  position: fixed;
-  inset: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 18px 16px 6px 16px;
   background: linear-gradient(to right, #17232e, #1d2a37, #17232e);
 }
 
-/* Header pinned to top */
 #header {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  top: 18px;
-  height: 96px;
+  position: relative;
+  width: 100%;
+  height: 108px;
+  margin-bottom: 12px;
 }
 #title {
   position: absolute;
@@ -36,37 +38,32 @@ body { color: #f4f4f4; }
   right: 0;
   top: 8px;
   text-align: center;
-  font-size: 62px;
+  font-size: 72px;
   font-weight: 900;
   line-height: 1;
 }
 #clock {
   position: absolute;
-  right: 4px;
+  right: 6px;
   top: 0;
-  font-size: 92px;
+  font-size: 112px;
   font-weight: 900;
   line-height: 0.95;
 }
+#clear { clear: both; }
 
-/* Bands container pinned from under header to near bottom */
 #bands {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  top: 120px;
-  bottom: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  width: 100%;
+  height: calc(100% - 120px);
 }
 
 .band {
-  flex: 1 1 0;
-  min-height: 0;
-  border-radius: 26px;
+  width: 100%;
+  height: 19.6%;
+  margin-bottom: 0.95%;
+  border-radius: 34px;
   box-sizing: border-box;
-  padding: 0 36px 0 76px;
+  padding: 0 52px 0 112px;
   overflow: hidden;
 }
 .bandTable {
@@ -79,21 +76,21 @@ body { color: #f4f4f4; }
   vertical-align: middle;
 }
 .bandLeft {
-  width: 46%;
+  width: 50%;
   text-align: left;
 }
 .bandRight {
-  width: 54%;
+  width: 50%;
   text-align: right;
 }
 .name {
-  font-size: 46px;
+  font-size: 78px;
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
 }
 .time {
-  font-size: 50px;
+  font-size: 86px;
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
@@ -113,41 +110,42 @@ body { color: #f4f4f4; }
 
 .hero {
   display: none;
-  position: absolute;
-  inset: 0;
+  width: 100%;
+  height: 100%;
   background-color: #17232e;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+  position: relative;
 }
 .heroOverlay {
   position: absolute;
-  inset: 0;
+  left: 0; right: 0; top: 0; bottom: 0;
   background: rgba(0,0,0,0.22);
 }
 .heroContent {
   position: absolute;
-  left: 34px;
-  right: 34px;
-  bottom: 34px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
   z-index: 2;
 }
 .heroTitle {
-  font-size: 64px;
+  font-size: 86px;
   font-weight: 900;
   line-height: 1;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   color: #ffffff;
 }
 .heroTime {
   display: inline-block;
-  font-size: 54px;
+  font-size: 74px;
   font-weight: 900;
   line-height: 1;
   color: #ffffff;
   background: rgba(0,0,0,0.34);
-  border-radius: 18px;
-  padding: 14px 18px;
+  border-radius: 22px;
+  padding: 18px 24px;
 }
 </style>
 </head>
@@ -157,6 +155,7 @@ body { color: #f4f4f4; }
       <div id="header">
         <div id="title">HOPPETID</div>
         <div id="clock">00:00</div>
+        <div id="clear"></div>
       </div>
       <div id="bands"></div>
     </div>
@@ -232,21 +231,32 @@ var afterDarkDates = {
 
 var visibleBands = 5;
 
-function pad(n) { return (n < 10 ? "0" : "") + n; }
-function formatClock(d) { return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
-function dateKey(d) { return d.getFullYear() + "-" + pad(d.getMonth()+1) + "-" + pad(d.getDate()); }
+function pad(n) {
+  return (n < 10 ? "0" : "") + n;
+}
+
+function formatClock(d) {
+  return pad(d.getHours()) + ":" + pad(d.getMinutes());
+}
+
+function dateKey(d) {
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+}
+
 function msAtToday(hhmm, now) {
   var parts = hhmm.split(":");
   var d = new Date(now.getTime());
-  d.setHours(parseInt(parts[0],10), parseInt(parts[1],10), 0, 0);
+  d.setHours(parseInt(parts[0], 10), parseInt(parts[1], 10), 0, 0);
   return d.getTime();
 }
+
 function formatRemaining(ms, withSeconds) {
   var total = Math.max(0, Math.floor(ms / 1000));
   var h = Math.floor(total / 3600);
-  total -= h * 3600;
+  total = total - h * 3600;
   var m = Math.floor(total / 60);
   var s = total - m * 60;
+
   if (withSeconds) {
     if (h > 0) return h + " t " + m + " min " + s + " sek";
     return m + " min " + s + " sek";
@@ -254,24 +264,39 @@ function formatRemaining(ms, withSeconds) {
   if (h > 0) return h + " t " + m + " min";
   return m + " min";
 }
-function isWeekend(now) { var d = now.getDay(); return d === 0 || d === 6; }
+
+function isWeekend(now) {
+  var day = now.getDay();
+  return day === 0 || day === 6;
+}
+
 function isMini(now) {
   if (!isWeekend(now)) return false;
+  var start = msAtToday("09:30", now);
+  var end = msAtToday("11:00", now);
   var t = now.getTime();
-  return t >= msAtToday("09:30", now) && t < msAtToday("11:00", now);
+  return t >= start && t < end;
 }
+
 function isAfterDark(now) {
   if (!afterDarkDates[dateKey(now)]) return false;
+  var start = msAtToday("20:00", now);
+  var end = msAtToday("22:00", now);
   var t = now.getTime();
-  return t >= msAtToday("20:00", now) && t < msAtToday("22:00", now);
+  return t >= start && t < end;
 }
-function currentPlan(now) { return isWeekend(now) ? weekendPlan : weekdayPlan; }
+
+function currentPlan(now) {
+  return isWeekend(now) ? weekendPlan : weekdayPlan;
+}
 
 function computeRows(now) {
   var plan = currentPlan(now);
   var nowMs = now.getTime();
   var firstFuture = -1;
-  for (var i = 0; i < plan.length; i++) {
+  var i;
+
+  for (i = 0; i < plan.length; i++) {
     if (msAtToday(plan[i].out, now) > nowMs) {
       firstFuture = i;
       break;
@@ -282,22 +307,36 @@ function computeRows(now) {
   var rows = [];
   if (firstFuture > 0) {
     var prev = plan[firstFuture - 1];
-    rows.push({ label: prev.label, color: prev.color, status: "done", remaining: 0 });
-  }
-  for (var j = firstFuture; j < plan.length && rows.length < visibleBands; j++) {
     rows.push({
-      label: plan[j].label,
-      color: plan[j].color,
-      status: "active",
-      remaining: msAtToday(plan[j].out, now) - nowMs
+      label: prev.label,
+      color: prev.color,
+      status: "done",
+      remaining: 0
     });
   }
-  while (rows.length < visibleBands) {
-    rows.push({ label: "", color: "black", status: "empty", remaining: 0 });
+
+  for (i = firstFuture; i < plan.length && rows.length < visibleBands; i++) {
+    rows.push({
+      label: plan[i].label,
+      color: plan[i].color,
+      status: "active",
+      remaining: msAtToday(plan[i].out, now) - nowMs
+    });
   }
 
-  /* finished at bottom, increasing upward */
+  while (rows.length < visibleBands && plan.length > 0) {
+    rows.push({
+      label: "",
+      color: "black",
+      status: "empty",
+      remaining: 0
+    });
+  }
+
+  /* User wants finished at bottom and increasing upward.
+     So reverse display order. */
   rows.reverse();
+
   return rows;
 }
 
@@ -306,11 +345,13 @@ function showNormal() {
   document.getElementById("miniHero").style.display = "none";
   document.getElementById("afterHero").style.display = "none";
 }
+
 function showMini() {
   document.getElementById("normalView").style.display = "none";
   document.getElementById("miniHero").style.display = "block";
   document.getElementById("afterHero").style.display = "none";
 }
+
 function showAfter() {
   document.getElementById("normalView").style.display = "none";
   document.getElementById("miniHero").style.display = "none";
@@ -322,50 +363,72 @@ function renderNormal(now) {
   document.getElementById("clock").innerHTML = formatClock(now);
 
   var rows = computeRows(now);
+  var html = "";
   var activeRows = [];
-  for (var a = 0; a < rows.length; a++) {
-    if (rows[a].status === "active") activeRows.push(rows[a]);
+  for (var j = 0; j < rows.length; j++) {
+    if (rows[j].status === "active") activeRows.push(rows[j]);
   }
   var shortestActive = null;
   if (activeRows.length) {
     shortestActive = activeRows[0];
-    for (var b = 1; b < activeRows.length; b++) {
-      if (activeRows[b].remaining < shortestActive.remaining) shortestActive = activeRows[b];
+    for (var k = 1; k < activeRows.length; k++) {
+      if (activeRows[k].remaining < shortestActive.remaining) shortestActive = activeRows[k];
     }
   }
 
-  var html = "";
   for (var i = 0; i < rows.length; i++) {
     var r = rows[i];
     var timeText = "";
-    if (r.status === "done") timeText = "FERDIG";
-    else if (r.status === "active") timeText = formatRemaining(r.remaining, shortestActive && r === shortestActive);
+    if (r.status === "done") {
+      timeText = "FERDIG";
+    } else if (r.status === "active") {
+      timeText = formatRemaining(r.remaining, shortestActive && r === shortestActive);
+    } else {
+      timeText = "";
+    }
 
-    html += '<div class="band ' + r.color + '"><table class="bandTable"><tr>'
-      + '<td class="bandLeft"><div class="name">' + r.label + '</div></td>'
-      + '<td class="bandRight"><div class="time">' + timeText + '</div></td>'
-      + '</tr></table></div>';
+    html += ''
+      + '<div class="band ' + r.color + '">'
+      +   '<table class="bandTable">'
+      +     '<tr>'
+      +       '<td class="bandLeft"><div class="name">' + r.label + '</div></td>'
+      +       '<td class="bandRight"><div class="time">' + timeText + '</div></td>'
+      +     '</tr>'
+      +   '</table>'
+      + '</div>';
   }
+
   document.getElementById("bands").innerHTML = html;
 }
 
 function renderMini(now) {
   showMini();
-  document.getElementById("miniHero").style.backgroundImage = "url('minisprett.png')";
-  document.getElementById("miniTime").innerHTML = formatRemaining(msAtToday("11:00", now) - now.getTime(), true);
+  var left = msAtToday("11:00", now) - now.getTime();
+  document.getElementById("miniTime").innerHTML = formatRemaining(left, true);
 }
+
 function renderAfter(now) {
   showAfter();
-  document.getElementById("afterHero").style.backgroundImage = "url('afterdark.png')";
-  document.getElementById("afterTime").innerHTML = formatRemaining(msAtToday("22:00", now) - now.getTime(), true);
+  var left = msAtToday("22:00", now) - now.getTime();
+  document.getElementById("afterTime").innerHTML = formatRemaining(left, true);
 }
 
 function tick() {
   var now = new Date();
-  if (isAfterDark(now)) renderAfter(now);
-  else if (isMini(now)) renderMini(now);
-  else renderNormal(now);
+
+  /* Always set images dynamically so page still loads even if images are missing. */
+  document.getElementById("miniHero").style.backgroundImage = "url('minisprett.png')";
+  document.getElementById("afterHero").style.backgroundImage = "url('afterdark.png')";
+
+  if (isAfterDark(now)) {
+    renderAfter(now);
+  } else if (isMini(now)) {
+    renderMini(now);
+  } else {
+    renderNormal(now);
+  }
 }
+
 tick();
 setInterval(tick, 1000);
 </script>
