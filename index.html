@@ -3,383 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rush Haugesund Storskjerm</title>
 <meta http-equiv="refresh" content="300">
+<title>Rush Haugesund Storskjerm</title>
 <style>
 html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #000;
-  font-family: Arial, sans-serif;
-  cursor: none;
+  margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+  background: #000; font-family: Arial, Helvetica, sans-serif;
 }
-.wrap {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: #000;
-}
+.wrap { position: relative; width: 100vw; height: 100vh; background: #000; overflow: hidden; }
 .slide-frame {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-  background: #000;
-  z-index: 1;
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; z-index: 1;
 }
 .bottom-fade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 185px;
-  pointer-events: none;
-  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.46));
-  z-index: 2;
+  position: absolute; left: 0; right: 0; bottom: 0; height: 170px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.48)); z-index: 2; pointer-events: none;
 }
 .google-cover {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 60px;
-  background: #000;
-  z-index: 3;
-  pointer-events: none;
+  position: absolute; left: 0; right: 0; bottom: 0; height: 58px; background: #000; z-index: 3; pointer-events: none;
 }
 .bottom {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 14px;
-  min-height: 116px;
-  padding: 0 14px 0 14px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: flex-end;
-  gap: 12px;
-  color: white;
-  z-index: 4;
+  position: absolute; left: 0; right: 0; bottom: 14px; z-index: 4; height: 15vh; min-height: 118px;
+  padding: 0 12px 0 12px; box-sizing: border-box; display: flex; align-items: flex-end; gap: 12px;
 }
 .clock {
-  min-width: 104px;
-  padding-bottom: 10px;
-  font-size: 4.0vh;
-  font-weight: 900;
-  line-height: 1;
+  min-width: 140px; color: #fff; font-weight: 900; font-size: 7.2vh; line-height: 1; padding-bottom: 8px;
   text-shadow: 0 2px 10px rgba(0,0,0,0.65);
 }
-.rows {
-  flex: 1;
-  display: flex;
-  gap: 10px;
-  align-items: flex-end;
-  min-width: 0;
-}
+.rows { flex: 1; display: flex; gap: 10px; align-items: flex-end; min-width: 0; }
 .row {
-  flex: 1;
-  min-width: 0;
-  min-height: 62px;
-  padding: 14px 14px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  box-sizing: border-box;
-  font-weight: 900;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.22);
-  border: 1px solid rgba(255,255,255,0.16);
+  flex: 1; min-width: 0; min-height: 60px; border-radius: 12px; padding: 14px 16px; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: space-between; font-weight: 800;
+  border: 1px solid rgba(255,255,255,0.16); box-shadow: 0 4px 14px rgba(0,0,0,0.24);
 }
-.row.first {
-  flex: 1.18;
-}
-.row span:first-child {
-  font-size: 1.68vw;
-  line-height: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.row span:last-child {
-  font-size: 1.18vw;
-  line-height: 1;
-  white-space: nowrap;
-}
-.row.pink   { background: rgba(255,51,153,0.72); color: #111; }
-.row.red    { background: rgba(255,0,0,0.72); color: #fff; }
-.row.silver { background: rgba(200,200,200,0.72); color: #111; }
-.row.green  { background: rgba(105,179,48,0.72); color: #fff; }
-.row.orange { background: rgba(255,79,20,0.72); color: #111; }
-.row.blue   { background: rgba(91,155,228,0.72); color: #fff; }
-.row.yellow { background: rgba(255,255,0,0.72); color: #111; }
-.row.purple { background: rgba(90,0,102,0.72); color: #fff; }
-.row.black  { background: rgba(0,0,0,0.74); color: #fff; }
-.row.white  { background: rgba(255,255,255,0.78); color: #111; }
-.row.mini   { background: rgba(97,203,243,0.78); color: #111; }
-.row.afterdark { background: rgba(8,18,54,0.84); color: #fff; }
-.row.empty {
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.45);
-  border-style: dashed;
-}
-@media (max-width: 1400px) {
-  .row span:first-child { font-size: 1.95vw; }
-  .row span:last-child { font-size: 1.35vw; }
+.row.first { flex: 1.12; }
+.row span:first-child { font-size: 1.55vw; white-space: nowrap; margin-right: 10px; }
+.row span:last-child { font-size: 1.10vw; white-space: nowrap; }
+.rosa { background: rgba(255, 64, 160, 0.80); color: #111; }
+.rod { background: rgba(245, 26, 26, 0.80); color: #fff; }
+.solv { background: rgba(190, 190, 190, 0.82); color: #111; }
+.gronn { background: rgba(92, 177, 48, 0.82); color: #111; }
+.oransje { background: rgba(247, 93, 27, 0.82); color: #111; }
+.bla { background: rgba(95, 145, 215, 0.82); color: #111; }
+.gul { background: rgba(240, 234, 30, 0.85); color: #111; }
+.morklilla { background: rgba(96, 40, 112, 0.82); color: #fff; }
+.svart { background: rgba(0, 0, 0, 0.82); color: #fff; }
+.hvit { background: rgba(255, 255, 255, 0.84); color: #111; }
+.minisprett { background: rgba(167, 234, 247, 0.84); color: #111; }
+.afterdark { background: rgba(36, 20, 75, 0.84); color: #fff; }
+@media (max-width: 1600px) {
+  .clock { font-size: 6.3vh; min-width: 120px; }
+  .row span:first-child { font-size: 1.8vw; }
+  .row span:last-child { font-size: 1.28vw; }
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <iframe
-    class="slide-frame"
-    src="https://docs.google.com/presentation/d/e/2PACX-1vQqMYC-UePTy50-UFzUtnS1D9nRH-bBJuaihR7Lt6CeCBMiRvIQtqfr0zQvXE4lx9hGTQu9WA0Xl_IW/embed?start=true&loop=true&delayms=5000"
-    allowfullscreen="true"></iframe>
+  <iframe class="slide-frame" src="https://docs.google.com/presentation/d/e/2PACX-1vQqMYC-UePTy50-UFzUtnS1D9nRH-bBJuaihR7Lt6CeCBMiRvIQtqfr0zQvXE4lx9hGTQu9WA0Xl_IW/embed?start=true&loop=true&delayms=5000" allowfullscreen="true"></iframe>
   <div class="bottom-fade"></div>
   <div class="google-cover"></div>
-  <div id="bottom" class="bottom"></div>
+  <div class="bottom" id="bottom"></div>
 </div>
-
 <script>
-const WEEKDAY_SLOTS = [
-  { end: "10:30", key: "pink", label: "ROSA" },
-  { end: "11:00", key: "red", label: "RØD" },
-  { end: "11:30", key: "silver", label: "SØLV" },
-  { end: "12:00", key: "green", label: "GRØNN" },
-  { end: "12:30", key: "orange", label: "ORANSJE" },
-  { end: "13:00", key: "blue", label: "BLÅ" },
-  { end: "13:30", key: "yellow", label: "GUL" },
-  { end: "14:00", key: "purple", label: "MØRK LILLA" },
-  { end: "14:30", key: "black", label: "SVART" },
-  { end: "15:00", key: "white", label: "HVIT" },
-  { end: "15:30", key: "pink", label: "ROSA" },
-  { end: "16:00", key: "red", label: "RØD" },
-  { end: "16:30", key: "silver", label: "SØLV" },
-  { end: "17:00", key: "green", label: "GRØNN" },
-  { end: "17:30", key: "orange", label: "ORANSJE" },
-  { end: "18:00", key: "blue", label: "BLÅ" },
-  { end: "18:30", key: "yellow", label: "GUL" },
-  { end: "19:00", key: "purple", label: "MØRK LILLA" },
-  { end: "19:30", key: "black", label: "SVART" },
-  { end: "20:00", key: "white", label: "HVIT" }
-];
+(function() {
+  var SHOW_COUNT = 4;
+  var AFTER_DARK_DATES = ['2026-04-10','2026-04-17','2026-05-15','2026-05-29','2026-06-12'];
 
-const WEEKEND_SLOTS = [
-  { end: "11:30", key: "silver", label: "SØLV" },
-  { end: "12:00", key: "green", label: "GRØNN" },
-  { end: "12:30", key: "orange", label: "ORANSJE" },
-  { end: "13:00", key: "blue", label: "BLÅ" },
-  { end: "13:30", key: "yellow", label: "GUL" },
-  { end: "14:00", key: "purple", label: "MØRK LILLA" },
-  { end: "14:30", key: "black", label: "SVART" },
-  { end: "15:00", key: "white", label: "HVIT" },
-  { end: "15:30", key: "pink", label: "ROSA" },
-  { end: "16:00", key: "red", label: "RØD" },
-  { end: "16:30", key: "silver", label: "SØLV" },
-  { end: "17:00", key: "green", label: "GRØNN" },
-  { end: "17:30", key: "orange", label: "ORANSJE" },
-  { end: "18:00", key: "blue", label: "BLÅ" },
-  { end: "18:30", key: "yellow", label: "GUL" },
-  { end: "19:00", key: "purple", label: "MØRK LILLA" }
-];
+  var WEEKDAY = [
+    ['10:30','Rosa','rosa'], ['11:00','Rød','rod'], ['11:30','Sølv','solv'], ['12:00','Grønn','gronn'],
+    ['12:30','Oransje','oransje'], ['13:00','Blå','bla'], ['13:30','Gul','gul'], ['14:00','Mørk Lilla','morklilla'],
+    ['14:30','Svart','svart'], ['15:00','Hvit','hvit'], ['15:30','Rosa','rosa'], ['16:00','Rød','rod'],
+    ['16:30','Sølv','solv'], ['17:00','Grønn','gronn'], ['17:30','Oransje','oransje'], ['18:00','Blå','bla'],
+    ['18:30','Gul','gul'], ['19:00','Mørk Lilla','morklilla'], ['19:30','Svart','svart'], ['20:00','Hvit','hvit']
+  ];
+  var WEEKEND = [
+    ['11:00','Minisprett','minisprett'], ['11:30','Sølv','solv'], ['12:00','Grønn','gronn'], ['12:30','Oransje','oransje'],
+    ['13:00','Blå','bla'], ['13:30','Gul','gul'], ['14:00','Mørk Lilla','morklilla'], ['14:30','Svart','svart'],
+    ['15:00','Hvit','hvit'], ['15:30','Rosa','rosa'], ['16:00','Rød','rod'], ['16:30','Sølv','solv'],
+    ['17:00','Grønn','gronn'], ['17:30','Oransje','oransje'], ['18:00','Blå','bla'], ['18:30','Gul','gul'], ['19:00','Mørk Lilla','morklilla']
+  ];
 
-const AFTER_DARK_DATES = [
-  "2026-04-10",
-  "2026-04-17",
-  "2026-05-15",
-  "2026-05-29",
-  "2026-06-12"
-];
-
-const COLOR_HEX = {
-  pink:   "#ff3399",
-  red:    "#ff0000",
-  silver: "#c8c8c8",
-  green:  "#69b330",
-  orange: "#ff4f14",
-  blue:   "#5b9be4",
-  yellow: "#ffff00",
-  purple: "#5a0066",
-  black:  "#000000",
-  white:  "#ffffff",
-  mini:   "#61cbf3",
-  afterdark: "#081236"
-};
-
-function pad2(n) { return String(n).padStart(2, "0"); }
-
-function timeToMinutes(hhmm) {
-  const [h,m] = hhmm.split(":").map(Number);
-  return h * 60 + m;
-}
-
-function formatClock(d) {
-  return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
-}
-
-function formatHm(ms) {
-  ms = Math.max(0, ms);
-  const totalSeconds = Math.floor(ms / 1000);
-  const hours = Math.floor(totalSeconds / 3600);
-  const mins = Math.floor((totalSeconds % 3600) / 60);
-  if (hours > 0) return `${hours} t ${mins} min`;
-  return `${mins} min`;
-}
-
-function formatMs(ms) {
-  ms = Math.max(0, ms);
-  const totalSeconds = Math.floor(ms / 1000);
-  const mins = Math.floor(totalSeconds / 60);
-  const secs = totalSeconds % 60;
-  return `${mins} min ${secs} sek`;
-}
-
-function formatFinishText(slotEnd, now, isFirst) {
-  const diff = slotEnd.getTime() - now.getTime();
-  if (diff <= 0) return "FERDIG";
-  return isFirst ? formatMs(diff) : formatHm(diff);
-}
-
-function makeTodayDate(now, hhmm) {
-  const [h,m] = hhmm.split(":").map(Number);
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0, 0);
-}
-
-function isWeekend(now) {
-  const day = now.getDay();
-  return day === 0 || day === 6;
-}
-
-function isMinisprett(now) {
-  if (!isWeekend(now)) return false;
-  const mins = now.getHours() * 60 + now.getMinutes();
-  return mins >= 570 && mins < 660; // 09:30-11:00
-}
-
-function ymd(now) {
-  return `${now.getFullYear()}-${pad2(now.getMonth()+1)}-${pad2(now.getDate())}`;
-}
-
-function isAfterDark(now) {
-  if (!AFTER_DARK_DATES.includes(ymd(now))) return false;
-  const mins = now.getHours() * 60 + now.getMinutes();
-  return mins >= 1200 && mins < 1320; // 20:00-22:00
-}
-
-function getNormalSlots(now) {
-  return isWeekend(now) ? WEEKEND_SLOTS : WEEKDAY_SLOTS;
-}
-
-function buildBandItems(now, opts = {}) {
-  const items = [];
-  const slots = getNormalSlots(now);
-  const slotDates = slots.map(s => ({ ...s, endDate: makeTodayDate(now, s.end) }));
-
-  if (opts.includeMinisprettBand && isMinisprett(now)) {
-    items.push({
-      key: "mini",
-      label: "MINISPRETT",
-      endDate: makeTodayDate(now, "11:00"),
-      special: true
-    });
-    for (let i = 0; i < Math.min(4, slotDates.length); i++) items.push(slotDates[i]);
-    return items;
+  function parseHM(text) {
+    var p = text.split(':');
+    return Number(p[0]) * 60 + Number(p[1]);
   }
-
-  if (opts.includeAfterDarkBand && isAfterDark(now)) {
-    items.push({
-      key: "afterdark",
-      label: "AFTER DARK",
-      endDate: makeTodayDate(now, "22:00"),
-      special: true
-    });
-    return items;
+  function toDate(base, hm) {
+    var d = new Date(base.getFullYear(), base.getMonth(), base.getDate(), 0, 0, 0, 0);
+    d.setMinutes(parseHM(hm));
+    return d;
   }
-
-  if (!slotDates.length) return items;
-
-  const firstIdxFuture = slotDates.findIndex(s => s.endDate.getTime() > now.getTime());
-
-  if (firstIdxFuture === -1) {
-    items.push({
-      key: slotDates[slotDates.length - 1].key,
-      label: slotDates[slotDates.length - 1].label,
-      endDate: slotDates[slotDates.length - 1].endDate
-    });
-    return items;
+  function ymd(d) {
+    function z(n){ return (n < 10 ? '0' : '') + n; }
+    return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate());
   }
-
-  if (firstIdxFuture > 0) {
-    items.push({
-      key: slotDates[firstIdxFuture - 1].key,
-      label: slotDates[firstIdxFuture - 1].label,
-      endDate: slotDates[firstIdxFuture - 1].endDate
-    });
+  function isAfterDarkDate(d) { return AFTER_DARK_DATES.indexOf(ymd(d)) !== -1; }
+  function isWeekend(d) { return d.getDay() === 0 || d.getDay() === 6; }
+  function isMinisprettNow(d) { return isWeekend(d) && (d.getHours() * 60 + d.getMinutes()) >= 570 && (d.getHours() * 60 + d.getMinutes()) < 660; }
+  function isAfterDarkNow(d) { var m = d.getHours() * 60 + d.getMinutes(); return isAfterDarkDate(d) && m >= 1200 && m < 1320; }
+  function fmtClock(d) {
+    var h = d.getHours(), m = d.getMinutes();
+    return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
   }
-
-  for (let i = firstIdxFuture; i < slotDates.length && items.length < 5; i++) {
-    items.push(slotDates[i]);
+  function fmtShort(ms) {
+    var s = Math.max(0, Math.floor(ms / 1000));
+    var h = Math.floor(s / 3600);
+    var m = Math.floor((s % 3600) / 60);
+    return h > 0 ? (h + ' t ' + m + ' min') : (m + ' min');
   }
-
-  while (items.length < 5 && items.length > 0) {
-    items.push({
-      key: "empty",
-      label: "",
-      endDate: items[items.length - 1].endDate
-    });
+  function fmtWithSec(ms) {
+    var s = Math.max(0, Math.floor(ms / 1000));
+    var m = Math.floor(s / 60);
+    var sec = s % 60;
+    return m + ' min ' + sec + ' sek';
   }
+  function getBaseSchedule(now) {
+    var src = isWeekend(now) ? WEEKEND : WEEKDAY;
+    var out = [];
+    for (var i = 0; i < src.length; i++) {
+      out.push({
+        label: src[i][1],
+        cls: src[i][2],
+        exit: toDate(now, src[i][0]),
+        time: src[i][0]
+      });
+    }
+    return out;
+  }
+  function getIndexFuture(schedule, now) {
+    for (var i = 0; i < schedule.length; i++) {
+      if (schedule[i].exit.getTime() > now.getTime()) return i;
+    }
+    return -1;
+  }
+  function buildDisplayList(now) {
+    var schedule = getBaseSchedule(now);
+    var futureIndex = getIndexFuture(schedule, now);
+    var items = [];
+    var nextFutureIndex = -1;
 
-  return items;
-}
-</script>
+    if (isAfterDarkNow(now)) {
+      items.push({ label: 'After Dark', cls: 'afterdark', status: 'countdown', exit: toDate(now, '22:00') });
+      nextFutureIndex = 0;
+      return { items: items, nextFutureIndex: nextFutureIndex };
+    }
 
-<script>
-function renderBottom() {
-  const now = new Date();
-  const bottom = document.getElementById('bottom');
-  bottom.innerHTML = '';
+    if (isMinisprettNow(now)) {
+      items.push({ label: 'Minisprett', cls: 'minisprett', status: 'countdown', exit: toDate(now, '11:00') });
+      for (var m = 1; m < schedule.length && items.length < SHOW_COUNT; m++) {
+        items.push({ label: schedule[m].label, cls: schedule[m].cls, status: 'countdown', exit: schedule[m].exit });
+      }
+      nextFutureIndex = 0;
+      return { items: items, nextFutureIndex: nextFutureIndex };
+    }
 
-  const clock = document.createElement('div');
-  clock.className = 'clock';
-  clock.textContent = formatClock(now);
-  bottom.appendChild(clock);
+    if (futureIndex === -1) {
+      if (schedule.length) items.push({ label: schedule[schedule.length - 1].label, cls: schedule[schedule.length - 1].cls, status: 'done' });
+      return { items: items, nextFutureIndex: -1 };
+    }
 
-  const rows = document.createElement('div');
-  rows.className = 'rows';
-  bottom.appendChild(rows);
+    if (futureIndex > 0) {
+      items.push({ label: schedule[futureIndex - 1].label, cls: schedule[futureIndex - 1].cls, status: 'done' });
+    }
 
-  const items = buildBandItems(now, {
-    includeMinisprettBand: true,
-    includeAfterDarkBand: true
-  });
+    for (var i = futureIndex; i < schedule.length && items.length < SHOW_COUNT; i++) {
+      items.push({ label: schedule[i].label, cls: schedule[i].cls, status: 'countdown', exit: schedule[i].exit });
+      if (nextFutureIndex === -1) nextFutureIndex = items.length - 1;
+    }
 
-  items.forEach((item, idx) => {
-    const div = document.createElement('div');
-    div.className = `row ${item.key} ${idx === 0 ? 'first' : ''}`;
+    return { items: items, nextFutureIndex: nextFutureIndex };
+  }
+  function render() {
+    var now = new Date();
+    var el = document.getElementById('bottom');
+    var state = buildDisplayList(now);
+    var html = '<div class="clock">' + fmtClock(now) + '</div><div class="rows">';
 
-    const label = document.createElement('span');
-    label.textContent = item.label || '';
-
-    const time = document.createElement('span');
-    time.textContent = item.key === 'empty'
-      ? ''
-      : formatFinishText(item.endDate, now, idx === 0);
-
-    div.appendChild(label);
-    div.appendChild(time);
-    rows.appendChild(div);
-  });
-}
-
-renderBottom();
-setInterval(renderBottom, 1000);
+    for (var i = 0; i < state.items.length; i++) {
+      var it = state.items[i];
+      var right = 'FERDIG';
+      if (it.status === 'countdown') {
+        right = (i === state.nextFutureIndex) ? fmtWithSec(it.exit.getTime() - now.getTime()) : fmtShort(it.exit.getTime() - now.getTime());
+      }
+      html += '<div class="row ' + it.cls + (i === 0 ? ' first' : '') + '"><span>' + it.label.toUpperCase() + '</span><span>' + right + '</span></div>';
+    }
+    html += '</div>';
+    el.innerHTML = html;
+  }
+  setInterval(render, 1000);
+  render();
+})();
 </script>
 </body>
 </html>
