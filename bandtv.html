@@ -1,206 +1,177 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="300">
 <title>Rush BandTV</title>
-<meta http-equiv="refresh" content="300" />
 <style>
-  :root{
-    --bg1:#16202b;
-    --bg2:#1a2734;
-    --white:#f5f5f5;
-    --pink:#f63ea0;
-    --red:#ff1414;
-    --silver:#d9d9d9;
-    --green:#62bb2b;
-    --orange:#ff6419;
-    --blue:#4e90df;
-    --yellow:#f2ee18;
-    --purple:#6a217e;
-    --black:#000000;
-    --band-gap: 28px;
-    --band-radius: 34px;
-  }
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #17232e;
+  font-family: Arial, Helvetica, sans-serif;
+}
+body {
+  color: #f4f4f4;
+}
 
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #000;
-    font-family: Arial, Helvetica, sans-serif;
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
-  }
+#page {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 24px 26px 26px 26px;
+  background: linear-gradient(to right, #17232e, #1d2a37, #17232e);
+}
 
-  body { cursor: none; }
+#header {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+#title {
+  float: left;
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1;
+}
+#clock {
+  float: right;
+  font-size: 72px;
+  font-weight: 900;
+  line-height: 0.95;
+}
+#clear { clear: both; }
 
-  /* Fixed 1920x1080 scene, scaled to screen.
-     This makes TV browsers render like desktop browsers. */
-  #sceneWrap{
-    position: fixed;
-    inset: 0;
-    overflow: hidden;
-    background: #000;
-  }
-  #scene {
-    position: absolute;
-    width: 1920px;
-    height: 1080px;
-    left: 50%;
-    top: 50%;
-    transform-origin: center center;
-    background:
-      radial-gradient(circle at 50% 20%, rgba(255,255,255,0.03), transparent 32%),
-      linear-gradient(90deg, var(--bg1), var(--bg2) 50%, var(--bg1));
-    color: var(--white);
-    padding: 28px 34px 34px 34px;
-  }
+#bands {
+  width: 100%;
+  height: calc(100% - 104px);
+}
 
-  .topline{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    margin-bottom: 28px;
-  }
-  .title{
-    font-size: 76px;
-    font-weight: 1000;
-    line-height: 0.95;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.25);
-  }
-  .clock{
-    font-size: 102px;
-    font-weight: 1000;
-    line-height: 0.88;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.25);
-  }
+.band {
+  width: 100%;
+  height: 18%;
+  margin-bottom: 2%;
+  border-radius: 24px;
+  box-sizing: border-box;
+  padding: 0 44px 0 56px;
+  overflow: hidden;
+}
+.bandTable {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.bandLeft, .bandRight {
+  vertical-align: middle;
+}
+.bandLeft {
+  width: 50%;
+  text-align: left;
+}
+.bandRight {
+  width: 50%;
+  text-align: right;
+}
+.name {
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+.time {
+  font-size: 54px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
 
-  .bands{
-    height: calc(100% - 130px);
-    display:flex;
-    flex-direction:column;
-    gap: var(--band-gap);
-  }
-  .band{
-    flex:1;
-    min-height:0;
-    border-radius: var(--band-radius);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding: 0 56px 0 56px;
-    overflow:hidden;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
-  }
-  .left{
-    display:flex;
-    align-items:center;
-    min-width:0;
-    padding-left: 6px;
-  }
-  .name{
-    font-size: 58px;
-    font-weight: 1000;
-    line-height: 1;
-    white-space:nowrap;
-    letter-spacing: 0.5px;
-  }
-  .time{
-    font-size: 64px;
-    font-weight: 1000;
-    line-height: 1;
-    white-space:nowrap;
-    letter-spacing: 0.3px;
-  }
-  .done .time{ font-size: 62px; }
+.pink { background: #f63ea0; color: #000000; }
+.red { background: #ff1414; color: #ffffff; }
+.silver { background: #d9d9d9; color: #000000; }
+.green { background: #62bb2b; color: #000000; }
+.orange { background: #ff6419; color: #000000; }
+.blue { background: #4e90df; color: #ffffff; }
+.yellow { background: #f2ee18; color: #000000; }
+.purple { background: #6a217e; color: #ffffff; }
+.black { background: #000000; color: #ffffff; }
+.white { background: #ffffff; color: #000000; }
+.mini { background: #9fe9f2; color: #000000; }
 
-  .pink{ background: var(--pink); color:#000; }
-  .red{ background: var(--red); color:#fff; }
-  .silver{ background: var(--silver); color:#000; }
-  .green{ background: var(--green); color:#000; }
-  .orange{ background: var(--orange); color:#000; }
-  .blue{ background: var(--blue); color:#fff; }
-  .yellow{ background: var(--yellow); color:#000; }
-  .purple{ background: var(--purple); color:#fff; }
-  .black{ background: var(--black); color:#fff; }
-  .white{ background: #fff; color:#000; }
-  .mini{ background: #9fe9f2; color:#000; }
-
-  .hero{
-    position:absolute; inset:0;
-    display:none;
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-  }
-  .hero::after{
-    content:"";
-    position:absolute; inset:0;
-    background: linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.35));
-  }
-  .heroContent{
-    position:absolute; inset:0;
-    z-index:2;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-    align-items:flex-start;
-    padding: 42px 46px 46px 46px;
-    color:#fff;
-  }
-  .heroTitle{
-    font-size: 88px;
-    font-weight: 1000;
-    line-height: 0.95;
-    text-shadow: 0 3px 12px rgba(0,0,0,.45);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-  .heroTimer{
-    font-size: 80px;
-    font-weight: 1000;
-    line-height: 1;
-    text-shadow: 0 3px 12px rgba(0,0,0,.45);
-    background: rgba(0,0,0,.35);
-    border-radius: 28px;
-    padding: 16px 24px;
-  }
+.hero {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: #17232e;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.heroOverlay {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(0,0,0,0.22);
+}
+.heroContent {
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  bottom: 34px;
+  z-index: 2;
+}
+.heroTitle {
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+.heroTime {
+  display: inline-block;
+  font-size: 54px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+  background: rgba(0,0,0,0.34);
+  border-radius: 18px;
+  padding: 14px 18px;
+}
 </style>
 </head>
 <body>
-<div id="sceneWrap">
-  <div id="scene">
+  <div id="page">
     <div id="normalView">
-      <div class="topline">
-        <div class="title">GJENSTÅENDE HOPPETID</div>
-        <div class="clock" id="clock">00:00</div>
+      <div id="header">
+        <div id="title">GJENSTÅENDE HOPPETID</div>
+        <div id="clock">00:00</div>
+        <div id="clear"></div>
       </div>
-      <div class="bands" id="bands"></div>
+      <div id="bands"></div>
     </div>
 
-    <div class="hero" id="miniHero" style="background-image:url('minisprett.png')">
+    <div id="miniHero" class="hero">
+      <div class="heroOverlay"></div>
       <div class="heroContent">
         <div class="heroTitle">MINISPRETT PÅGÅR</div>
-        <div class="heroTimer" id="miniTimer">00:00</div>
+        <div class="heroTime" id="miniTime">00 min 00 sek</div>
       </div>
     </div>
 
-    <div class="hero" id="afterHero" style="background-image:url('afterdark.png')">
+    <div id="afterHero" class="hero">
+      <div class="heroOverlay"></div>
       <div class="heroContent">
         <div class="heroTitle">AFTER DARK</div>
-        <div class="heroTimer" id="afterTimer">00:00</div>
+        <div class="heroTime" id="afterTime">00 min 00 sek</div>
       </div>
     </div>
   </div>
-</div>
 
 <script>
-const weekdayPlan = [
+var weekdayPlan = [
   { out: "10:30", color: "pink", label: "ROSA" },
   { out: "11:00", color: "red", label: "RØD" },
   { out: "11:30", color: "silver", label: "SØLV" },
@@ -223,7 +194,7 @@ const weekdayPlan = [
   { out: "20:00", color: "white", label: "HVIT" }
 ];
 
-const weekendPlan = [
+var weekendPlan = [
   { out: "11:00", color: "mini", label: "MINISPRETT" },
   { out: "11:30", color: "silver", label: "SØLV" },
   { out: "12:00", color: "green", label: "GRØNN" },
@@ -243,120 +214,205 @@ const weekendPlan = [
   { out: "19:00", color: "purple", label: "MØRK LILLA" }
 ];
 
-const afterDarkDates = ["2026-04-10","2026-04-17","2026-05-15","2026-05-29","2026-06-12"];
-const visibleBands = 5;
+var afterDarkDates = {
+  "2026-04-10": true,
+  "2026-04-17": true,
+  "2026-05-15": true,
+  "2026-05-29": true,
+  "2026-06-12": true
+};
 
-function fitScene(){
-  const wrap = document.getElementById('sceneWrap');
-  const scene = document.getElementById('scene');
-  const w = wrap.clientWidth;
-  const h = wrap.clientHeight;
-  const scale = Math.min(w / 1920, h / 1080);
-  scene.style.transform = `translate(-50%, -50%) scale(${scale})`;
+var visibleBands = 5;
+
+function pad(n) {
+  return (n < 10 ? "0" : "") + n;
 }
-window.addEventListener('resize', fitScene);
-window.addEventListener('load', fitScene);
 
-function pad(n){ return String(n).padStart(2,'0'); }
-function fmtClock(d){ return `${pad(d.getHours())}:${pad(d.getMinutes())}`; }
-function keyDate(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
-function toMsToday(hhmm, now){
-  const [h,m] = hhmm.split(':').map(Number);
-  const d = new Date(now);
-  d.setHours(h,m,0,0);
+function formatClock(d) {
+  return pad(d.getHours()) + ":" + pad(d.getMinutes());
+}
+
+function dateKey(d) {
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+}
+
+function msAtToday(hhmm, now) {
+  var parts = hhmm.split(":");
+  var d = new Date(now.getTime());
+  d.setHours(parseInt(parts[0], 10), parseInt(parts[1], 10), 0, 0);
   return d.getTime();
 }
-function formatLong(ms, withSeconds){
-  let s = Math.max(0, Math.floor(ms / 1000));
-  const h = Math.floor(s / 3600);
-  s -= h * 3600;
-  const m = Math.floor(s / 60);
-  const sec = s % 60;
-  if (withSeconds) {
-    if (h > 0) return `${h} t ${m} min ${sec} sek`;
-    return `${m} min ${sec} sek`;
-  }
-  if (h > 0) return `${h} t ${m} min`;
-  return `${m} min`;
-}
-function isWeekend(now){ const d=now.getDay(); return d===0 || d===6; }
-function isMini(now){
-  if (!isWeekend(now)) return false;
-  const start = toMsToday("09:30", now);
-  const end = toMsToday("11:00", now);
-  return now.getTime() >= start && now.getTime() < end;
-}
-function isAfterDark(now){
-  if (!afterDarkDates.includes(keyDate(now))) return false;
-  const start = toMsToday("20:00", now);
-  const end = toMsToday("22:00", now);
-  return now.getTime() >= start && now.getTime() < end;
-}
-function getPlan(now){ return isWeekend(now) ? weekendPlan : weekdayPlan; }
 
-function buildRows(now){
-  const plan = getPlan(now);
-  const nowMs = now.getTime();
-  let firstFuture = plan.findIndex(p => toMsToday(p.out, now) > nowMs);
+function formatRemaining(ms, withSeconds) {
+  var total = Math.max(0, Math.floor(ms / 1000));
+  var h = Math.floor(total / 3600);
+  total = total - h * 3600;
+  var m = Math.floor(total / 60);
+  var s = total - m * 60;
+
+  if (withSeconds) {
+    if (h > 0) return h + " t " + m + " min " + s + " sek";
+    return m + " min " + s + " sek";
+  }
+  if (h > 0) return h + " t " + m + " min";
+  return m + " min";
+}
+
+function isWeekend(now) {
+  var day = now.getDay();
+  return day === 0 || day === 6;
+}
+
+function isMini(now) {
+  if (!isWeekend(now)) return false;
+  var start = msAtToday("09:30", now);
+  var end = msAtToday("11:00", now);
+  var t = now.getTime();
+  return t >= start && t < end;
+}
+
+function isAfterDark(now) {
+  if (!afterDarkDates[dateKey(now)]) return false;
+  var start = msAtToday("20:00", now);
+  var end = msAtToday("22:00", now);
+  var t = now.getTime();
+  return t >= start && t < end;
+}
+
+function currentPlan(now) {
+  return isWeekend(now) ? weekendPlan : weekdayPlan;
+}
+
+function computeRows(now) {
+  var plan = currentPlan(now);
+  var nowMs = now.getTime();
+  var firstFuture = -1;
+  var i;
+
+  for (i = 0; i < plan.length; i++) {
+    if (msAtToday(plan[i].out, now) > nowMs) {
+      firstFuture = i;
+      break;
+    }
+  }
   if (firstFuture === -1) firstFuture = plan.length;
 
-  const rows = [];
+  var rows = [];
   if (firstFuture > 0) {
-    const prev = plan[firstFuture - 1];
-    rows.push({label: prev.label, color: prev.color, status: 'done'});
-  }
-  for (let i = firstFuture; i < plan.length && rows.length < visibleBands; i++) {
-    const p = plan[i];
+    var prev = plan[firstFuture - 1];
     rows.push({
-      label: p.label,
-      color: p.color,
-      status: 'active',
-      remaining: toMsToday(p.out, now) - nowMs
+      label: prev.label,
+      color: prev.color,
+      status: "done",
+      remaining: 0
     });
   }
-  return rows.slice(0, visibleBands);
+
+  for (i = firstFuture; i < plan.length && rows.length < visibleBands; i++) {
+    rows.push({
+      label: plan[i].label,
+      color: plan[i].color,
+      status: "active",
+      remaining: msAtToday(plan[i].out, now) - nowMs
+    });
+  }
+
+  while (rows.length < visibleBands && plan.length > 0) {
+    rows.push({
+      label: "",
+      color: "black",
+      status: "empty",
+      remaining: 0
+    });
+  }
+
+  /* User wants finished at bottom and increasing upward.
+     So reverse display order. */
+  rows.reverse();
+
+  return rows;
 }
 
-function renderNormal(now){
-  document.getElementById('normalView').style.display = 'block';
-  document.getElementById('miniHero').style.display = 'none';
-  document.getElementById('afterHero').style.display = 'none';
-  document.getElementById('clock').textContent = fmtClock(now);
-
-  const bands = document.getElementById('bands');
-  const rows = buildRows(now);
-  bands.innerHTML = rows.map((r, i) => {
-    const time = r.status === 'done' ? 'FERDIG' : formatLong(r.remaining, i === 1 || (i === 0 && rows[0].status !== 'done'));
-    const extra = r.status === 'done' ? ' done' : '';
-    return `
-      <div class="band ${r.color}${extra}">
-        <div class="left"><div class="name">${r.label}</div></div>
-        <div class="time">${time}</div>
-      </div>`;
-  }).join('');
+function showNormal() {
+  document.getElementById("normalView").style.display = "block";
+  document.getElementById("miniHero").style.display = "none";
+  document.getElementById("afterHero").style.display = "none";
 }
 
-function renderMini(now){
-  document.getElementById('normalView').style.display = 'none';
-  document.getElementById('afterHero').style.display = 'none';
-  document.getElementById('miniHero').style.display = 'block';
-  document.getElementById('miniTimer').textContent = formatLong(toMsToday("11:00", now) - now.getTime(), true);
+function showMini() {
+  document.getElementById("normalView").style.display = "none";
+  document.getElementById("miniHero").style.display = "block";
+  document.getElementById("afterHero").style.display = "none";
 }
 
-function renderAfter(now){
-  document.getElementById('normalView').style.display = 'none';
-  document.getElementById('miniHero').style.display = 'none';
-  document.getElementById('afterHero').style.display = 'block';
-  document.getElementById('afterTimer').textContent = formatLong(toMsToday("22:00", now) - now.getTime(), true);
+function showAfter() {
+  document.getElementById("normalView").style.display = "none";
+  document.getElementById("miniHero").style.display = "none";
+  document.getElementById("afterHero").style.display = "block";
 }
 
-function tick(){
-  const now = new Date();
-  if (isAfterDark(now)) renderAfter(now);
-  else if (isMini(now)) renderMini(now);
-  else renderNormal(now);
+function renderNormal(now) {
+  showNormal();
+  document.getElementById("clock").innerHTML = formatClock(now);
+
+  var rows = computeRows(now);
+  var html = "";
+  var activeSeen = 0;
+
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    var timeText = "";
+    if (r.status === "done") {
+      timeText = "FERDIG";
+    } else if (r.status === "active") {
+      activeSeen++;
+      timeText = formatRemaining(r.remaining, activeSeen === 1);
+    } else {
+      timeText = "";
+    }
+
+    html += ''
+      + '<div class="band ' + r.color + '">'
+      +   '<table class="bandTable">'
+      +     '<tr>'
+      +       '<td class="bandLeft"><div class="name">' + r.label + '</div></td>'
+      +       '<td class="bandRight"><div class="time">' + timeText + '</div></td>'
+      +     '</tr>'
+      +   '</table>'
+      + '</div>';
+  }
+
+  document.getElementById("bands").innerHTML = html;
 }
-fitScene();
+
+function renderMini(now) {
+  showMini();
+  var left = msAtToday("11:00", now) - now.getTime();
+  document.getElementById("miniTime").innerHTML = formatRemaining(left, true);
+}
+
+function renderAfter(now) {
+  showAfter();
+  var left = msAtToday("22:00", now) - now.getTime();
+  document.getElementById("afterTime").innerHTML = formatRemaining(left, true);
+}
+
+function tick() {
+  var now = new Date();
+
+  /* Always set images dynamically so page still loads even if images are missing. */
+  document.getElementById("miniHero").style.backgroundImage = "url('minisprett.png')";
+  document.getElementById("afterHero").style.backgroundImage = "url('afterdark.png')";
+
+  if (isAfterDark(now)) {
+    renderAfter(now);
+  } else if (isMini(now)) {
+    renderMini(now);
+  } else {
+    renderNormal(now);
+  }
+}
+
 tick();
 setInterval(tick, 1000);
 </script>
