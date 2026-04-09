@@ -3,10 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rush Storskjerm</title>
-
+<title>Rush Haugesund Storskjerm</title>
 <meta http-equiv="refresh" content="300">
-
 <style>
 html, body {
   margin: 0;
@@ -16,8 +14,8 @@ html, body {
   overflow: hidden;
   background: #000;
   font-family: Arial, sans-serif;
+  cursor: none;
 }
-
 .wrap {
   position: relative;
   width: 100vw;
@@ -25,7 +23,6 @@ html, body {
   overflow: hidden;
   background: #000;
 }
-
 .slide-frame {
   position: absolute;
   inset: 0;
@@ -33,19 +30,19 @@ html, body {
   height: 100%;
   border: 0;
   display: block;
+  background: #000;
   z-index: 1;
 }
-
 .bottom-fade {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 180px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.45));
+  height: 185px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.46));
   z-index: 2;
 }
-
 .google-cover {
   position: absolute;
   left: 0;
@@ -54,111 +51,335 @@ html, body {
   height: 60px;
   background: #000;
   z-index: 3;
+  pointer-events: none;
 }
-
 .bottom {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 14px;
-  height: 14vh;
-  min-height: 110px;
+  min-height: 116px;
+  padding: 0 14px 0 14px;
+  box-sizing: border-box;
   display: flex;
-  gap: 10px;
-  padding: 0 10px;
   align-items: flex-end;
+  gap: 12px;
+  color: white;
   z-index: 4;
 }
-
 .clock {
-  font-size: 40px;
-  font-weight: bold;
+  min-width: 104px;
+  padding-bottom: 10px;
+  font-size: 4.0vh;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.65);
 }
-
 .rows {
-  display: flex;
   flex: 1;
-  gap: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  min-width: 0;
 }
-
 .row {
   flex: 1;
-  padding: 14px;
-  border-radius: 12px;
+  min-width: 0;
+  min-height: 62px;
+  padding: 14px 14px;
+  border-radius: 14px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  font-weight: bold;
+  gap: 10px;
+  box-sizing: border-box;
+  font-weight: 900;
   backdrop-filter: blur(4px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+  border: 1px solid rgba(255,255,255,0.16);
 }
-
 .row.first {
-  flex: 1.2;
+  flex: 1.18;
 }
-
-.black  { background: rgba(0,0,0,0.6); color: white; }
-.white  { background: rgba(255,255,255,0.7); color: black; }
-.pink   { background: rgba(234,100,197,0.7); color: black; }
-.red    { background: rgba(217,0,0,0.7); color: white; }
-.grey   { background: rgba(124,124,124,0.7); color: white; }
-.green  { background: rgba(25,163,74,0.7); color: white; }
-.orange { background: rgba(242,140,0,0.7); color: black; }
-.blue   { background: rgba(27,103,216,0.7); color: white; }
-
+.row span:first-child {
+  font-size: 1.68vw;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.row span:last-child {
+  font-size: 1.18vw;
+  line-height: 1;
+  white-space: nowrap;
+}
+.row.pink   { background: rgba(255,51,153,0.72); color: #111; }
+.row.red    { background: rgba(255,0,0,0.72); color: #fff; }
+.row.silver { background: rgba(200,200,200,0.72); color: #111; }
+.row.green  { background: rgba(105,179,48,0.72); color: #fff; }
+.row.orange { background: rgba(255,79,20,0.72); color: #111; }
+.row.blue   { background: rgba(91,155,228,0.72); color: #fff; }
+.row.yellow { background: rgba(255,255,0,0.72); color: #111; }
+.row.purple { background: rgba(90,0,102,0.72); color: #fff; }
+.row.black  { background: rgba(0,0,0,0.74); color: #fff; }
+.row.white  { background: rgba(255,255,255,0.78); color: #111; }
+.row.mini   { background: rgba(97,203,243,0.78); color: #111; }
+.row.afterdark { background: rgba(8,18,54,0.84); color: #fff; }
+.row.empty {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.45);
+  border-style: dashed;
+}
+@media (max-width: 1400px) {
+  .row span:first-child { font-size: 1.95vw; }
+  .row span:last-child { font-size: 1.35vw; }
+}
 </style>
 </head>
 <body>
-
 <div class="wrap">
-
-<iframe class="slide-frame"
-src="https://docs.google.com/presentation/d/e/2PACX-1vQqMYC-UePTy50-UFzUtnS1D9nRH-bBJuaihR7Lt6CeCBMiRvIQtqfr0zQvXE4lx9hGTQu9WA0Xl_IW/embed?start=true&loop=true&delayms=5000">
-</iframe>
-
-<div class="bottom-fade"></div>
-<div class="google-cover"></div>
-<div id="bottom" class="bottom"></div>
-
+  <iframe
+    class="slide-frame"
+    src="https://docs.google.com/presentation/d/e/2PACX-1vQqMYC-UePTy50-UFzUtnS1D9nRH-bBJuaihR7Lt6CeCBMiRvIQtqfr0zQvXE4lx9hGTQu9WA0Xl_IW/embed?start=true&loop=true&delayms=5000"
+    allowfullscreen="true"></iframe>
+  <div class="bottom-fade"></div>
+  <div class="google-cover"></div>
+  <div id="bottom" class="bottom"></div>
 </div>
 
 <script>
-const sequence = ["black","pink","red","grey","green","orange","blue"];
+const WEEKDAY_SLOTS = [
+  { end: "10:30", key: "pink", label: "ROSA" },
+  { end: "11:00", key: "red", label: "RØD" },
+  { end: "11:30", key: "silver", label: "SØLV" },
+  { end: "12:00", key: "green", label: "GRØNN" },
+  { end: "12:30", key: "orange", label: "ORANSJE" },
+  { end: "13:00", key: "blue", label: "BLÅ" },
+  { end: "13:30", key: "yellow", label: "GUL" },
+  { end: "14:00", key: "purple", label: "MØRK LILLA" },
+  { end: "14:30", key: "black", label: "SVART" },
+  { end: "15:00", key: "white", label: "HVIT" },
+  { end: "15:30", key: "pink", label: "ROSA" },
+  { end: "16:00", key: "red", label: "RØD" },
+  { end: "16:30", key: "silver", label: "SØLV" },
+  { end: "17:00", key: "green", label: "GRØNN" },
+  { end: "17:30", key: "orange", label: "ORANSJE" },
+  { end: "18:00", key: "blue", label: "BLÅ" },
+  { end: "18:30", key: "yellow", label: "GUL" },
+  { end: "19:00", key: "purple", label: "MØRK LILLA" },
+  { end: "19:30", key: "black", label: "SVART" },
+  { end: "20:00", key: "white", label: "HVIT" }
+];
 
-const labels = {
-  black:"SVART",
-  pink:"ROSA",
-  red:"RØD",
-  grey:"GRÅ",
-  green:"GRØNN",
-  orange:"ORANSJE",
-  blue:"BLÅ"
+const WEEKEND_SLOTS = [
+  { end: "11:30", key: "silver", label: "SØLV" },
+  { end: "12:00", key: "green", label: "GRØNN" },
+  { end: "12:30", key: "orange", label: "ORANSJE" },
+  { end: "13:00", key: "blue", label: "BLÅ" },
+  { end: "13:30", key: "yellow", label: "GUL" },
+  { end: "14:00", key: "purple", label: "MØRK LILLA" },
+  { end: "14:30", key: "black", label: "SVART" },
+  { end: "15:00", key: "white", label: "HVIT" },
+  { end: "15:30", key: "pink", label: "ROSA" },
+  { end: "16:00", key: "red", label: "RØD" },
+  { end: "16:30", key: "silver", label: "SØLV" },
+  { end: "17:00", key: "green", label: "GRØNN" },
+  { end: "17:30", key: "orange", label: "ORANSJE" },
+  { end: "18:00", key: "blue", label: "BLÅ" },
+  { end: "18:30", key: "yellow", label: "GUL" },
+  { end: "19:00", key: "purple", label: "MØRK LILLA" }
+];
+
+const AFTER_DARK_DATES = [
+  "2026-04-10",
+  "2026-04-17",
+  "2026-05-15",
+  "2026-05-29",
+  "2026-06-12"
+];
+
+const COLOR_HEX = {
+  pink:   "#ff3399",
+  red:    "#ff0000",
+  silver: "#c8c8c8",
+  green:  "#69b330",
+  orange: "#ff4f14",
+  blue:   "#5b9be4",
+  yellow: "#ffff00",
+  purple: "#5a0066",
+  black:  "#000000",
+  white:  "#ffffff",
+  mini:   "#61cbf3",
+  afterdark: "#081236"
 };
 
-function render() {
-  const el = document.getElementById("bottom");
-  el.innerHTML = "";
+function pad2(n) { return String(n).padStart(2, "0"); }
 
-  const now = new Date();
-
-  const clock = document.createElement("div");
-  clock.className = "clock";
-  clock.textContent = now.toLocaleTimeString("no-NO",{hour:"2-digit",minute:"2-digit"});
-  el.appendChild(clock);
-
-  const rows = document.createElement("div");
-  rows.className = "rows";
-  el.appendChild(rows);
-
-  for (let i = 0; i < 5; i++) {
-    const div = document.createElement("div");
-    div.className = "row " + sequence[i] + (i===0?" first":"");
-    div.innerHTML = `<span>${labels[sequence[i]]}</span><span>${Math.floor(Math.random()*60)} min</span>`;
-    rows.appendChild(div);
-  }
+function timeToMinutes(hhmm) {
+  const [h,m] = hhmm.split(":").map(Number);
+  return h * 60 + m;
 }
 
-setInterval(render, 1000);
-render();
+function formatClock(d) {
+  return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+}
+
+function formatHm(ms) {
+  ms = Math.max(0, ms);
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const mins = Math.floor((totalSeconds % 3600) / 60);
+  if (hours > 0) return `${hours} t ${mins} min`;
+  return `${mins} min`;
+}
+
+function formatMs(ms) {
+  ms = Math.max(0, ms);
+  const totalSeconds = Math.floor(ms / 1000);
+  const mins = Math.floor(totalSeconds / 60);
+  const secs = totalSeconds % 60;
+  return `${mins} min ${secs} sek`;
+}
+
+function formatFinishText(slotEnd, now, isFirst) {
+  const diff = slotEnd.getTime() - now.getTime();
+  if (diff <= 0) return "FERDIG";
+  return isFirst ? formatMs(diff) : formatHm(diff);
+}
+
+function makeTodayDate(now, hhmm) {
+  const [h,m] = hhmm.split(":").map(Number);
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0, 0);
+}
+
+function isWeekend(now) {
+  const day = now.getDay();
+  return day === 0 || day === 6;
+}
+
+function isMinisprett(now) {
+  if (!isWeekend(now)) return false;
+  const mins = now.getHours() * 60 + now.getMinutes();
+  return mins >= 570 && mins < 660; // 09:30-11:00
+}
+
+function ymd(now) {
+  return `${now.getFullYear()}-${pad2(now.getMonth()+1)}-${pad2(now.getDate())}`;
+}
+
+function isAfterDark(now) {
+  if (!AFTER_DARK_DATES.includes(ymd(now))) return false;
+  const mins = now.getHours() * 60 + now.getMinutes();
+  return mins >= 1200 && mins < 1320; // 20:00-22:00
+}
+
+function getNormalSlots(now) {
+  return isWeekend(now) ? WEEKEND_SLOTS : WEEKDAY_SLOTS;
+}
+
+function buildBandItems(now, opts = {}) {
+  const items = [];
+  const slots = getNormalSlots(now);
+  const slotDates = slots.map(s => ({ ...s, endDate: makeTodayDate(now, s.end) }));
+
+  if (opts.includeMinisprettBand && isMinisprett(now)) {
+    items.push({
+      key: "mini",
+      label: "MINISPRETT",
+      endDate: makeTodayDate(now, "11:00"),
+      special: true
+    });
+    for (let i = 0; i < Math.min(4, slotDates.length); i++) items.push(slotDates[i]);
+    return items;
+  }
+
+  if (opts.includeAfterDarkBand && isAfterDark(now)) {
+    items.push({
+      key: "afterdark",
+      label: "AFTER DARK",
+      endDate: makeTodayDate(now, "22:00"),
+      special: true
+    });
+    return items;
+  }
+
+  if (!slotDates.length) return items;
+
+  const firstIdxFuture = slotDates.findIndex(s => s.endDate.getTime() > now.getTime());
+
+  if (firstIdxFuture === -1) {
+    items.push({
+      key: slotDates[slotDates.length - 1].key,
+      label: slotDates[slotDates.length - 1].label,
+      endDate: slotDates[slotDates.length - 1].endDate
+    });
+    return items;
+  }
+
+  if (firstIdxFuture > 0) {
+    items.push({
+      key: slotDates[firstIdxFuture - 1].key,
+      label: slotDates[firstIdxFuture - 1].label,
+      endDate: slotDates[firstIdxFuture - 1].endDate
+    });
+  }
+
+  for (let i = firstIdxFuture; i < slotDates.length && items.length < 5; i++) {
+    items.push(slotDates[i]);
+  }
+
+  while (items.length < 5 && items.length > 0) {
+    items.push({
+      key: "empty",
+      label: "",
+      endDate: items[items.length - 1].endDate
+    });
+  }
+
+  return items;
+}
 </script>
 
+<script>
+function renderBottom() {
+  const now = new Date();
+  const bottom = document.getElementById('bottom');
+  bottom.innerHTML = '';
+
+  const clock = document.createElement('div');
+  clock.className = 'clock';
+  clock.textContent = formatClock(now);
+  bottom.appendChild(clock);
+
+  const rows = document.createElement('div');
+  rows.className = 'rows';
+  bottom.appendChild(rows);
+
+  const items = buildBandItems(now, {
+    includeMinisprettBand: true,
+    includeAfterDarkBand: true
+  });
+
+  items.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = `row ${item.key} ${idx === 0 ? 'first' : ''}`;
+
+    const label = document.createElement('span');
+    label.textContent = item.label || '';
+
+    const time = document.createElement('span');
+    time.textContent = item.key === 'empty'
+      ? ''
+      : formatFinishText(item.endDate, now, idx === 0);
+
+    div.appendChild(label);
+    div.appendChild(time);
+    rows.appendChild(div);
+  });
+}
+
+renderBottom();
+setInterval(renderBottom, 1000);
+</script>
 </body>
 </html>
