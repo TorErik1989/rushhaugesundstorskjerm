@@ -16,24 +16,26 @@ body { cursor: none; }
   display: flex; flex-direction: column; box-sizing: border-box; padding: 2.2vh 2.2vw;
 }
 .topline {
-  display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.6vh;
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.2vh;
 }
 .title {
-  font-size: 5.5vh; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase;
+  font-size: 7.2vh; font-weight: 1000; letter-spacing: 0.8px; text-transform: uppercase;
+  line-height: 1; text-shadow: 0 2px 6px rgba(0,0,0,0.35);
 }
 .clock {
-  font-size: 7.6vh; font-weight: 900; line-height: 1;
+  font-size: 10.2vh; font-weight: 1000; line-height: 1;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.35);
 }
 .bands {
-  flex: 1; display: flex; flex-direction: column; gap: 1.6vh;
+  flex: 1; display: flex; flex-direction: column; gap: 2.2vh;
 }
 .band {
-  flex: 1; border-radius: 1.4vh; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2.2vw; box-sizing: border-box; font-weight: 900; overflow: hidden;
+  flex: 1; border-radius: 2.6vh; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.6vw; box-sizing: border-box; font-weight: 1000; overflow: hidden;
 }
-.band .name { font-size: 6.2vh; line-height: 1; white-space: nowrap; }
-.band .time { font-size: 7.0vh; line-height: 1; white-space: nowrap; }
-.band.done .time { font-size: 6.2vh; }
+.band .name { font-size: 6.8vh; line-height: 1; white-space: nowrap; font-weight: 1000; }
+.band .time { font-size: 7.6vh; line-height: 1; white-space: nowrap; font-weight: 1000; }
+.band.done .time { font-size: 6.8vh; }
 .rosa { background: #ff40a0; color: #111; }
 .rod { background: #f51a1a; color: #fff; }
 .solv { background: #bebebe; color: #111; }
