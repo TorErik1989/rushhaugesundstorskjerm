@@ -1,158 +1,364 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="300">
-<title>Rush Haugesund BandTV</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Rush BandTV</title>
+<meta http-equiv="refresh" content="300" />
 <style>
-html, body {
-  margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
-  background: #111; font-family: Arial, Helvetica, sans-serif; color: #fff;
-}
-body { cursor: none; }
-.screen {
-  width: 100vw; height: 100vh; background: linear-gradient(180deg, #1f2830 0%, #15191d 100%);
-  display: flex; flex-direction: column; box-sizing: border-box; padding: 2.2vh 2.2vw;
-}
-.topline {
-  display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.2vh;
-}
-.title {
-  font-size: 7.2vh; font-weight: 1000; letter-spacing: 0.8px; text-transform: uppercase;
-  line-height: 1; text-shadow: 0 2px 6px rgba(0,0,0,0.35);
-}
-.clock {
-  font-size: 10.2vh; font-weight: 1000; line-height: 1;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.35);
-}
-.bands {
-  flex: 1; display: flex; flex-direction: column; gap: 2.2vh;
-}
-.band {
-  flex: 1; border-radius: 2.6vh; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2.6vw; box-sizing: border-box; font-weight: 1000; overflow: hidden;
-}
-.band .name { font-size: 6.8vh; line-height: 1; white-space: nowrap; font-weight: 1000; }
-.band .time { font-size: 7.6vh; line-height: 1; white-space: nowrap; font-weight: 1000; }
-.band.done .time { font-size: 6.8vh; }
-.rosa { background: #ff40a0; color: #111; }
-.rod { background: #f51a1a; color: #fff; }
-.solv { background: #bebebe; color: #111; }
-.gronn { background: #5cb130; color: #111; }
-.oransje { background: #f75d1b; color: #111; }
-.bla { background: #5f91d7; color: #111; }
-.gul { background: #f0ea1e; color: #111; }
-.morklilla { background: #602870; color: #fff; }
-.svart { background: #000; color: #fff; }
-.hvit { background: #fff; color: #111; }
-.minisprett { background: #a7eaf7; color: #111; }
-.afterdark { background: #24144b; color: #fff; }
-.hero {
-  flex: 1; position: relative; border-radius: 1.6vh; overflow: hidden; background: #111;
-}
-.hero img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-}
-.hero-overlay {
-  position: absolute; left: 0; right: 0; bottom: 0; padding: 2.2vh 2.2vw;
-  background: linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0));
-}
-.hero-title { font-size: 6.0vh; font-weight: 900; line-height: 1; margin-bottom: 0.8vh; text-transform: uppercase; }
-.hero-sub { font-size: 4.4vh; font-weight: 800; line-height: 1; }
-.hero-count { font-size: 7.2vh; font-weight: 900; line-height: 1; margin-top: 1.0vh; }
-.tv-safe { backdrop-filter: none !important; filter: none !important; }
+  :root{
+    --bg1:#16202b;
+    --bg2:#1a2734;
+    --white:#f5f5f5;
+    --pink:#f63ea0;
+    --red:#ff1414;
+    --silver:#d9d9d9;
+    --green:#62bb2b;
+    --orange:#ff6419;
+    --blue:#4e90df;
+    --yellow:#f2ee18;
+    --purple:#6a217e;
+    --black:#000000;
+    --band-gap: 28px;
+    --band-radius: 34px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body { cursor: none; }
+
+  /* Fixed 1920x1080 scene, scaled to screen.
+     This makes TV browsers render like desktop browsers. */
+  #sceneWrap{
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: #000;
+  }
+  #scene {
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+    left: 50%;
+    top: 50%;
+    transform-origin: center center;
+    background:
+      radial-gradient(circle at 50% 20%, rgba(255,255,255,0.03), transparent 32%),
+      linear-gradient(90deg, var(--bg1), var(--bg2) 50%, var(--bg1));
+    color: var(--white);
+    padding: 28px 34px 34px 34px;
+  }
+
+  .topline{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    margin-bottom: 28px;
+  }
+  .title{
+    font-size: 76px;
+    font-weight: 1000;
+    line-height: 0.95;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+  .clock{
+    font-size: 102px;
+    font-weight: 1000;
+    line-height: 0.88;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+
+  .bands{
+    height: calc(100% - 130px);
+    display:flex;
+    flex-direction:column;
+    gap: var(--band-gap);
+  }
+  .band{
+    flex:1;
+    min-height:0;
+    border-radius: var(--band-radius);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 0 56px 0 56px;
+    overflow:hidden;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+  }
+  .left{
+    display:flex;
+    align-items:center;
+    min-width:0;
+    padding-left: 6px;
+  }
+  .name{
+    font-size: 58px;
+    font-weight: 1000;
+    line-height: 1;
+    white-space:nowrap;
+    letter-spacing: 0.5px;
+  }
+  .time{
+    font-size: 64px;
+    font-weight: 1000;
+    line-height: 1;
+    white-space:nowrap;
+    letter-spacing: 0.3px;
+  }
+  .done .time{ font-size: 62px; }
+
+  .pink{ background: var(--pink); color:#000; }
+  .red{ background: var(--red); color:#fff; }
+  .silver{ background: var(--silver); color:#000; }
+  .green{ background: var(--green); color:#000; }
+  .orange{ background: var(--orange); color:#000; }
+  .blue{ background: var(--blue); color:#fff; }
+  .yellow{ background: var(--yellow); color:#000; }
+  .purple{ background: var(--purple); color:#fff; }
+  .black{ background: var(--black); color:#fff; }
+  .white{ background: #fff; color:#000; }
+  .mini{ background: #9fe9f2; color:#000; }
+
+  .hero{
+    position:absolute; inset:0;
+    display:none;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(to bottom, rgba(0,0,0,.15), rgba(0,0,0,.35));
+  }
+  .heroContent{
+    position:absolute; inset:0;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:flex-start;
+    padding: 42px 46px 46px 46px;
+    color:#fff;
+  }
+  .heroTitle{
+    font-size: 88px;
+    font-weight: 1000;
+    line-height: 0.95;
+    text-shadow: 0 3px 12px rgba(0,0,0,.45);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .heroTimer{
+    font-size: 80px;
+    font-weight: 1000;
+    line-height: 1;
+    text-shadow: 0 3px 12px rgba(0,0,0,.45);
+    background: rgba(0,0,0,.35);
+    border-radius: 28px;
+    padding: 16px 24px;
+  }
 </style>
 </head>
 <body>
-<div class="screen tv-safe" id="screen"></div>
-<script>
-(function() {
-  var SHOW_COUNT = 5;
-  var AFTER_DARK_DATES = ['2026-04-10','2026-04-17','2026-05-15','2026-05-29','2026-06-12'];
-  var WEEKDAY = [
-    ['10:30','Rosa','rosa'], ['11:00','Rød','rod'], ['11:30','Sølv','solv'], ['12:00','Grønn','gronn'],
-    ['12:30','Oransje','oransje'], ['13:00','Blå','bla'], ['13:30','Gul','gul'], ['14:00','Mørk Lilla','morklilla'],
-    ['14:30','Svart','svart'], ['15:00','Hvit','hvit'], ['15:30','Rosa','rosa'], ['16:00','Rød','rod'],
-    ['16:30','Sølv','solv'], ['17:00','Grønn','gronn'], ['17:30','Oransje','oransje'], ['18:00','Blå','bla'],
-    ['18:30','Gul','gul'], ['19:00','Mørk Lilla','morklilla'], ['19:30','Svart','svart'], ['20:00','Hvit','hvit']
-  ];
-  var WEEKEND = [
-    ['11:00','Minisprett','minisprett'], ['11:30','Sølv','solv'], ['12:00','Grønn','gronn'], ['12:30','Oransje','oransje'],
-    ['13:00','Blå','bla'], ['13:30','Gul','gul'], ['14:00','Mørk Lilla','morklilla'], ['14:30','Svart','svart'],
-    ['15:00','Hvit','hvit'], ['15:30','Rosa','rosa'], ['16:00','Rød','rod'], ['16:30','Sølv','solv'],
-    ['17:00','Grønn','gronn'], ['17:30','Oransje','oransje'], ['18:00','Blå','bla'], ['18:30','Gul','gul'], ['19:00','Mørk Lilla','morklilla']
-  ];
+<div id="sceneWrap">
+  <div id="scene">
+    <div id="normalView">
+      <div class="topline">
+        <div class="title">GJENSTÅENDE HOPPETID</div>
+        <div class="clock" id="clock">00:00</div>
+      </div>
+      <div class="bands" id="bands"></div>
+    </div>
 
-  function parseHM(text) { var p = text.split(':'); return Number(p[0]) * 60 + Number(p[1]); }
-  function toDate(base, hm) { var d = new Date(base.getFullYear(), base.getMonth(), base.getDate(), 0, 0, 0, 0); d.setMinutes(parseHM(hm)); return d; }
-  function ymd(d) { function z(n){ return (n < 10 ? '0' : '') + n; } return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate()); }
-  function isAfterDarkDate(d) { return AFTER_DARK_DATES.indexOf(ymd(d)) !== -1; }
-  function isWeekend(d) { return d.getDay() === 0 || d.getDay() === 6; }
-  function isMinisprettNow(d) { var m = d.getHours() * 60 + d.getMinutes(); return isWeekend(d) && m >= 570 && m < 660; }
-  function isAfterDarkNow(d) { var m = d.getHours() * 60 + d.getMinutes(); return isAfterDarkDate(d) && m >= 1200 && m < 1320; }
-  function fmtClock(d) { var h = d.getHours(), m = d.getMinutes(); return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m; }
-  function fmtShort(ms) { var s = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60); return h > 0 ? (h + ' t ' + m + ' min') : (m + ' min'); }
-  function fmtWithSec(ms) { var s = Math.max(0, Math.floor(ms / 1000)), m = Math.floor(s / 60), sec = s % 60; return m + ' min ' + sec + ' sek'; }
-  function getBaseSchedule(now) {
-    var src = isWeekend(now) ? WEEKEND : WEEKDAY;
-    var out = [];
-    for (var i = 0; i < src.length; i++) out.push({ label: src[i][1], cls: src[i][2], exit: toDate(now, src[i][0]), time: src[i][0] });
-    return out;
+    <div class="hero" id="miniHero" style="background-image:url('minisprett.png')">
+      <div class="heroContent">
+        <div class="heroTitle">MINISPRETT PÅGÅR</div>
+        <div class="heroTimer" id="miniTimer">00:00</div>
+      </div>
+    </div>
+
+    <div class="hero" id="afterHero" style="background-image:url('afterdark.png')">
+      <div class="heroContent">
+        <div class="heroTitle">AFTER DARK</div>
+        <div class="heroTimer" id="afterTimer">00:00</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const weekdayPlan = [
+  { out: "10:30", color: "pink", label: "ROSA" },
+  { out: "11:00", color: "red", label: "RØD" },
+  { out: "11:30", color: "silver", label: "SØLV" },
+  { out: "12:00", color: "green", label: "GRØNN" },
+  { out: "12:30", color: "orange", label: "ORANSJE" },
+  { out: "13:00", color: "blue", label: "BLÅ" },
+  { out: "13:30", color: "yellow", label: "GUL" },
+  { out: "14:00", color: "purple", label: "MØRK LILLA" },
+  { out: "14:30", color: "black", label: "SVART" },
+  { out: "15:00", color: "white", label: "HVIT" },
+  { out: "15:30", color: "pink", label: "ROSA" },
+  { out: "16:00", color: "red", label: "RØD" },
+  { out: "16:30", color: "silver", label: "SØLV" },
+  { out: "17:00", color: "green", label: "GRØNN" },
+  { out: "17:30", color: "orange", label: "ORANSJE" },
+  { out: "18:00", color: "blue", label: "BLÅ" },
+  { out: "18:30", color: "yellow", label: "GUL" },
+  { out: "19:00", color: "purple", label: "MØRK LILLA" },
+  { out: "19:30", color: "black", label: "SVART" },
+  { out: "20:00", color: "white", label: "HVIT" }
+];
+
+const weekendPlan = [
+  { out: "11:00", color: "mini", label: "MINISPRETT" },
+  { out: "11:30", color: "silver", label: "SØLV" },
+  { out: "12:00", color: "green", label: "GRØNN" },
+  { out: "12:30", color: "orange", label: "ORANSJE" },
+  { out: "13:00", color: "blue", label: "BLÅ" },
+  { out: "13:30", color: "yellow", label: "GUL" },
+  { out: "14:00", color: "purple", label: "MØRK LILLA" },
+  { out: "14:30", color: "black", label: "SVART" },
+  { out: "15:00", color: "white", label: "HVIT" },
+  { out: "15:30", color: "pink", label: "ROSA" },
+  { out: "16:00", color: "red", label: "RØD" },
+  { out: "16:30", color: "silver", label: "SØLV" },
+  { out: "17:00", color: "green", label: "GRØNN" },
+  { out: "17:30", color: "orange", label: "ORANSJE" },
+  { out: "18:00", color: "blue", label: "BLÅ" },
+  { out: "18:30", color: "yellow", label: "GUL" },
+  { out: "19:00", color: "purple", label: "MØRK LILLA" }
+];
+
+const afterDarkDates = ["2026-04-10","2026-04-17","2026-05-15","2026-05-29","2026-06-12"];
+const visibleBands = 5;
+
+function fitScene(){
+  const wrap = document.getElementById('sceneWrap');
+  const scene = document.getElementById('scene');
+  const w = wrap.clientWidth;
+  const h = wrap.clientHeight;
+  const scale = Math.min(w / 1920, h / 1080);
+  scene.style.transform = `translate(-50%, -50%) scale(${scale})`;
+}
+window.addEventListener('resize', fitScene);
+window.addEventListener('load', fitScene);
+
+function pad(n){ return String(n).padStart(2,'0'); }
+function fmtClock(d){ return `${pad(d.getHours())}:${pad(d.getMinutes())}`; }
+function keyDate(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+function toMsToday(hhmm, now){
+  const [h,m] = hhmm.split(':').map(Number);
+  const d = new Date(now);
+  d.setHours(h,m,0,0);
+  return d.getTime();
+}
+function formatLong(ms, withSeconds){
+  let s = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(s / 3600);
+  s -= h * 3600;
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  if (withSeconds) {
+    if (h > 0) return `${h} t ${m} min ${sec} sek`;
+    return `${m} min ${sec} sek`;
   }
-  function getIndexFuture(schedule, now) {
-    for (var i = 0; i < schedule.length; i++) if (schedule[i].exit.getTime() > now.getTime()) return i;
-    return -1;
+  if (h > 0) return `${h} t ${m} min`;
+  return `${m} min`;
+}
+function isWeekend(now){ const d=now.getDay(); return d===0 || d===6; }
+function isMini(now){
+  if (!isWeekend(now)) return false;
+  const start = toMsToday("09:30", now);
+  const end = toMsToday("11:00", now);
+  return now.getTime() >= start && now.getTime() < end;
+}
+function isAfterDark(now){
+  if (!afterDarkDates.includes(keyDate(now))) return false;
+  const start = toMsToday("20:00", now);
+  const end = toMsToday("22:00", now);
+  return now.getTime() >= start && now.getTime() < end;
+}
+function getPlan(now){ return isWeekend(now) ? weekendPlan : weekdayPlan; }
+
+function buildRows(now){
+  const plan = getPlan(now);
+  const nowMs = now.getTime();
+  let firstFuture = plan.findIndex(p => toMsToday(p.out, now) > nowMs);
+  if (firstFuture === -1) firstFuture = plan.length;
+
+  const rows = [];
+  if (firstFuture > 0) {
+    const prev = plan[firstFuture - 1];
+    rows.push({label: prev.label, color: prev.color, status: 'done'});
   }
-  function buildDisplayList(now) {
-    var schedule = getBaseSchedule(now), futureIndex = getIndexFuture(schedule, now), items = [], nextFutureIndex = -1;
-    if (futureIndex === -1) { if (schedule.length) items.push({ label: schedule[schedule.length - 1].label, cls: schedule[schedule.length - 1].cls, status: 'done' }); return { items: items, nextFutureIndex: -1 }; }
-    if (futureIndex > 0) items.push({ label: schedule[futureIndex - 1].label, cls: schedule[futureIndex - 1].cls, status: 'done' });
-    for (var i = futureIndex; i < schedule.length && items.length < SHOW_COUNT; i++) {
-      items.push({ label: schedule[i].label, cls: schedule[i].cls, status: 'countdown', exit: schedule[i].exit });
-      if (nextFutureIndex === -1) nextFutureIndex = items.length - 1;
-    }
-    return { items: items, nextFutureIndex: nextFutureIndex };
+  for (let i = firstFuture; i < plan.length && rows.length < visibleBands; i++) {
+    const p = plan[i];
+    rows.push({
+      label: p.label,
+      color: p.color,
+      status: 'active',
+      remaining: toMsToday(p.out, now) - nowMs
+    });
   }
-  function renderHero(title, subtitle, countdown, image) {
-    var now = new Date();
-    var html = '';
-    html += '<div class="topline"><div class="title">GJENSTÅENDE HOPPETID</div><div class="clock">' + fmtClock(now) + '</div></div>';
-    html += '<div class="hero"><img src="' + image + '" alt=""><div class="hero-overlay">';
-    html += '<div class="hero-title">' + title + '</div>';
-    if (subtitle) html += '<div class="hero-sub">' + subtitle + '</div>';
-    if (countdown) html += '<div class="hero-count">' + countdown + '</div>';
-    html += '</div></div>';
-    document.getElementById('screen').innerHTML = html;
-  }
-  function renderBands() {
-    var now = new Date();
-    var state = buildDisplayList(now);
-    var html = '<div class="topline"><div class="title">GJENSTÅENDE HOPPETID</div><div class="clock">' + fmtClock(now) + '</div></div><div class="bands">';
-    for (var i = 0; i < state.items.length; i++) {
-      var it = state.items[i];
-      var right = 'FERDIG';
-      if (it.status === 'countdown') right = (i === state.nextFutureIndex) ? fmtWithSec(it.exit.getTime() - now.getTime()) : fmtShort(it.exit.getTime() - now.getTime());
-      html += '<div class="band ' + it.cls + (it.status === 'done' ? ' done' : '') + '"><div class="name">' + it.label.toUpperCase() + '</div><div class="time">' + right + '</div></div>';
-    }
-    html += '</div>';
-    document.getElementById('screen').innerHTML = html;
-  }
-  function tick() {
-    var now = new Date();
-    if (isMinisprettNow(now)) {
-      renderHero('MINISPRETT PÅGÅR', 'Til kl. 11:00', fmtShort(toDate(now, '11:00').getTime() - now.getTime()), 'minisprett.png');
-      return;
-    }
-    if (isAfterDarkNow(now)) {
-      renderHero('AFTER DARK PÅGÅR', 'Til kl. 22:00', fmtShort(toDate(now, '22:00').getTime() - now.getTime()), 'afterdark.png');
-      return;
-    }
-    renderBands();
-  }
-  setInterval(tick, 1000);
-  tick();
-})();
+  return rows.slice(0, visibleBands);
+}
+
+function renderNormal(now){
+  document.getElementById('normalView').style.display = 'block';
+  document.getElementById('miniHero').style.display = 'none';
+  document.getElementById('afterHero').style.display = 'none';
+  document.getElementById('clock').textContent = fmtClock(now);
+
+  const bands = document.getElementById('bands');
+  const rows = buildRows(now);
+  bands.innerHTML = rows.map((r, i) => {
+    const time = r.status === 'done' ? 'FERDIG' : formatLong(r.remaining, i === 1 || (i === 0 && rows[0].status !== 'done'));
+    const extra = r.status === 'done' ? ' done' : '';
+    return `
+      <div class="band ${r.color}${extra}">
+        <div class="left"><div class="name">${r.label}</div></div>
+        <div class="time">${time}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderMini(now){
+  document.getElementById('normalView').style.display = 'none';
+  document.getElementById('afterHero').style.display = 'none';
+  document.getElementById('miniHero').style.display = 'block';
+  document.getElementById('miniTimer').textContent = formatLong(toMsToday("11:00", now) - now.getTime(), true);
+}
+
+function renderAfter(now){
+  document.getElementById('normalView').style.display = 'none';
+  document.getElementById('miniHero').style.display = 'none';
+  document.getElementById('afterHero').style.display = 'block';
+  document.getElementById('afterTimer').textContent = formatLong(toMsToday("22:00", now) - now.getTime(), true);
+}
+
+function tick(){
+  const now = new Date();
+  if (isAfterDark(now)) renderAfter(now);
+  else if (isMini(now)) renderMini(now);
+  else renderNormal(now);
+}
+fitScene();
+tick();
+setInterval(tick, 1000);
 </script>
 </body>
 </html>
