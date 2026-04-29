@@ -21,7 +21,7 @@ body { color: #f4f4f4; }
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
-  padding: 2.2vh 2.1vw 1.8vh 2.1vw;
+  padding: 2.2vh 2.4vw 2.0vh 2.4vw;
   background: linear-gradient(to right, #17232e, #1d2a37, #17232e);
   overflow: hidden;
 }
@@ -36,48 +36,44 @@ body { color: #f4f4f4; }
 #header {
   position: relative;
   width: 100%;
-  height: 12.5vh;
-  flex: 0 0 12.5vh;
-  margin-bottom: 1.3vh;
-}
-#title {
+  height: 9.2vh;
+  flex: 0 0 9.2vh;
+  margin-top: 1.0vh;
+  order#title {
   position: absolute;
   left: 0;
   right: 0;
-  top: 1.5vh;
+  bottom: 0.2vh;
   text-align: center;
-  font-size: 5.5vh;
+  font-size: 4.8vh;
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.08vh;
 }
+#clock
 #clock {
   position: absolute;
-  right: 0.4vw;
-  top: 0.5vh;
-  font-size: 4.7vh;
+  right: 0.2vw;
+  bottom: 0.45vh;
+  font-size: 4.2vh;
   font-weight: 900;
-  line-height: 1;
-}
-
-#bands {
+  line-height: 1;#bands {
   width: 100%;
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.15vh;
-}
-
-.band {
+  gap: 2.0vh;
+  order:.band {
   width: 100%;
   flex: 1 1 0;
   min-height: 0;
-  border-radius: 3.2vh;
+  border-radius: 3.0vh;
   box-sizing: border-box;
-  padding: 0 3vw 0 5vw;
+  padding: 0 4.0vw 0 5.2vw;
   overflow: hidden;
 }
+.bandTable
 .bandTable {
   width: 100%;
   height: 100%;
@@ -94,18 +90,21 @@ body { color: #f4f4f4; }
   text-align: right;
 }
 .name {
-  font-size: 4.1vh;
+  font-size: 3.7vh;
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.time {
-  font-size: 3.75vh;
+  .time {
+  font-size: 3.35vh;
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
+  transform: translateY(0.08vh);
+}
+
+.doneBandwhite-space: nowrap;
 }
 
 .doneBand {
@@ -383,10 +382,12 @@ function renderNormal(now) {
   var rows = computeRows(now).slice(0, visibleBands);
   var html = "";
 
-  var nextIndex = -1;
-  for (var n = 0; n < rows.length; n++) {
+  /* Nederste bånd som ikke er ferdig skal vise minutter og sekunder.
+     Alle andre kommende bånd viser timer og minutter. */
+  var lowestActiveIndex = -1;
+  for (var n = rows.length - 1; n >= 0; n--) {
     if (rows[n].status === "active") {
-      nextIndex = n;
+      lowestActiveIndex = n;
       break;
     }
   }
@@ -402,7 +403,7 @@ function renderNormal(now) {
     } else if (r.status === "empty") {
       extraClass = " emptyBand";
       timeText = "";
-    } else if (i === nextIndex) {
+    } else if (i === lowestActiveIndex) {
       extraClass = " nextBand";
       timeText = formatRemaining(r.remaining, true);
     } else {
