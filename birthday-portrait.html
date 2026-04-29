@@ -43,23 +43,28 @@ body {
   display: flex;
 }
 
-/*
-  BAKGRUNNSBILDE:
-  Legg bildet ditt i GitHub-repoet med filnavn:
-  birthday-bg.png
-
-  Da får skjermen samme design som bildet du viste.
-*/
 #birthdayView {
   position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url('birthday-bg.png');
-  background-size: auto 100%;
-  background-position: center top;
-  background-repeat: no-repeat;
   background-color: #000000;
+  overflow: hidden;
+}
+
+/*
+  Mer TV-sikker enn background-image:
+  Bildet ligger som faktisk <img>, fyller hele skjermen i høyden/bredden,
+  og klippes på sidene ved behov. Toppen beholdes.
+*/
+#birthdayBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 1;
 }
 
 #names {
@@ -74,10 +79,11 @@ body {
   justify-content: center;
   gap: 1.2vh;
   text-align: center;
+  z-index: 2;
 }
 
 .nameText {
-  font-size: 8.2vh;
+  font-size: 7.6vh;
   line-height: 0.95;
   font-weight: 900;
   color: #ffffff;
@@ -91,12 +97,18 @@ body {
   overflow-wrap: anywhere;
 }
 
-/* Hvis flere bursdager vises samtidig, gjør navnene litt mindre */
 .namesMany .nameText {
-  font-size: 5.6vh;
+  font-size: 4.7vh;
+  line-height: 0.95;
+}
+
+.namesLots .nameText {
+  font-size: 3.8vh;
+  line-height: 0.95;
 }
 
 #adView {
+  position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -184,6 +196,7 @@ body {
 <body>
 <div id="page">
   <section id="birthdayView">
+    <img id="birthdayBg" src="birthday-bg.png" alt="Gratulerer med dagen">
     <div id="names"></div>
   </section>
 
@@ -203,21 +216,22 @@ body {
 </div>
 
 <script>
-/*
-  SETT INN WEB APP-LENKEN FRA GOOGLE APPS SCRIPT HER.
-  Eksempel:
-  var DATA_URL = "https://script.google.com/macros/s/AKfycbxxxxxxx/exec";
-*/
 var DATA_URL = "";
 
-/* Testdata brukes bare hvis DATA_URL er tom. */
+/* Testmodus mens vi justerer designet */
+var FORCE_SHOW_TEST_BIRTHDAYS = true;
+
 var TEST_DATA = [
   { name: "Arleen", start: "14:30", roomTime: "16:00" },
-  { name: "Jennie", start: "16:30", roomTime: "17:30" }
+  { name: "Jennie", start: "16:30", roomTime: "17:30" },
+  { name: "Ulrik, Theodor, Tobias", start: "16:30", roomTime: "18:00" },
+  { name: "Henrik, Vegard", start: "17:00", roomTime: "18:00" },
+  { name: "Theo, Mathias, Alva, Sondre, Niko", start: "18:00", roomTime: "19:30" }
 ];
 
 var birthdayData = [];
 var adIndex = 0;
+
 var ads = [
   {
     headline: "BOOK BURSDAG
@@ -257,11 +271,6 @@ function nowMinutes(now) {
   return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
 }
 
-/*
-  Riktig regel:
-  Vises fra 15 minutter før START / hoppetid
-  til 60 minutter etter ROOM TIME.
-*/
 function isActiveBirthday(item, now) {
   var startMin = minutesFromTime(item.start);
   var roomMin = minutesFromTime(item.roomTime);
@@ -286,7 +295,7 @@ function getActiveBirthdays(now) {
     var name = normalizeName(item.name);
     if (!name) continue;
 
-    if (isActiveBirthday(item, now)) {
+    if (FORCE_SHOW_TEST_BIRTHDAYS || isActiveBirthday(item, now)) {
       active.push(name);
     }
   }
@@ -305,7 +314,14 @@ function renderBirthdays(names) {
   setActive("birthdayView");
 
   var container = document.getElementById("names");
-  container.className = names.length > 1 ? "namesMany" : "";
+
+  if (names.length >= 5) {
+    container.className = "namesLots";
+  } else if (names.length > 1) {
+    container.className = "namesMany";
+  } else {
+    container.className = "";
+  }
 
   var html = "";
   for (var i = 0; i < names.length; i++) {
@@ -392,7 +408,9 @@ function receiveBirthdayData(data) {
 loadDataJsonp();
 setInterval(tick, 1000);
 setInterval(loadDataJsonp, 60000);
-setInterval(function() { adIndex++; }, 12000);
+setInterval(function() {
+  adIndex++;
+}, 12000);
 </script>
 </body>
 </html>
