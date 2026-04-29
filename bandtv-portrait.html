@@ -265,6 +265,9 @@ var afterDarkDates = {
   "2026-06-12": true
 };
 
+/* Hvor mange bånd som skal vises på høykant-TV-en */
+var visibleBands = 8;
+
 function pad(n) { return (n < 10 ? "0" : "") + n; }
 function formatClock(d) { return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
 function dateKey(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
@@ -319,18 +322,54 @@ function currentPlan(now) {
 function computeRows(now) {
   var plan = currentPlan(now);
   var nowMs = now.getTime();
+  var firstFuture = -1;
+  var i;
+
+  for (i = 0; i < plan.length; i++) {
+    if (msAtToday(plan[i].out, now) > nowMs) {
+      firstFuture = i;
+      break;
+    }
+  }
+  if (firstFuture === -1) firstFuture = plan.length;
+
   var rows = [];
 
-  for (var i = 0; i < plan.length; i++) {
-    var outMs = msAtToday(plan[i].out, now);
+  /* Ta med ett ferdig bånd nederst/øverst i rekken, slik gammel versjon gjorde */
+  if (firstFuture > 0) {
+    var prev = plan[firstFuture - 1];
+    rows.push({
+      label: prev.label,
+      color: prev.color,
+      status: "done",
+      remaining: 0,
+      out: prev.out
+    });
+  }
+
+  /* Fyll på med kommende bånd til vi har 8 totalt */
+  for (i = firstFuture; i < plan.length && rows.length < visibleBands; i++) {
     rows.push({
       label: plan[i].label,
       color: plan[i].color,
-      status: outMs <= nowMs ? "done" : "active",
-      remaining: outMs - nowMs,
+      status: "active",
+      remaining: msAtToday(plan[i].out, now) - nowMs,
       out: plan[i].out
     });
   }
+
+  while (rows.length < visibleBands) {
+    rows.push({
+      label: "",
+      color: "black",
+      status: "empty",
+      remaining: 0,
+      out: ""
+    });
+  }
+
+  /* Samme prinsipp som gammel: ferdig nederst og kommende bygger oppover */
+  rows.reverse();
 
   return rows;
 }
