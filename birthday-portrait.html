@@ -67,13 +67,13 @@ body {
   position: absolute;
   left: 6vw;
   right: 6vw;
-  top: 38%;
+  top: 31%;
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 1.5vh;
+  gap: 0;
   text-align: center;
 }
 
@@ -83,6 +83,7 @@ body {
   box-sizing: border-box;
   padding: 1.1vh 3vw;
   border-radius: 3.0vh;
+  margin-bottom: 1.4vh;
 
   /* Klarglass/frostet effekt */
   background: rgba(255, 255, 255, 0.18);
@@ -97,6 +98,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.nameCard:last-child {
+  margin-bottom: 0;
 }
 
 .nameText {
@@ -116,14 +121,15 @@ body {
 
 /* Flere navn samtidig */
 .namesMany {
-  top: 36%;
-  gap: 1.2vh;
+  top: 29%;
+  gap: 0;
 }
 
 .namesMany .nameCard {
   min-height: 7.4vh;
   border-radius: 2.6vh;
   padding: 0.9vh 2.4vw;
+  margin-bottom: 1.2vh;
 }
 
 .namesMany .nameText {
@@ -132,14 +138,15 @@ body {
 
 /* Mange bursdager samtidig */
 .namesLots {
-  top: 34%;
-  gap: 0.9vh;
+  top: 27%;
+  gap: 0;
 }
 
 .namesLots .nameCard {
   min-height: 6.3vh;
   border-radius: 2.2vh;
   padding: 0.7vh 2.2vw;
+  margin-bottom: 1.0vh;
 }
 
 .namesLots .nameText {
@@ -281,7 +288,8 @@ var adIndex = 0;
 
 var ads = [
   {
-    headline: "BOOK BURSDAG\nHOS RUSH",
+    headline: "BOOK BURSDAG
+HOS RUSH",
     text: "Feir dagen med hopping, pizza og eget bursdagsrom"
   },
   {
@@ -389,7 +397,8 @@ function renderAd() {
   setActive("adView");
 
   var ad = ads[adIndex % ads.length];
-  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/\n/g, "<br>");
+  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/
+/g, "<br>");
   document.getElementById("adText").innerHTML = escapeHtml(ad.text);
 }
 
