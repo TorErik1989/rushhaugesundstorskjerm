@@ -25,7 +25,7 @@ body {
 #page {
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
+  position: relative;
   overflow: hidden;
   background: #000;
 }
@@ -44,75 +44,148 @@ body {
   display: flex;
 }
 
-/* BURSDAGSVISNING */
+/* =========================
+   BURSDAGSVISNING
+========================= */
 #birthdayView {
   position: relative;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #000000;
   overflow: hidden;
+  background: #000;
 }
 
-/*
-  TV-sikker bakgrunn:
-  Bildet ligger som ekte <img>, ikke CSS background.
-  object-fit: cover fyller hele TV-en.
-  object-position: center top beholder toppen av bildet.
-*/
-#birthdayBg {
+/* Øverste tekstfelt */
+#topHeader {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 34%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 3.5vh;
+  box-sizing: border-box;
+  text-align: center;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.92), rgba(0,0,0,0.18));
 }
 
+#headerTop {
+  font-size: 13vh;
+  line-height: 0.9;
+  font-weight: 900;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0.5vh 1vh rgba(0,0,0,0.35);
+}
+
+#headerBottom {
+  margin-top: -0.8vh;
+  font-size: 9vh;
+  line-height: 0.9;
+  font-weight: 900;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  -webkit-text-stroke: 0.8vh #98e61a;
+  paint-order: stroke fill;
+  text-shadow: 0 0.4vh 1vh rgba(0,0,0,0.35);
+}
+
+/* Dekorbilde under header */
+#birthdayArt {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 22%;
+  bottom: 0;
+  z-index: 1;
+  background-image: url('birthday-bg.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100% 100%;
+  opacity: 1;
+}
+
+/* Mørk overlay så navn blir tydeligere */
+#artOverlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 22%;
+  bottom: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.18),
+    rgba(0,0,0,0.08) 20%,
+    rgba(0,0,0,0.18) 55%,
+    rgba(0,0,0,0.10)
+  );
+}
+
+/* Navnene */
 #names {
   position: absolute;
-  left: 5vw;
-  right: 5vw;
-  top: 52%;
-  transform: translateY(0);
+  left: 7vw;
+  right: 7vw;
+  top: 46%;
+  transform: translateY(-50%);
+  z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.2vh;
+  gap: 1.1vh;
   text-align: center;
-  z-index: 2;
 }
 
 .nameText {
-  font-size: 7.6vh;
-  line-height: 0.95;
+  font-size: 6.7vh;
+  line-height: 0.92;
   font-weight: 900;
   color: #ffffff;
   text-shadow:
-    0.18vh 0.18vh 0 #000,
-    -0.18vh 0.18vh 0 #000,
-    0.18vh -0.18vh 0 #000,
-    -0.18vh -0.18vh 0 #000,
-    0 0.8vh 1.4vh rgba(0,0,0,0.65);
+    0.16vh 0.16vh 0 #000,
+    -0.16vh 0.16vh 0 #000,
+    0.16vh -0.16vh 0 #000,
+    -0.16vh -0.16vh 0 #000,
+    0 0.6vh 1.2vh rgba(0,0,0,0.65);
   white-space: normal;
   overflow-wrap: anywhere;
 }
 
-/* Flere navn samtidig */
+/* Når det er flere bursdager samtidig */
 .namesMany .nameText {
-  font-size: 4.7vh;
-  line-height: 0.95;
+  font-size: 5.3vh;
+  line-height: 0.92;
 }
 
-/* Veldig mange navn samtidig */
 .namesLots .nameText {
-  font-size: 3.8vh;
-  line-height: 0.95;
+  font-size: 4.6vh;
+  line-height: 0.92;
 }
 
-/* REKLAMEVISNING */
+/* Liten Rush-logo som tekst */
+#rushLogo {
+  position: absolute;
+  right: 3vw;
+  bottom: 2.2vh;
+  z-index: 4;
+  font-size: 4.2vh;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  opacity: 0.95;
+}
+
+/* =========================
+   REKLAMEVISNING
+========================= */
 #adView {
   position: relative;
   flex-direction: column;
@@ -174,7 +247,9 @@ body {
   font-weight: 900;
 }
 
-/* FEILVISNING */
+/* =========================
+   FEILVISNING
+========================= */
 #errorView {
   align-items: center;
   justify-content: center;
@@ -203,8 +278,16 @@ body {
 <body>
 <div id="page">
   <section id="birthdayView">
-    <img id="birthdayBg" src="birthday-bg.png" alt="Gratulerer med dagen">
+    <div id="birthdayArt"></div>
+    <div id="artOverlay"></div>
+
+    <div id="topHeader">
+      <div id="headerTop">GRATULERER</div>
+      <div id="headerBottom">MED DAGEN</div>
+    </div>
+
     <div id="names"></div>
+    <div id="rushLogo">rush</div>
   </section>
 
   <section id="adView">
@@ -223,25 +306,11 @@ body {
 </div>
 
 <script>
-/*
-  SETT INN WEB APP-LENKEN FRA GOOGLE APPS SCRIPT HER SENERE.
-  Eksempel:
-  var DATA_URL = "https://script.google.com/macros/s/AKfycbxxxxxxx/exec";
-*/
 var DATA_URL = "";
 
-/*
-  TESTMODUS:
-  true = viser testnavn hele tiden, slik at vi kan justere design på TV.
-  false = bruker tidene og viser reklame når ingen bursdag er aktiv.
-*/
+/* true mens vi tester design */
 var FORCE_SHOW_TEST_BIRTHDAYS = true;
 
-/*
-  Testdata fra arket du viste.
-  start = START / hoppetid
-  roomTime = ROOM TIME
-*/
 var TEST_DATA = [
   { name: "Arleen", start: "14:30", roomTime: "16:00" },
   { name: "Jennie", start: "16:30", roomTime: "17:30" },
@@ -282,10 +351,8 @@ function formatClock(d) {
 
 function minutesFromTime(hhmm) {
   if (!hhmm) return null;
-
   var parts = String(hhmm).trim().split(":");
   if (parts.length < 2) return null;
-
   return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
 }
 
@@ -293,15 +360,9 @@ function nowMinutes(now) {
   return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
 }
 
-/*
-  Riktig regel:
-  Vises fra 15 minutter før START / hoppetid
-  til 60 minutter etter ROOM TIME.
-*/
 function isActiveBirthday(item, now) {
   var startMin = minutesFromTime(item.start);
   var roomMin = minutesFromTime(item.roomTime);
-
   if (startMin === null || roomMin === null) return false;
 
   var showFrom = startMin - 15;
@@ -353,7 +414,6 @@ function renderBirthdays(names) {
   }
 
   var html = "";
-
   for (var i = 0; i < names.length; i++) {
     html += '<div class="nameText">' + escapeHtml(names[i]) + '</div>';
   }
@@ -365,7 +425,6 @@ function renderAd() {
   setActive("adView");
 
   var ad = ads[adIndex % ads.length];
-
   document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/\n/g, "<br>");
   document.getElementById("adText").innerHTML = escapeHtml(ad.text);
 }
@@ -385,7 +444,6 @@ function escapeHtml(text) {
 
 function tick() {
   var now = new Date();
-
   document.getElementById("adBottom").innerHTML = formatClock(now);
 
   if (!birthdayData || birthdayData.length === 0) {
@@ -435,12 +493,10 @@ function receiveBirthdayData(data) {
   } else {
     birthdayData = [];
   }
-
   tick();
 }
 
 loadDataJsonp();
-
 setInterval(tick, 1000);
 setInterval(loadDataJsonp, 60000);
 setInterval(function() {
