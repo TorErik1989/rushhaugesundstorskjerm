@@ -5,6 +5,7 @@
 <meta http-equiv="refresh" content="300">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rush Bursdag TV</title>
+
 <style>
 html, body {
   margin: 0;
@@ -43,6 +44,7 @@ body {
   display: flex;
 }
 
+/* BURSDAGSVISNING */
 #birthdayView {
   position: relative;
   flex-direction: column;
@@ -53,9 +55,10 @@ body {
 }
 
 /*
-  Mer TV-sikker enn background-image:
-  Bildet ligger som faktisk <img>, fyller hele skjermen i høyden/bredden,
-  og klippes på sidene ved behov. Toppen beholdes.
+  TV-sikker bakgrunn:
+  Bildet ligger som ekte <img>, ikke CSS background.
+  object-fit: cover fyller hele TV-en.
+  object-position: center top beholder toppen av bildet.
 */
 #birthdayBg {
   position: absolute;
@@ -97,16 +100,19 @@ body {
   overflow-wrap: anywhere;
 }
 
+/* Flere navn samtidig */
 .namesMany .nameText {
   font-size: 4.7vh;
   line-height: 0.95;
 }
 
+/* Veldig mange navn samtidig */
 .namesLots .nameText {
   font-size: 3.8vh;
   line-height: 0.95;
 }
 
+/* REKLAMEVISNING */
 #adView {
   position: relative;
   flex-direction: column;
@@ -168,6 +174,7 @@ body {
   font-weight: 900;
 }
 
+/* FEILVISNING */
 #errorView {
   align-items: center;
   justify-content: center;
@@ -216,11 +223,25 @@ body {
 </div>
 
 <script>
+/*
+  SETT INN WEB APP-LENKEN FRA GOOGLE APPS SCRIPT HER SENERE.
+  Eksempel:
+  var DATA_URL = "https://script.google.com/macros/s/AKfycbxxxxxxx/exec";
+*/
 var DATA_URL = "";
 
-/* Testmodus mens vi justerer designet */
+/*
+  TESTMODUS:
+  true = viser testnavn hele tiden, slik at vi kan justere design på TV.
+  false = bruker tidene og viser reklame når ingen bursdag er aktiv.
+*/
 var FORCE_SHOW_TEST_BIRTHDAYS = true;
 
+/*
+  Testdata fra arket du viste.
+  start = START / hoppetid
+  roomTime = ROOM TIME
+*/
 var TEST_DATA = [
   { name: "Arleen", start: "14:30", roomTime: "16:00" },
   { name: "Jennie", start: "16:30", roomTime: "17:30" },
@@ -234,8 +255,7 @@ var adIndex = 0;
 
 var ads = [
   {
-    headline: "BOOK BURSDAG
-HOS RUSH",
+    headline: "BOOK BURSDAG\nHOS RUSH",
     text: "Feir dagen med hopping, pizza og eget bursdagsrom"
   },
   {
@@ -262,8 +282,10 @@ function formatClock(d) {
 
 function minutesFromTime(hhmm) {
   if (!hhmm) return null;
+
   var parts = String(hhmm).trim().split(":");
   if (parts.length < 2) return null;
+
   return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
 }
 
@@ -271,9 +293,15 @@ function nowMinutes(now) {
   return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
 }
 
+/*
+  Riktig regel:
+  Vises fra 15 minutter før START / hoppetid
+  til 60 minutter etter ROOM TIME.
+*/
 function isActiveBirthday(item, now) {
   var startMin = minutesFromTime(item.start);
   var roomMin = minutesFromTime(item.roomTime);
+
   if (startMin === null || roomMin === null) return false;
 
   var showFrom = startMin - 15;
@@ -293,6 +321,7 @@ function getActiveBirthdays(now) {
   for (var i = 0; i < birthdayData.length; i++) {
     var item = birthdayData[i];
     var name = normalizeName(item.name);
+
     if (!name) continue;
 
     if (FORCE_SHOW_TEST_BIRTHDAYS || isActiveBirthday(item, now)) {
@@ -324,6 +353,7 @@ function renderBirthdays(names) {
   }
 
   var html = "";
+
   for (var i = 0; i < names.length; i++) {
     html += '<div class="nameText">' + escapeHtml(names[i]) + '</div>';
   }
@@ -335,8 +365,8 @@ function renderAd() {
   setActive("adView");
 
   var ad = ads[adIndex % ads.length];
-  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/
-/g, "<br>");
+
+  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/\n/g, "<br>");
   document.getElementById("adText").innerHTML = escapeHtml(ad.text);
 }
 
@@ -355,6 +385,7 @@ function escapeHtml(text) {
 
 function tick() {
   var now = new Date();
+
   document.getElementById("adBottom").innerHTML = formatClock(now);
 
   if (!birthdayData || birthdayData.length === 0) {
@@ -388,9 +419,11 @@ function loadDataJsonp() {
   var script = document.createElement("script");
   script.id = "birthdayDataScript";
   script.src = DATA_URL + "?callback=receiveBirthdayData&v=" + Date.now();
+
   script.onerror = function() {
     renderError();
   };
+
   document.body.appendChild(script);
 }
 
@@ -402,10 +435,12 @@ function receiveBirthdayData(data) {
   } else {
     birthdayData = [];
   }
+
   tick();
 }
 
 loadDataJsonp();
+
 setInterval(tick, 1000);
 setInterval(loadDataJsonp, 60000);
 setInterval(function() {
