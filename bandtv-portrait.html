@@ -1,516 +1,428 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Rush Bånd-TV Portrett</title>
-  <style>
-    :root {
-      --bg: #070711;
-      --text: #ffffff;
-      --muted: rgba(255,255,255,.72);
-      --glass: rgba(255,255,255,.10);
-      --glass-strong: rgba(255,255,255,.18);
-      --border: rgba(255,255,255,.18);
-      --shadow: 0 20px 55px rgba(0,0,0,.45);
-    }
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="300">
+<title>Rush BandTV Portrett</title>
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #17232e;
+  font-family: Arial, Helvetica, sans-serif;
+}
+body { color: #f4f4f4; }
 
-    * { box-sizing: border-box; }
+#page {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 18px 18px 14px 18px;
+  background: linear-gradient(to bottom, #17232e, #1d2a37, #17232e);
+}
 
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-    }
+#normalView {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
-    body {
-      background:
-        radial-gradient(circle at top left, rgba(255, 0, 150, .28), transparent 38%),
-        radial-gradient(circle at bottom right, rgba(0, 204, 255, .25), transparent 42%),
-        linear-gradient(180deg, #080811 0%, #101022 100%);
-    }
+#header {
+  position: relative;
+  width: 100%;
+  height: 112px;
+  flex: 0 0 112px;
+  margin-bottom: 12px;
+}
+#title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6px;
+  text-align: center;
+  font-size: 58px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+#subtitle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 66px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 900;
+  opacity: 0.85;
+  letter-spacing: 1px;
+}
+#clock {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 62px;
+  font-weight: 900;
+  line-height: 0.95;
+}
 
-    .screen {
-      height: 100vh;
-      width: 100vw;
-      padding: 2.2vh 2.3vw;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 1.5vh;
-    }
+#bands {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-    header {
-      display: grid;
-      gap: .7vh;
-      text-align: center;
-    }
+.band {
+  width: 100%;
+  flex: 1 1 0;
+  min-height: 0;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 0 22px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.12);
+}
+.bandTable {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.bandLeft, .bandRight { vertical-align: middle; }
+.bandLeft {
+  width: 54%;
+  text-align: left;
+}
+.bandRight {
+  width: 46%;
+  text-align: right;
+}
+.name {
+  font-size: clamp(22px, 4.3vw, 46px);
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.time {
+  font-size: clamp(20px, 3.9vw, 42px);
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
 
-    .logo {
-      font-size: clamp(30px, 5.7vw, 78px);
-      line-height: .92;
-      font-weight: 1000;
-      letter-spacing: -.06em;
-      text-transform: uppercase;
-      text-shadow: 0 10px 30px rgba(0,0,0,.42);
-    }
+.doneBand {
+  opacity: 0.36;
+  filter: grayscale(0.25);
+}
+.nextBand {
+  outline: 5px solid rgba(255,255,255,0.82);
+  outline-offset: -5px;
+  box-shadow: 0 0 24px rgba(255,255,255,0.35), inset 0 0 0 2px rgba(255,255,255,0.25);
+}
 
-    .subtitle {
-      font-size: clamp(15px, 2.3vw, 34px);
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
+.pink { background: #f63ea0; color: #000000; }
+.red { background: #ff1414; color: #ffffff; }
+.silver { background: #d9d9d9; color: #000000; }
+.green { background: #62bb2b; color: #000000; }
+.orange { background: #ff6419; color: #000000; }
+.blue { background: #4e90df; color: #ffffff; }
+.yellow { background: #f2ee18; color: #000000; }
+.purple { background: #6a217e; color: #ffffff; }
+.black { background: #000000; color: #ffffff; }
+.white { background: #ffffff; color: #000000; }
+.mini { background: #9fe9f2; color: #000000; }
+.after { background: linear-gradient(90deg, #050005, #6a217e, #00d5ff); color: #ffffff; }
 
-    .nowCard {
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.07));
-      box-shadow: var(--shadow);
-      padding: 1.2vh 1.4vw;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: .7vh;
-    }
-
-    .nowTop {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1vw;
-      font-size: clamp(14px, 2vw, 28px);
-      font-weight: 900;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .05em;
-    }
-
-    .nowMain {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 1vw;
-    }
-
-    .nowColor {
-      min-width: 0;
-    }
-
-    .nowName {
-      font-size: clamp(34px, 6.8vw, 92px);
-      line-height: .95;
-      font-weight: 1000;
-      text-transform: uppercase;
-      text-shadow: 0 8px 26px rgba(0,0,0,.38);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .nowTime {
-      margin-top: .3vh;
-      font-size: clamp(15px, 2.4vw, 34px);
-      font-weight: 900;
-      color: var(--muted);
-    }
-
-    .countdown {
-      font-size: clamp(38px, 7.8vw, 104px);
-      line-height: .9;
-      font-weight: 1000;
-      letter-spacing: -.05em;
-      padding: .7vh 1vw;
-      border-radius: 24px;
-      background: rgba(0,0,0,.26);
-      border: 1px solid rgba(255,255,255,.18);
-      min-width: 5.4em;
-      text-align: center;
-    }
-
-    .bands {
-      min-height: 0;
-      display: grid;
-      gap: .65vh;
-      overflow: hidden;
-    }
-
-    .band {
-      position: relative;
-      display: grid;
-      grid-template-columns: 25% 1fr auto;
-      align-items: center;
-      gap: 1vw;
-      min-height: 0;
-      border-radius: 22px;
-      padding: .4vh 1.1vw;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 7px 20px rgba(0,0,0,.22);
-      overflow: hidden;
-      transform: translateZ(0);
-    }
-
-    .band::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(255,255,255,.26), transparent 40%, rgba(0,0,0,.20));
-      pointer-events: none;
-    }
-
-    .band > * { position: relative; z-index: 1; }
-
-    .bandTime {
-      font-size: clamp(13px, 2vw, 30px);
-      font-weight: 1000;
-      color: rgba(255,255,255,.96);
-      text-shadow: 0 3px 12px rgba(0,0,0,.45);
-      white-space: nowrap;
-    }
-
-    .bandName {
-      font-size: clamp(16px, 2.8vw, 40px);
-      font-weight: 1000;
-      text-transform: uppercase;
-      text-shadow: 0 4px 14px rgba(0,0,0,.48);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .badge {
-      font-size: clamp(11px, 1.55vw, 23px);
-      font-weight: 1000;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-      background: rgba(0,0,0,.32);
-      border: 1px solid rgba(255,255,255,.24);
-      padding: .35vh .8vw;
-      border-radius: 999px;
-      white-space: nowrap;
-      min-width: 4.8em;
-      text-align: center;
-    }
-
-    .past {
-      opacity: .28;
-      filter: grayscale(.25);
-    }
-
-    .current {
-      min-height: 7vh;
-      z-index: 2;
-      outline: .55vh solid #fff;
-      outline-offset: -.55vh;
-      box-shadow:
-        0 0 0 .55vh rgba(255,255,255,.30),
-        0 0 38px rgba(255,255,255,.55),
-        0 14px 38px rgba(0,0,0,.40),
-        inset 0 0 0 1px rgba(255,255,255,.35);
-      animation: pulse 1.6s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.012); }
-    }
-
-    .next {
-      outline: .35vh solid rgba(255,255,255,.55);
-      outline-offset: -.35vh;
-    }
-
-    footer {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 1vw;
-      align-items: center;
-      font-size: clamp(14px, 2vw, 30px);
-      font-weight: 900;
-      color: var(--muted);
-      padding: .8vh 1.2vw;
-      border-radius: 22px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.13);
-    }
-
-    .clock {
-      color: #fff;
-      font-size: clamp(18px, 2.8vw, 42px);
-      font-weight: 1000;
-      letter-spacing: -.03em;
-    }
-
-    .closed {
-      height: 100%;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      gap: 2vh;
-    }
-
-    .closed h1 {
-      margin: 0;
-      font-size: clamp(44px, 10vw, 130px);
-      line-height: .9;
-      text-transform: uppercase;
-    }
-
-    .closed p {
-      margin: 0;
-      font-size: clamp(20px, 4vw, 52px);
-      font-weight: 900;
-      color: var(--muted);
-    }
-
-    @media (orientation: landscape) {
-      .screen {
-        max-width: 56.25vh;
-        margin: 0 auto;
-        border-left: 1px solid rgba(255,255,255,.08);
-        border-right: 1px solid rgba(255,255,255,.08);
-      }
-    }
-  </style>
+.hero {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: #17232e;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.heroOverlay {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(0,0,0,0.22);
+}
+.heroContent {
+  position: absolute;
+  left: 36px;
+  right: 36px;
+  bottom: 48px;
+  z-index: 2;
+}
+.heroTitle {
+  font-size: 72px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 14px;
+  color: #ffffff;
+}
+.heroTime {
+  display: inline-block;
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+  background: rgba(0,0,0,0.34);
+  border-radius: 22px;
+  padding: 18px 24px;
+}
+</style>
 </head>
 <body>
-  <main class="screen">
-    <header>
-      <div class="logo">Rush</div>
-      <div class="subtitle">Båndfarger i dag</div>
-      <section class="nowCard" id="nowCard">
-        <div class="nowTop">
-          <span>Aktivt bånd</span>
-          <span id="todayLabel">I dag</span>
-        </div>
-        <div class="nowMain">
-          <div class="nowColor">
-            <div class="nowName" id="nowName">Laster...</div>
-            <div class="nowTime" id="nowTime">--:-- – --:--</div>
-          </div>
-          <div class="countdown" id="countdown">--</div>
-        </div>
-      </section>
-    </header>
+  <div id="page">
+    <div id="normalView">
+      <div id="header">
+        <div id="title">HOPPETID</div>
+        <div id="subtitle">ALLE BÅNDFARGER I DAG</div>
+        <div id="clock">00:00</div>
+      </div>
+      <div id="bands"></div>
+    </div>
 
-    <section class="bands" id="bands"></section>
+    <div id="miniHero" class="hero">
+      <div class="heroOverlay"></div>
+      <div class="heroContent">
+        <div class="heroTitle">MINISPRETT PÅGÅR</div>
+        <div class="heroTime" id="miniTime">00 min 00 sek</div>
+      </div>
+    </div>
 
-    <footer>
-      <div id="statusText">Oppdateres automatisk</div>
-      <div class="clock" id="clock">--:--</div>
-    </footer>
-  </main>
+    <div id="afterHero" class="hero">
+      <div class="heroOverlay"></div>
+      <div class="heroContent">
+        <div class="heroTitle">AFTER DARK</div>
+        <div class="heroTime" id="afterTime">00 min 00 sek</div>
+      </div>
+    </div>
+  </div>
 
-  <script>
-    /*
-      RUSH BÅND-TV PORTRETT
-      Legg denne filen i samme GitHub Pages-repo, f.eks. som portrait.html.
-      Endre kun CONFIG under dersom tider/farger skal justeres.
-    */
+<script>
+var weekdayPlan = [
+  { out: "10:30", color: "pink", label: "ROSA" },
+  { out: "11:00", color: "red", label: "RØD" },
+  { out: "11:30", color: "silver", label: "SØLV" },
+  { out: "12:00", color: "green", label: "GRØNN" },
+  { out: "12:30", color: "orange", label: "ORANSJE" },
+  { out: "13:00", color: "blue", label: "BLÅ" },
+  { out: "13:30", color: "yellow", label: "GUL" },
+  { out: "14:00", color: "purple", label: "MØRK LILLA" },
+  { out: "14:30", color: "black", label: "SVART" },
+  { out: "15:00", color: "white", label: "HVIT" },
+  { out: "15:30", color: "pink", label: "ROSA" },
+  { out: "16:00", color: "red", label: "RØD" },
+  { out: "16:30", color: "silver", label: "SØLV" },
+  { out: "17:00", color: "green", label: "GRØNN" },
+  { out: "17:30", color: "orange", label: "ORANSJE" },
+  { out: "18:00", color: "blue", label: "BLÅ" },
+  { out: "18:30", color: "yellow", label: "GUL" },
+  { out: "19:00", color: "purple", label: "MØRK LILLA" },
+  { out: "19:30", color: "black", label: "SVART" },
+  { out: "20:00", color: "white", label: "HVIT" }
+];
 
-    const CONFIG = {
-      startTime: "08:30",
-      endTime: "22:00",
-      bandMinutes: 30,
+var weekendPlan = [
+  { out: "11:00", color: "mini", label: "MINISPRETT" },
+  { out: "11:30", color: "silver", label: "SØLV" },
+  { out: "12:00", color: "green", label: "GRØNN" },
+  { out: "12:30", color: "orange", label: "ORANSJE" },
+  { out: "13:00", color: "blue", label: "BLÅ" },
+  { out: "13:30", color: "yellow", label: "GUL" },
+  { out: "14:00", color: "purple", label: "MØRK LILLA" },
+  { out: "14:30", color: "black", label: "SVART" },
+  { out: "15:00", color: "white", label: "HVIT" },
+  { out: "15:30", color: "pink", label: "ROSA" },
+  { out: "16:00", color: "red", label: "RØD" },
+  { out: "16:30", color: "silver", label: "SØLV" },
+  { out: "17:00", color: "green", label: "GRØNN" },
+  { out: "17:30", color: "orange", label: "ORANSJE" },
+  { out: "18:00", color: "blue", label: "BLÅ" },
+  { out: "18:30", color: "yellow", label: "GUL" },
+  { out: "19:00", color: "purple", label: "MØRK LILLA" }
+];
 
-      // Fast fargerekkefølge. Første farge gjelder fra startTime.
-      sequence: [
-        "black", "black", "black", "pink", "red", "grey", "green", "orange", "blue", "yellow", "purple",
-        "black", "white", "pink", "red", "grey", "green", "orange", "blue", "yellow", "purple",
-        "black", "white", "pink", "red", "grey", "green"
-      ],
+var afterDarkDates = {
+  "2026-04-10": true,
+  "2026-04-17": true,
+  "2026-05-15": true,
+  "2026-05-29": true,
+  "2026-06-12": true
+};
 
-      // Minisprett: lørdag og søndag 09:30–11:00
-      minisprett: {
-        enabled: true,
-        days: [0, 6], // 0=søndag, 6=lørdag
-        start: "09:30",
-        end: "11:00",
-        label: "Minisprett",
-        color: "minisprett"
-      },
+/* Portrett-TV: viser hele dagens plan nedover. */
+var showWholeDay = true;
 
-      // Rush After Dark: annenhver fredag fra 17.04.2026, 20:00–22:00
-      afterDark: {
-        enabled: true,
-        anchorFriday: "2026-04-17",
-        start: "20:00",
-        end: "22:00",
-        label: "After Dark",
-        color: "afterdark",
-        excludedDates: ["2026-04-10"]
-      }
-    };
+function pad(n) { return (n < 10 ? "0" : "") + n; }
+function formatClock(d) { return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+function dateKey(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
 
-    const COLORS = {
-      black:      { name: "Svart",       bg: "linear-gradient(135deg, #050505, #2a2a2a)", fg: "#fff" },
-      white:      { name: "Hvit",        bg: "linear-gradient(135deg, #ffffff, #d9d9d9)", fg: "#111" },
-      pink:       { name: "Rosa",        bg: "linear-gradient(135deg, #ff4fb8, #ff8bd5)", fg: "#fff" },
-      red:        { name: "Rød",         bg: "linear-gradient(135deg, #e10019, #ff4c4c)", fg: "#fff" },
-      grey:       { name: "Grå",         bg: "linear-gradient(135deg, #707070, #bdbdbd)", fg: "#fff" },
-      green:      { name: "Grønn",       bg: "linear-gradient(135deg, #00a846, #35e06f)", fg: "#fff" },
-      orange:     { name: "Oransje",     bg: "linear-gradient(135deg, #ff7a00, #ffb000)", fg: "#fff" },
-      blue:       { name: "Blå",         bg: "linear-gradient(135deg, #006dff, #00c2ff)", fg: "#fff" },
-      yellow:     { name: "Gul",         bg: "linear-gradient(135deg, #ffe600, #ffb300)", fg: "#111" },
-      purple:     { name: "Lilla",       bg: "linear-gradient(135deg, #6d28d9, #c026d3)", fg: "#fff" },
-      minisprett: { name: "Minisprett",  bg: "linear-gradient(135deg, #8ee8ff, #ffb8e8 55%, #fff4a8)", fg: "#151525" },
-      afterdark:  { name: "After Dark",  bg: "linear-gradient(135deg, #05000d, #7c00ff 45%, #00f5ff)", fg: "#fff" }
-    };
+function msAtToday(hhmm, now) {
+  var parts = hhmm.split(":");
+  var d = new Date(now.getTime());
+  d.setHours(parseInt(parts[0], 10), parseInt(parts[1], 10), 0, 0);
+  return d.getTime();
+}
 
-    const pad = n => String(n).padStart(2, "0");
+function formatRemaining(ms, withSeconds) {
+  var total = Math.max(0, Math.floor(ms / 1000));
+  var h = Math.floor(total / 3600);
+  total = total - h * 3600;
+  var m = Math.floor(total / 60);
+  var s = total - m * 60;
 
-    function parseTimeToMinutes(time) {
-      const [h, m] = time.split(":").map(Number);
-      return h * 60 + m;
+  if (withSeconds) {
+    if (h > 0) return h + " t " + m + " min " + s + " sek";
+    return m + " min " + s + " sek";
+  }
+  if (h > 0) return h + " t " + m + " min";
+  return m + " min";
+}
+
+function isWeekend(now) {
+  var day = now.getDay();
+  return day === 0 || day === 6;
+}
+
+function isMini(now) {
+  if (!isWeekend(now)) return false;
+  var start = msAtToday("09:30", now);
+  var end = msAtToday("11:00", now);
+  var t = now.getTime();
+  return t >= start && t < end;
+}
+
+function isAfterDark(now) {
+  if (!afterDarkDates[dateKey(now)]) return false;
+  var start = msAtToday("20:00", now);
+  var end = msAtToday("22:00", now);
+  var t = now.getTime();
+  return t >= start && t < end;
+}
+
+function currentPlan(now) { return isWeekend(now) ? weekendPlan : weekdayPlan; }
+
+function computeRows(now) {
+  var plan = currentPlan(now);
+  var nowMs = now.getTime();
+  var rows = [];
+
+  for (var i = 0; i < plan.length; i++) {
+    var outMs = msAtToday(plan[i].out, now);
+    var status = outMs <= nowMs ? "done" : "active";
+    rows.push({
+      label: plan[i].label,
+      color: plan[i].color,
+      status: status,
+      remaining: outMs - nowMs,
+      out: plan[i].out
+    });
+  }
+
+  return rows;
+}
+
+function showNormal() {
+  document.getElementById("normalView").style.display = "flex";
+  document.getElementById("miniHero").style.display = "none";
+  document.getElementById("afterHero").style.display = "none";
+}
+function showMini() {
+  document.getElementById("normalView").style.display = "none";
+  document.getElementById("miniHero").style.display = "block";
+  document.getElementById("afterHero").style.display = "none";
+}
+function showAfter() {
+  document.getElementById("normalView").style.display = "none";
+  document.getElementById("miniHero").style.display = "none";
+  document.getElementById("afterHero").style.display = "block";
+}
+
+function renderNormal(now) {
+  showNormal();
+  document.getElementById("clock").innerHTML = formatClock(now);
+
+  var rows = computeRows(now);
+  var html = "";
+
+  var nextIndex = -1;
+  for (var n = 0; n < rows.length; n++) {
+    if (rows[n].status === "active") {
+      nextIndex = n;
+      break;
+    }
+  }
+
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    var extraClass = "";
+    var timeText = "";
+
+    if (r.status === "done") {
+      extraClass = " doneBand";
+      timeText = "FERDIG";
+    } else if (i === nextIndex) {
+      extraClass = " nextBand";
+      timeText = formatRemaining(r.remaining, true);
+    } else {
+      timeText = formatRemaining(r.remaining, false);
     }
 
-    function minutesToTime(minutes) {
-      const h = Math.floor(minutes / 60);
-      const m = minutes % 60;
-      return `${pad(h)}:${pad(m)}`;
-    }
+    html += ''
+      + '<div class="band ' + r.color + extraClass + '">'
+      +   '<table class="bandTable">'
+      +     '<tr>'
+      +       '<td class="bandLeft"><div class="name">' + r.label + '</div></td>'
+      +       '<td class="bandRight"><div class="time">' + timeText + '</div></td>'
+      +     '</tr>'
+      +   '</table>'
+      + '</div>';
+  }
 
-    function dateKey(date) {
-      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-    }
+  document.getElementById("bands").innerHTML = html;
+}
 
-    function isAfterDarkDate(date) {
-      if (!CONFIG.afterDark.enabled) return false;
-      if (date.getDay() !== 5) return false;
-      if (CONFIG.afterDark.excludedDates.includes(dateKey(date))) return false;
+function renderMini(now) {
+  showMini();
+  var left = msAtToday("11:00", now) - now.getTime();
+  document.getElementById("miniTime").innerHTML = formatRemaining(left, true);
+}
 
-      const anchor = new Date(CONFIG.afterDark.anchorFriday + "T00:00:00");
-      const current = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      const diffDays = Math.round((current - anchor) / 86400000);
-      return diffDays >= 0 && diffDays % 14 === 0;
-    }
+function renderAfter(now) {
+  showAfter();
+  var left = msAtToday("22:00", now) - now.getTime();
+  document.getElementById("afterTime").innerHTML = formatRemaining(left, true);
+}
 
-    function buildSchedule(date) {
-      const start = parseTimeToMinutes(CONFIG.startTime);
-      const end = parseTimeToMinutes(CONFIG.endTime);
-      const slots = [];
-      let i = 0;
+function tick() {
+  var now = new Date();
 
-      for (let t = start; t < end; t += CONFIG.bandMinutes) {
-        let key = CONFIG.sequence[i % CONFIG.sequence.length];
-        let label = COLORS[key]?.name || key;
+  document.getElementById("miniHero").style.backgroundImage = "url('minisprett.png')";
+  document.getElementById("afterHero").style.backgroundImage = "url('afterdark.png')";
 
-        if (
-          CONFIG.minisprett.enabled &&
-          CONFIG.minisprett.days.includes(date.getDay()) &&
-          t >= parseTimeToMinutes(CONFIG.minisprett.start) &&
-          t < parseTimeToMinutes(CONFIG.minisprett.end)
-        ) {
-          key = CONFIG.minisprett.color;
-          label = CONFIG.minisprett.label;
-        }
+  if (isAfterDark(now)) {
+    renderAfter(now);
+  } else if (isMini(now)) {
+    renderMini(now);
+  } else {
+    renderNormal(now);
+  }
+}
 
-        if (
-          isAfterDarkDate(date) &&
-          t >= parseTimeToMinutes(CONFIG.afterDark.start) &&
-          t < parseTimeToMinutes(CONFIG.afterDark.end)
-        ) {
-          key = CONFIG.afterDark.color;
-          label = CONFIG.afterDark.label;
-        }
-
-        slots.push({
-          index: i,
-          start: t,
-          end: Math.min(t + CONFIG.bandMinutes, end),
-          key,
-          label,
-          color: COLORS[key] || COLORS.black
-        });
-        i++;
-      }
-
-      return slots;
-    }
-
-    function formatCountdown(ms) {
-      const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-      const minutes = Math.floor(totalSeconds / 60);
-      const seconds = totalSeconds % 60;
-      if (minutes >= 60) {
-        const h = Math.floor(minutes / 60);
-        const m = minutes % 60;
-        return `${h}t ${m}m`;
-      }
-      return `${minutes}:${pad(seconds)}`;
-    }
-
-    function applyColor(el, color) {
-      el.style.background = color.bg;
-      el.style.color = color.fg;
-    }
-
-    function render() {
-      const now = new Date();
-      const schedule = buildSchedule(now);
-      const currentMinutes = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
-      const current = schedule.find(slot => currentMinutes >= slot.start && currentMinutes < slot.end);
-      const next = schedule.find(slot => currentMinutes < slot.start);
-
-      document.getElementById("clock").textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
-      document.getElementById("todayLabel").textContent = now.toLocaleDateString("no-NO", { weekday: "long", day: "2-digit", month: "2-digit" });
-
-      const bandsEl = document.getElementById("bands");
-      bandsEl.innerHTML = "";
-
-      if (!current && !next) {
-        document.getElementById("nowName").textContent = "Stengt";
-        document.getElementById("nowTime").textContent = `Dagens bånd er ferdig ${CONFIG.endTime}`;
-        document.getElementById("countdown").textContent = "--";
-        document.getElementById("statusText").textContent = `Åpent for båndvisning ${CONFIG.startTime}–${CONFIG.endTime}`;
-      } else if (!current && next) {
-        document.getElementById("nowName").textContent = "Ikke startet";
-        document.getElementById("nowTime").textContent = `Første bånd starter ${CONFIG.startTime}`;
-        const nextDate = new Date(now);
-        nextDate.setHours(Math.floor(next.start / 60), next.start % 60, 0, 0);
-        document.getElementById("countdown").textContent = formatCountdown(nextDate - now);
-        document.getElementById("statusText").textContent = `Neste: ${next.label} kl. ${minutesToTime(next.start)}`;
-      } else {
-        document.getElementById("nowName").textContent = current.label;
-        document.getElementById("nowTime").textContent = `${minutesToTime(current.start)} – ${minutesToTime(current.end)}`;
-        const endDate = new Date(now);
-        endDate.setHours(Math.floor(current.end / 60), current.end % 60, 0, 0);
-        document.getElementById("countdown").textContent = formatCountdown(endDate - now);
-        document.getElementById("statusText").textContent = next
-          ? `Neste: ${next.label} kl. ${minutesToTime(next.start)}`
-          : "Siste bånd for dagen";
-        applyColor(document.getElementById("nowCard"), current.color);
-      }
-
-      schedule.forEach(slot => {
-        const row = document.createElement("div");
-        row.className = "band";
-        if (currentMinutes >= slot.end) row.classList.add("past");
-        if (current && slot.index === current.index) row.classList.add("current");
-        if (next && slot.index === next.index) row.classList.add("next");
-        applyColor(row, slot.color);
-
-        const badge = current && slot.index === current.index
-          ? "NÅ"
-          : next && slot.index === next.index
-            ? "NESTE"
-            : currentMinutes >= slot.end
-              ? "FERDIG"
-              : "KOMMER";
-
-        row.innerHTML = `
-          <div class="bandTime">${minutesToTime(slot.start)}</div>
-          <div class="bandName">${slot.label}</div>
-          <div class="badge">${badge}</div>
-        `;
-        bandsEl.appendChild(row);
-      });
-    }
-
-    render();
-    setInterval(render, 1000);
-  </script>
+tick();
+setInterval(tick, 1000);
+</script>
 </body>
 </html>
