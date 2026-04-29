@@ -21,7 +21,7 @@ body { color: #f4f4f4; }
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 2.0vh 1.8vw 1.6vh 1.8vw;
+  padding: 1.2vh 1.2vw 1.1vh 1.2vw;
   background: linear-gradient(to right, #17232e, #1d2a37, #17232e);
 }
 
@@ -39,33 +39,33 @@ body { color: #f4f4f4; }
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.05vh;
+  gap: 0.85vh;
   order: 1;
 }
 
 #header {
   position: relative;
   width: 100%;
-  height: 10.5vh;
-  flex: 0 0 10.5vh;
+  height: 8.2vh;
+  flex: 0 0 8.2vh;
   order: 2;
-  margin-top: 1.2vh;
+  margin-top: 0.7vh;
 }
 #title {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 1.7vh;
+  bottom: 1.0vh;
   text-align: center;
-  font-size: 5.4vh;
+  font-size: 4.2vh;
   font-weight: 900;
   line-height: 1;
 }
 #clock {
   position: absolute;
   right: 0.4vw;
-  bottom: 1.4vh;
-  font-size: 5.4vh;
+  bottom: 1.0vh;
+  font-size: 4.2vh;
   font-weight: 900;
   line-height: 1;
 }
@@ -74,9 +74,9 @@ body { color: #f4f4f4; }
   width: 100%;
   flex: 1 1 0;
   min-height: 0;
-  border-radius: 2.8vh;
+  border-radius: 2.3vh;
   box-sizing: border-box;
-  padding: 0 3.6vw 0 5.2vw;
+  padding: 0 4.0vw 0 5.0vw;
   overflow: hidden;
 }
 .bandTable {
@@ -86,18 +86,11 @@ body { color: #f4f4f4; }
   table-layout: fixed;
 }
 .bandLeft, .bandRight {
-  vertical-align: middle;
-}
-.bandLeft {
-  width: 50%;
-  text-align: left;
-}
-.bandRight {
-  width: 50%;
+  width: 56%;
   text-align: right;
 }
 .name {
-  font-size: 3.9vh;
+  font-size: clamp(30px, 4.8vh, 54px);
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
@@ -105,16 +98,16 @@ body { color: #f4f4f4; }
   text-overflow: ellipsis;
 }
 .time {
-  font-size: 3.6vh;
+  font-size: clamp(25px, 4.1vh, 48px);
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
 }
 
 .nextBand {
-  outline: 0.62vh solid rgba(255,255,255,0.96);
-  outline-offset: -0.62vh;
-  box-shadow: 0 0 2.2vh rgba(255,255,255,0.45);
+  outline: 0.45vh solid rgba(255,255,255,0.96);
+  outline-offset: -0.45vh;
+  box-shadow: 0 0 1.8vh rgba(255,255,255,0.45);
 }
 .doneBand {
   opacity: 0.52;
