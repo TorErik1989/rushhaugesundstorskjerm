@@ -13,29 +13,17 @@ html, body {
   overflow: hidden;
   background: #17232e;
   font-family: Arial, Helvetica, sans-serif;
+  cursor: none;
 }
 body { color: #f4f4f4; }
 
-/*
-  Denne siden er laget for TV på høykant.
-  Når du tester på PC i liggende skjerm, vises den som en smal portrettflate midt på skjermen.
-  På TV som faktisk står på høykant fyller den hele skjermen.
-*/
 #page {
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
-  padding: 18px 14px 10px 14px;
+  padding: 2.2vh 2.1vw 1.8vh 2.1vw;
   background: linear-gradient(to right, #17232e, #1d2a37, #17232e);
   overflow: hidden;
-}
-
-@media (orientation: landscape) {
-  #page {
-    width: 56.25vh;
-    max-width: 100vw;
-    margin: 0 auto;
-  }
 }
 
 #normalView {
@@ -48,28 +36,28 @@ body { color: #f4f4f4; }
 #header {
   position: relative;
   width: 100%;
-  height: 106px;
-  flex: 0 0 106px;
-  margin-bottom: 10px;
+  height: 12.5vh;
+  flex: 0 0 12.5vh;
+  margin-bottom: 1.3vh;
 }
 #title {
   position: absolute;
   left: 0;
   right: 0;
-  top: 8px;
+  top: 1.5vh;
   text-align: center;
-  font-size: clamp(42px, 8.5vw, 78px);
+  font-size: 5.5vh;
   font-weight: 900;
   line-height: 1;
-  letter-spacing: -1px;
+  letter-spacing: -0.08vh;
 }
 #clock {
   position: absolute;
-  right: 2px;
-  top: 0;
-  font-size: clamp(34px, 6vw, 64px);
+  right: 0.4vw;
+  top: 0.5vh;
+  font-size: 4.7vh;
   font-weight: 900;
-  line-height: 0.95;
+  line-height: 1;
 }
 
 #bands {
@@ -78,16 +66,16 @@ body { color: #f4f4f4; }
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 1.15vh;
 }
 
 .band {
   width: 100%;
   flex: 1 1 0;
   min-height: 0;
-  border-radius: 18px;
+  border-radius: 3.2vh;
   box-sizing: border-box;
-  padding: 0 18px 0 24px;
+  padding: 0 3vw 0 5vw;
   overflow: hidden;
 }
 .bandTable {
@@ -98,15 +86,15 @@ body { color: #f4f4f4; }
 }
 .bandLeft, .bandRight { vertical-align: middle; }
 .bandLeft {
-  width: 54%;
+  width: 47%;
   text-align: left;
 }
 .bandRight {
-  width: 46%;
+  width: 53%;
   text-align: right;
 }
 .name {
-  font-size: clamp(19px, 4.9vw, 42px);
+  font-size: 4.1vh;
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
@@ -114,7 +102,7 @@ body { color: #f4f4f4; }
   text-overflow: ellipsis;
 }
 .time {
-  font-size: clamp(17px, 4.25vw, 38px);
+  font-size: 3.75vh;
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
@@ -124,9 +112,9 @@ body { color: #f4f4f4; }
   opacity: 0.40;
 }
 .nextBand {
-  outline: 5px solid rgba(255,255,255,0.95);
-  outline-offset: -5px;
-  box-shadow: 0 0 22px rgba(255,255,255,0.40);
+  outline: 0.65vh solid rgba(255,255,255,0.96);
+  outline-offset: -0.65vh;
+  box-shadow: 0 0 2.5vh rgba(255,255,255,0.45);
 }
 .emptyBand {
   opacity: 0.18;
@@ -162,27 +150,27 @@ body { color: #f4f4f4; }
 }
 .heroContent {
   position: absolute;
-  left: 32px;
-  right: 32px;
-  bottom: 38px;
+  left: 5vw;
+  right: 5vw;
+  bottom: 5vh;
   z-index: 2;
 }
 .heroTitle {
-  font-size: clamp(52px, 10vw, 86px);
+  font-size: 6.2vh;
   font-weight: 900;
   line-height: 1;
-  margin-bottom: 14px;
+  margin-bottom: 2vh;
   color: #ffffff;
 }
 .heroTime {
   display: inline-block;
-  font-size: clamp(36px, 7vw, 74px);
+  font-size: 4.4vh;
   font-weight: 900;
   line-height: 1;
   color: #ffffff;
   background: rgba(0,0,0,0.34);
-  border-radius: 22px;
-  padding: 18px 24px;
+  border-radius: 2.5vh;
+  padding: 2vh 3vw;
 }
 </style>
 </head>
@@ -265,7 +253,7 @@ var afterDarkDates = {
   "2026-06-12": true
 };
 
-/* Hvor mange bånd som skal vises på høykant-TV-en */
+/* Høykant-TV: 8 rader totalt = siste ferdige + 7 kommende */
 var visibleBands = 8;
 
 function pad(n) { return (n < 10 ? "0" : "") + n; }
@@ -325,7 +313,6 @@ function computeRows(now) {
   var firstFuture = -1;
   var i;
 
-  // Finn første bånd som ikke er ferdig enda
   for (i = 0; i < plan.length; i++) {
     if (msAtToday(plan[i].out, now) > nowMs) {
       firstFuture = i;
@@ -336,7 +323,6 @@ function computeRows(now) {
 
   var rows = [];
 
-  // Ta KUN med siste ferdige bånd, ikke alle ferdige
   if (firstFuture > 0) {
     var lastDone = plan[firstFuture - 1];
     rows.push({
@@ -348,7 +334,6 @@ function computeRows(now) {
     });
   }
 
-  // Ta med de neste kommende båndene til totalt 8 rader
   for (i = firstFuture; i < plan.length && rows.length < visibleBands; i++) {
     rows.push({
       label: plan[i].label,
@@ -359,7 +344,6 @@ function computeRows(now) {
     });
   }
 
-  // Fyll tomme rader hvis dagen nesten er ferdig
   while (rows.length < visibleBands) {
     rows.push({
       label: "",
@@ -370,9 +354,7 @@ function computeRows(now) {
     });
   }
 
-  // Samme rekkefølge som gammel: siste ferdige nederst, kommende oppover
   rows.reverse();
-
   return rows;
 }
 
@@ -417,6 +399,9 @@ function renderNormal(now) {
     if (r.status === "done") {
       extraClass = " doneBand";
       timeText = "FERDIG";
+    } else if (r.status === "empty") {
+      extraClass = " emptyBand";
+      timeText = "";
     } else if (i === nextIndex) {
       extraClass = " nextBand";
       timeText = formatRemaining(r.remaining, true);
