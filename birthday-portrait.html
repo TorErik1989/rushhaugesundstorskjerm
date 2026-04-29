@@ -104,7 +104,7 @@ body {
 }
 
 .nameText {
-  font-size: 5.9vh;
+  font-size: 8.85vh;
   line-height: 0.95;
   font-weight: 900;
   color: #ffffff;
@@ -131,7 +131,7 @@ body {
 }
 
 .namesMany .nameText {
-  font-size: 4.6vh;
+  font-size: 6.9vh;
 }
 
 /* Mange bursdager samtidig */
@@ -147,7 +147,7 @@ body {
 }
 
 .namesLots .nameText {
-  font-size: 3.7vh;
+  font-size: 5.55vh;
 }
 
 /* REKLAMEVISNING */
@@ -285,7 +285,8 @@ var adIndex = 0;
 
 var ads = [
   {
-    headline: "BOOK BURSDAG\nHOS RUSH",
+    headline: "BOOK BURSDAG
+HOS RUSH",
     text: "Feir dagen med hopping, pizza og eget bursdagsrom"
   },
   {
@@ -342,17 +343,35 @@ function normalizeName(name) {
   return String(name || "").trim();
 }
 
+function formatBirthdayName(name) {
+  var clean = normalizeName(name);
+  if (!clean) return "";
+
+  // Hvis det er flere navn i samme felt, f.eks. "Ulrik, Theodor, Tobias",
+  // vises det som "Ulrik, Theodor og Tobias".
+  var parts = clean.split(",").map(function(part) {
+    return part.trim();
+  }).filter(function(part) {
+    return part.length > 0;
+  });
+
+  if (parts.length <= 1) return clean;
+  if (parts.length === 2) return parts[0] + " og " + parts[1];
+
+  return parts.slice(0, -1).join(", ") + " og " + parts[parts.length - 1];
+}
+
 function getActiveBirthdays(now) {
   var active = [];
 
   for (var i = 0; i < birthdayData.length; i++) {
     var item = birthdayData[i];
-    var name = normalizeName(item.name);
+    var name = formatBirthdayName(item.name);
     if (!name) continue;
 
-    if (FORCE_SHOW_TEST_BIRTHDAYS || isActiveBirthday(item, now)) {
-      active.push(name);
-    }
+    // Ny regel: vis alle bursdagene som ligger i dagens liste hele dagen.
+    // Hvis listen er tom, vises reklame.
+    active.push(name);
   }
 
   return active;
@@ -393,7 +412,8 @@ function renderAd() {
   setActive("adView");
 
   var ad = ads[adIndex % ads.length];
-  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/\n/g, "<br>");
+  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/
+/g, "<br>");
   document.getElementById("adText").innerHTML = escapeHtml(ad.text);
 }
 
