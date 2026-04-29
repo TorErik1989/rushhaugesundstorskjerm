@@ -5,7 +5,6 @@
 <meta http-equiv="refresh" content="300">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rush Bursdag TV</title>
-
 <style>
 html, body {
   margin: 0;
@@ -44,9 +43,7 @@ body {
   display: flex;
 }
 
-/* =========================
-   BURSDAGSVISNING
-========================= */
+/* BURSDAGSVISNING */
 #birthdayView {
   position: relative;
   flex-direction: column;
@@ -54,98 +51,57 @@ body {
   background: #000;
 }
 
-/* Øverste tekstfelt */
-#topHeader {
+/* Bildet ditt bør være 1080x1920 eller samme forhold som TV-en. */
+#birthdayBg {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 34%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: center center;
+  z-index: 1;
+}
+
+/* Navnene legges under teksten "Gratulerer med dagen" som er i bildet */
+#names {
+  position: absolute;
+  left: 6vw;
+  right: 6vw;
+  top: 38%;
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 3.5vh;
-  box-sizing: border-box;
+  gap: 1.5vh;
   text-align: center;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.92), rgba(0,0,0,0.18));
 }
 
-#headerTop {
-  font-size: 13vh;
-  line-height: 0.9;
-  font-weight: 900;
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  text-shadow: 0 0.5vh 1vh rgba(0,0,0,0.35);
-}
+.nameCard {
+  width: 100%;
+  min-height: 8.4vh;
+  box-sizing: border-box;
+  padding: 1.1vh 3vw;
+  border-radius: 3.0vh;
 
-#headerBottom {
-  margin-top: -0.8vh;
-  font-size: 9vh;
-  line-height: 0.9;
-  font-weight: 900;
-  color: #000000;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  -webkit-text-stroke: 0.8vh #98e61a;
-  paint-order: stroke fill;
-  text-shadow: 0 0.4vh 1vh rgba(0,0,0,0.35);
-}
+  /* Klarglass/frostet effekt */
+  background: rgba(255, 255, 255, 0.18);
+  border: 0.22vh solid rgba(255, 255, 255, 0.42);
+  box-shadow:
+    0 1.0vh 2.4vh rgba(0,0,0,0.28),
+    inset 0 0.12vh 0 rgba(255,255,255,0.35),
+    inset 0 -0.12vh 0 rgba(255,255,255,0.10);
+  backdrop-filter: blur(10px) saturate(135%);
+  -webkit-backdrop-filter: blur(10px) saturate(135%);
 
-/* Dekorbilde under header */
-#birthdayArt {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 22%;
-  bottom: 0;
-  z-index: 1;
-  background-image: url('birthday-bg.png');
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: 100% 100%;
-  opacity: 1;
-}
-
-/* Mørk overlay så navn blir tydeligere */
-#artOverlay {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 22%;
-  bottom: 0;
-  z-index: 2;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.18),
-    rgba(0,0,0,0.08) 20%,
-    rgba(0,0,0,0.18) 55%,
-    rgba(0,0,0,0.10)
-  );
-}
-
-/* Navnene */
-#names {
-  position: absolute;
-  left: 7vw;
-  right: 7vw;
-  top: 46%;
-  transform: translateY(-50%);
-  z-index: 4;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.1vh;
-  text-align: center;
 }
 
 .nameText {
-  font-size: 6.7vh;
-  line-height: 0.92;
+  font-size: 5.9vh;
+  line-height: 0.95;
   font-weight: 900;
   color: #ffffff;
   text-shadow:
@@ -153,39 +109,44 @@ body {
     -0.16vh 0.16vh 0 #000,
     0.16vh -0.16vh 0 #000,
     -0.16vh -0.16vh 0 #000,
-    0 0.6vh 1.2vh rgba(0,0,0,0.65);
+    0 0.7vh 1.3vh rgba(0,0,0,0.72);
   white-space: normal;
   overflow-wrap: anywhere;
 }
 
-/* Når det er flere bursdager samtidig */
+/* Flere navn samtidig */
+.namesMany {
+  top: 36%;
+  gap: 1.2vh;
+}
+
+.namesMany .nameCard {
+  min-height: 7.4vh;
+  border-radius: 2.6vh;
+  padding: 0.9vh 2.4vw;
+}
+
 .namesMany .nameText {
-  font-size: 5.3vh;
-  line-height: 0.92;
+  font-size: 4.6vh;
+}
+
+/* Mange bursdager samtidig */
+.namesLots {
+  top: 34%;
+  gap: 0.9vh;
+}
+
+.namesLots .nameCard {
+  min-height: 6.3vh;
+  border-radius: 2.2vh;
+  padding: 0.7vh 2.2vw;
 }
 
 .namesLots .nameText {
-  font-size: 4.6vh;
-  line-height: 0.92;
+  font-size: 3.7vh;
 }
 
-/* Liten Rush-logo som tekst */
-#rushLogo {
-  position: absolute;
-  right: 3vw;
-  bottom: 2.2vh;
-  z-index: 4;
-  font-size: 4.2vh;
-  font-weight: 900;
-  font-style: italic;
-  letter-spacing: 0.02em;
-  color: #ffffff;
-  opacity: 0.95;
-}
-
-/* =========================
-   REKLAMEVISNING
-========================= */
+/* REKLAMEVISNING */
 #adView {
   position: relative;
   flex-direction: column;
@@ -247,9 +208,7 @@ body {
   font-weight: 900;
 }
 
-/* =========================
-   FEILVISNING
-========================= */
+/* FEILVISNING */
 #errorView {
   align-items: center;
   justify-content: center;
@@ -278,16 +237,8 @@ body {
 <body>
 <div id="page">
   <section id="birthdayView">
-    <div id="birthdayArt"></div>
-    <div id="artOverlay"></div>
-
-    <div id="topHeader">
-      <div id="headerTop">GRATULERER</div>
-      <div id="headerBottom">MED DAGEN</div>
-    </div>
-
+    <img id="birthdayBg" src="birthday-bg.png" alt="Gratulerer med dagen">
     <div id="names"></div>
-    <div id="rushLogo">rush</div>
   </section>
 
   <section id="adView">
@@ -306,11 +257,17 @@ body {
 </div>
 
 <script>
+/*
+  SETT INN WEB APP-LENKEN FRA GOOGLE APPS SCRIPT HER SENERE.
+  Eksempel:
+  var DATA_URL = "https://script.google.com/macros/s/AKfycbxxxxxxx/exec";
+*/
 var DATA_URL = "";
 
 /* true mens vi tester design */
 var FORCE_SHOW_TEST_BIRTHDAYS = true;
 
+/* Testdata fra arket du viste. */
 var TEST_DATA = [
   { name: "Arleen", start: "14:30", roomTime: "16:00" },
   { name: "Jennie", start: "16:30", roomTime: "17:30" },
@@ -360,6 +317,11 @@ function nowMinutes(now) {
   return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
 }
 
+/*
+  Regel:
+  Vises fra 15 min før START/hoppetid
+  til 60 min etter ROOM TIME.
+*/
 function isActiveBirthday(item, now) {
   var startMin = minutesFromTime(item.start);
   var roomMin = minutesFromTime(item.roomTime);
@@ -382,7 +344,6 @@ function getActiveBirthdays(now) {
   for (var i = 0; i < birthdayData.length; i++) {
     var item = birthdayData[i];
     var name = normalizeName(item.name);
-
     if (!name) continue;
 
     if (FORCE_SHOW_TEST_BIRTHDAYS || isActiveBirthday(item, now)) {
@@ -415,7 +376,10 @@ function renderBirthdays(names) {
 
   var html = "";
   for (var i = 0; i < names.length; i++) {
-    html += '<div class="nameText">' + escapeHtml(names[i]) + '</div>';
+    html += ''
+      + '<div class="nameCard">'
+      +   '<div class="nameText">' + escapeHtml(names[i]) + '</div>'
+      + '</div>';
   }
 
   container.innerHTML = html;
@@ -477,11 +441,9 @@ function loadDataJsonp() {
   var script = document.createElement("script");
   script.id = "birthdayDataScript";
   script.src = DATA_URL + "?callback=receiveBirthdayData&v=" + Date.now();
-
   script.onerror = function() {
     renderError();
   };
-
   document.body.appendChild(script);
 }
 
