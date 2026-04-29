@@ -12,7 +12,7 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #17232e;
+  background: #000;
   font-family: Arial, Helvetica, sans-serif;
   cursor: none;
 }
@@ -25,13 +25,8 @@ body {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 2.2vh 3vw 2vh 3vw;
-  background:
-    radial-gradient(circle at top left, rgba(246,62,160,0.45), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(78,144,223,0.40), transparent 38%),
-    linear-gradient(to bottom, #17232e, #1d2a37, #17232e);
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
+  background: #000;
 }
 
 #birthdayView,
@@ -40,7 +35,6 @@ body {
   width: 100%;
   height: 100%;
   display: none;
-  flex-direction: column;
 }
 
 #birthdayView.active,
@@ -49,96 +43,90 @@ body {
   display: flex;
 }
 
-#topBrand {
-  flex: 0 0 8vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 4.6vh;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
+/*
+  BAKGRUNNSBILDE:
+  Legg bildet ditt i GitHub-repoet med filnavn:
+  birthday-bg.png
 
-#birthdayTitle {
-  flex: 0 0 18vh;
-  display: flex;
+  Da får skjermen samme design som bildet du viste.
+*/
+#birthdayView {
+  position: relative;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  font-size: 6.4vh;
-  line-height: 0.95;
-  font-weight: 900;
-  text-transform: uppercase;
-  text-shadow: 0 0.8vh 1.8vh rgba(0,0,0,0.35);
+  background-image: url('birthday-bg.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 #names {
-  flex: 1 1 auto;
-  min-height: 0;
+  position: absolute;
+  left: 6vw;
+  right: 6vw;
+  top: 50%;
+  transform: translateY(-2%);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 2.1vh;
-}
-
-.nameCard {
-  width: 100%;
-  min-height: 11vh;
-  box-sizing: border-box;
-  border-radius: 3vh;
-  padding: 1.5vh 3vw;
-  background: rgba(255,255,255,0.92);
-  color: #17232e;
-  display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1.8vh;
   text-align: center;
-  box-shadow: 0 1.2vh 3vh rgba(0,0,0,0.28);
 }
 
 .nameText {
-  font-size: 6.2vh;
+  font-size: 8.2vh;
   line-height: 0.95;
   font-weight: 900;
+  color: #ffffff;
+  text-shadow:
+    0.18vh 0.18vh 0 #000,
+    -0.18vh 0.18vh 0 #000,
+    0.18vh -0.18vh 0 #000,
+    -0.18vh -0.18vh 0 #000,
+    0 0.8vh 1.4vh rgba(0,0,0,0.65);
   white-space: normal;
   overflow-wrap: anywhere;
 }
 
-#bottomClock {
-  flex: 0 0 8vh;
-  display: flex;
-  align-items: end;
-  justify-content: center;
-  font-size: 5.4vh;
-  font-weight: 900;
+/* Hvis flere bursdager vises samtidig, gjør navnene litt mindre */
+.namesMany .nameText {
+  font-size: 5.6vh;
 }
 
 #adView {
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  background:
+    radial-gradient(circle at top left, rgba(246,62,160,0.45), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(78,144,223,0.40), transparent 38%),
+    linear-gradient(to bottom, #17232e, #1d2a37, #17232e);
+  padding: 3vh 4vw;
+  box-sizing: border-box;
 }
 
 #adBrand {
-  flex: 0 0 9vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 3vh;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-size: 4.8vh;
   font-weight: 900;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-#adMain {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3vh;
+#adBox {
+  width: 88%;
+  border-radius: 3vh;
+  padding: 4vh 3vw;
+  background: rgba(255,255,255,0.12);
+  border: 0.25vh solid rgba(255,255,255,0.22);
+  box-shadow: 0 1.2vh 3vh rgba(0,0,0,0.22);
 }
 
 #adHeadline {
@@ -150,27 +138,19 @@ body {
 }
 
 #adText {
+  margin-top: 3vh;
   font-size: 4.2vh;
   line-height: 1.08;
   font-weight: 900;
-  max-width: 90%;
   color: rgba(255,255,255,0.92);
 }
 
-#adBox {
-  width: 86%;
-  border-radius: 3vh;
-  padding: 3vh 3vw;
-  background: rgba(255,255,255,0.12);
-  border: 0.25vh solid rgba(255,255,255,0.22);
-  box-shadow: 0 1.2vh 3vh rgba(0,0,0,0.22);
-}
-
 #adBottom {
-  flex: 0 0 9vh;
-  display: flex;
-  align-items: end;
-  justify-content: center;
+  position: absolute;
+  bottom: 2vh;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-size: 5.4vh;
   font-weight: 900;
 }
@@ -179,7 +159,11 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  flex-direction: column;
   gap: 3vh;
+  background: #17232e;
+  padding: 4vh 4vw;
+  box-sizing: border-box;
 }
 
 #errorTitle {
@@ -199,19 +183,14 @@ body {
 <body>
 <div id="page">
   <section id="birthdayView">
-    <div id="topBrand">RUSH HAUGESUND</div>
-    <div id="birthdayTitle">GRATULERER<br>MED DAGEN</div>
     <div id="names"></div>
-    <div id="bottomClock">00:00</div>
   </section>
 
   <section id="adView">
     <div id="adBrand">RUSH HAUGESUND</div>
-    <div id="adMain">
-      <div id="adBox">
-        <div id="adHeadline">BOOK BURSDAG<br>HOS RUSH</div>
-        <div id="adText">Feir dagen med hopping, pizza og eget bursdagsrom</div>
-      </div>
+    <div id="adBox">
+      <div id="adHeadline">BOOK BURSDAG<br>HOS RUSH</div>
+      <div id="adText">Feir dagen med hopping, pizza og eget bursdagsrom</div>
     </div>
     <div id="adBottom">00:00</div>
   </section>
@@ -230,7 +209,7 @@ body {
 */
 var DATA_URL = "";
 
-/* Testdata brukes bare hvis DATA_URL er tom. Slett gjerne senere. */
+/* Testdata brukes bare hvis DATA_URL er tom. */
 var TEST_DATA = [
   { name: "Arleen", start: "14:30", roomTime: "16:00" },
   { name: "Jennie", start: "16:30", roomTime: "17:30" }
@@ -276,6 +255,11 @@ function nowMinutes(now) {
   return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
 }
 
+/*
+  Riktig regel:
+  Vises fra 15 minutter før START / hoppetid
+  til 60 minutter etter ROOM TIME.
+*/
 function isActiveBirthday(item, now) {
   var startMin = minutesFromTime(item.start);
   var roomMin = minutesFromTime(item.roomTime);
@@ -319,13 +303,11 @@ function renderBirthdays(names) {
   setActive("birthdayView");
 
   var container = document.getElementById("names");
-  var html = "";
+  container.className = names.length > 1 ? "namesMany" : "";
 
+  var html = "";
   for (var i = 0; i < names.length; i++) {
-    html += ''
-      + '<div class="nameCard">'
-      +   '<div class="nameText">' + escapeHtml(names[i]) + '</div>'
-      + '</div>';
+    html += '<div class="nameText">' + escapeHtml(names[i]) + '</div>';
   }
 
   container.innerHTML = html;
@@ -354,10 +336,7 @@ function escapeHtml(text) {
 
 function tick() {
   var now = new Date();
-  var clock = formatClock(now);
-
-  document.getElementById("bottomClock").innerHTML = clock;
-  document.getElementById("adBottom").innerHTML = clock;
+  document.getElementById("adBottom").innerHTML = formatClock(now);
 
   if (!birthdayData || birthdayData.length === 0) {
     if (!DATA_URL) {
