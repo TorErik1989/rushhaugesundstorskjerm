@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Rush Bånd-TV Portrett</title>
+  <style>
+    :root {
+      --bg: #070711;
+      --text: #ffffff;
+      --muted: rgba(255,255,255,.72);
+      --glass: rgba(255,255,255,.10);
+      --glass-strong: rgba(255,255,255,.18);
+      --border: rgba(255,255,255,.18);
+      --shadow: 0 20px 55px rgba(0,0,0,.45);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(255, 0, 150, .28), transparent 38%),
+        radial-gradient(circle at bottom right, rgba(0, 204, 255, .25), transparent 42%),
+        linear-gradient(180deg, #080811 0%, #101022 100%);
+    }
+
+    .screen {
+      height: 100vh;
+      width: 100vw;
+      padding: 2.2vh 2.3vw;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 1.5vh;
+    }
+
+    header {
+      display: grid;
+      gap: .7vh;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: clamp(30px, 5.7vw, 78px);
+      line-height: .92;
+      font-weight: 1000;
+      letter-spacing: -.06em;
+      text-transform: uppercase;
+      text-shadow: 0 10px 30px rgba(0,0,0,.42);
+    }
+
+    .subtitle {
+      font-size: clamp(15px, 2.3vw, 34px);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nowCard {
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.07));
+      box-shadow: var(--shadow);
+      padding: 1.2vh 1.4vw;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .7vh;
+    }
+
+    .nowTop {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1vw;
+      font-size: clamp(14px, 2vw, 28px);
+      font-weight: 900;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .nowMain {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 1vw;
+    }
+
+    .nowColor {
+      min-width: 0;
+    }
+
+    .nowName {
+      font-size: clamp(34px, 6.8vw, 92px);
+      line-height: .95;
+      font-weight: 1000;
+      text-transform: uppercase;
+      text-shadow: 0 8px 26px rgba(0,0,0,.38);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nowTime {
+      margin-top: .3vh;
+      font-size: clamp(15px, 2.4vw, 34px);
+      font-weight: 900;
+      color: var(--muted);
+    }
+
+    .countdown {
+      font-size: clamp(38px, 7.8vw, 104px);
+      line-height: .9;
+      font-weight: 1000;
+      letter-spacing: -.05em;
+      padding: .7vh 1vw;
+      border-radius: 24px;
+      background: rgba(0,0,0,.26);
+      border: 1px solid rgba(255,255,255,.18);
+      min-width: 5.4em;
+      text-align: center;
+    }
+
+    .bands {
+      min-height: 0;
+      display: grid;
+      gap: .65vh;
+      overflow: hidden;
+    }
+
+    .band {
+      position: relative;
+      display: grid;
+      grid-template-columns: 25% 1fr auto;
+      align-items: center;
+      gap: 1vw;
+      min-height: 0;
+      border-radius: 22px;
+      padding: .4vh 1.1vw;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 7px 20px rgba(0,0,0,.22);
+      overflow: hidden;
+      transform: translateZ(0);
+    }
+
+    .band::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(255,255,255,.26), transparent 40%, rgba(0,0,0,.20));
+      pointer-events: none;
+    }
+
+    .band > * { position: relative; z-index: 1; }
+
+    .bandTime {
+      font-size: clamp(13px, 2vw, 30px);
+      font-weight: 1000;
+      color: rgba(255,255,255,.96);
+      text-shadow: 0 3px 12px rgba(0,0,0,.45);
+      white-space: nowrap;
+    }
+
+    .bandName {
+      font-size: clamp(16px, 2.8vw, 40px);
+      font-weight: 1000;
+      text-transform: uppercase;
+      text-shadow: 0 4px 14px rgba(0,0,0,.48);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge {
+      font-size: clamp(11px, 1.55vw, 23px);
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      background: rgba(0,0,0,.32);
+      border: 1px solid rgba(255,255,255,.24);
+      padding: .35vh .8vw;
+      border-radius: 999px;
+      white-space: nowrap;
+      min-width: 4.8em;
+      text-align: center;
+    }
+
+    .past {
+      opacity: .28;
+      filter: grayscale(.25);
+    }
+
+    .current {
+      min-height: 7vh;
+      z-index: 2;
+      outline: .55vh solid #fff;
+      outline-offset: -.55vh;
+      box-shadow:
+        0 0 0 .55vh rgba(255,255,255,.30),
+        0 0 38px rgba(255,255,255,.55),
+        0 14px 38px rgba(0,0,0,.40),
+        inset 0 0 0 1px rgba(255,255,255,.35);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.012); }
+    }
+
+    .next {
+      outline: .35vh solid rgba(255,255,255,.55);
+      outline-offset: -.35vh;
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1vw;
+      align-items: center;
+      font-size: clamp(14px, 2vw, 30px);
+      font-weight: 900;
+      color: var(--muted);
+      padding: .8vh 1.2vw;
+      border-radius: 22px;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.13);
+    }
+
+    .clock {
+      color: #fff;
+      font-size: clamp(18px, 2.8vw, 42px);
+      font-weight: 1000;
+      letter-spacing: -.03em;
+    }
+
+    .closed {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      gap: 2vh;
+    }
+
+    .closed h1 {
+      margin: 0;
+      font-size: clamp(44px, 10vw, 130px);
+      line-height: .9;
+      text-transform: uppercase;
+    }
+
+    .closed p {
+      margin: 0;
+      font-size: clamp(20px, 4vw, 52px);
+      font-weight: 900;
+      color: var(--muted);
+    }
+
+    @media (orientation: landscape) {
+      .screen {
+        max-width: 56.25vh;
+        margin: 0 auto;
+        border-left: 1px solid rgba(255,255,255,.08);
+        border-right: 1px solid rgba(255,255,255,.08);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="screen">
+    <header>
+      <div class="logo">Rush</div>
+      <div class="subtitle">Båndfarger i dag</div>
+      <section class="nowCard" id="nowCard">
+        <div class="nowTop">
+          <span>Aktivt bånd</span>
+          <span id="todayLabel">I dag</span>
+        </div>
+        <div class="nowMain">
+          <div class="nowColor">
+            <div class="nowName" id="nowName">Laster...</div>
+            <div class="nowTime" id="nowTime">--:-- – --:--</div>
+          </div>
+          <div class="countdown" id="countdown">--</div>
+        </div>
+      </section>
+    </header>
+
+    <section class="bands" id="bands"></section>
+
+    <footer>
+      <div id="statusText">Oppdateres automatisk</div>
+      <div class="clock" id="clock">--:--</div>
+    </footer>
+  </main>
+
+  <script>
+    /*
+      RUSH BÅND-TV PORTRETT
+      Legg denne filen i samme GitHub Pages-repo, f.eks. som portrait.html.
+      Endre kun CONFIG under dersom tider/farger skal justeres.
+    */
+
+    const CONFIG = {
+      startTime: "08:30",
+      endTime: "22:00",
+      bandMinutes: 30,
+
+      // Fast fargerekkefølge. Første farge gjelder fra startTime.
+      sequence: [
+        "black", "black", "black", "pink", "red", "grey", "green", "orange", "blue", "yellow", "purple",
+        "black", "white", "pink", "red", "grey", "green", "orange", "blue", "yellow", "purple",
+        "black", "white", "pink", "red", "grey", "green"
+      ],
+
+      // Minisprett: lørdag og søndag 09:30–11:00
+      minisprett: {
+        enabled: true,
+        days: [0, 6], // 0=søndag, 6=lørdag
+        start: "09:30",
+        end: "11:00",
+        label: "Minisprett",
+        color: "minisprett"
+      },
+
+      // Rush After Dark: annenhver fredag fra 17.04.2026, 20:00–22:00
+      afterDark: {
+        enabled: true,
+        anchorFriday: "2026-04-17",
+        start: "20:00",
+        end: "22:00",
+        label: "After Dark",
+        color: "afterdark",
+        excludedDates: ["2026-04-10"]
+      }
+    };
+
+    const COLORS = {
+      black:      { name: "Svart",       bg: "linear-gradient(135deg, #050505, #2a2a2a)", fg: "#fff" },
+      white:      { name: "Hvit",        bg: "linear-gradient(135deg, #ffffff, #d9d9d9)", fg: "#111" },
+      pink:       { name: "Rosa",        bg: "linear-gradient(135deg, #ff4fb8, #ff8bd5)", fg: "#fff" },
+      red:        { name: "Rød",         bg: "linear-gradient(135deg, #e10019, #ff4c4c)", fg: "#fff" },
+      grey:       { name: "Grå",         bg: "linear-gradient(135deg, #707070, #bdbdbd)", fg: "#fff" },
+      green:      { name: "Grønn",       bg: "linear-gradient(135deg, #00a846, #35e06f)", fg: "#fff" },
+      orange:     { name: "Oransje",     bg: "linear-gradient(135deg, #ff7a00, #ffb000)", fg: "#fff" },
+      blue:       { name: "Blå",         bg: "linear-gradient(135deg, #006dff, #00c2ff)", fg: "#fff" },
+      yellow:     { name: "Gul",         bg: "linear-gradient(135deg, #ffe600, #ffb300)", fg: "#111" },
+      purple:     { name: "Lilla",       bg: "linear-gradient(135deg, #6d28d9, #c026d3)", fg: "#fff" },
+      minisprett: { name: "Minisprett",  bg: "linear-gradient(135deg, #8ee8ff, #ffb8e8 55%, #fff4a8)", fg: "#151525" },
+      afterdark:  { name: "After Dark",  bg: "linear-gradient(135deg, #05000d, #7c00ff 45%, #00f5ff)", fg: "#fff" }
+    };
+
+    const pad = n => String(n).padStart(2, "0");
+
+    function parseTimeToMinutes(time) {
+      const [h, m] = time.split(":").map(Number);
+      return h * 60 + m;
+    }
+
+    function minutesToTime(minutes) {
+      const h = Math.floor(minutes / 60);
+      const m = minutes % 60;
+      return `${pad(h)}:${pad(m)}`;
+    }
+
+    function dateKey(date) {
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+    }
+
+    function isAfterDarkDate(date) {
+      if (!CONFIG.afterDark.enabled) return false;
+      if (date.getDay() !== 5) return false;
+      if (CONFIG.afterDark.excludedDates.includes(dateKey(date))) return false;
+
+      const anchor = new Date(CONFIG.afterDark.anchorFriday + "T00:00:00");
+      const current = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const diffDays = Math.round((current - anchor) / 86400000);
+      return diffDays >= 0 && diffDays % 14 === 0;
+    }
+
+    function buildSchedule(date) {
+      const start = parseTimeToMinutes(CONFIG.startTime);
+      const end = parseTimeToMinutes(CONFIG.endTime);
+      const slots = [];
+      let i = 0;
+
+      for (let t = start; t < end; t += CONFIG.bandMinutes) {
+        let key = CONFIG.sequence[i % CONFIG.sequence.length];
+        let label = COLORS[key]?.name || key;
+
+        if (
+          CONFIG.minisprett.enabled &&
+          CONFIG.minisprett.days.includes(date.getDay()) &&
+          t >= parseTimeToMinutes(CONFIG.minisprett.start) &&
+          t < parseTimeToMinutes(CONFIG.minisprett.end)
+        ) {
+          key = CONFIG.minisprett.color;
+          label = CONFIG.minisprett.label;
+        }
+
+        if (
+          isAfterDarkDate(date) &&
+          t >= parseTimeToMinutes(CONFIG.afterDark.start) &&
+          t < parseTimeToMinutes(CONFIG.afterDark.end)
+        ) {
+          key = CONFIG.afterDark.color;
+          label = CONFIG.afterDark.label;
+        }
+
+        slots.push({
+          index: i,
+          start: t,
+          end: Math.min(t + CONFIG.bandMinutes, end),
+          key,
+          label,
+          color: COLORS[key] || COLORS.black
+        });
+        i++;
+      }
+
+      return slots;
+    }
+
+    function formatCountdown(ms) {
+      const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      if (minutes >= 60) {
+        const h = Math.floor(minutes / 60);
+        const m = minutes % 60;
+        return `${h}t ${m}m`;
+      }
+      return `${minutes}:${pad(seconds)}`;
+    }
+
+    function applyColor(el, color) {
+      el.style.background = color.bg;
+      el.style.color = color.fg;
+    }
+
+    function render() {
+      const now = new Date();
+      const schedule = buildSchedule(now);
+      const currentMinutes = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+      const current = schedule.find(slot => currentMinutes >= slot.start && currentMinutes < slot.end);
+      const next = schedule.find(slot => currentMinutes < slot.start);
+
+      document.getElementById("clock").textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      document.getElementById("todayLabel").textContent = now.toLocaleDateString("no-NO", { weekday: "long", day: "2-digit", month: "2-digit" });
+
+      const bandsEl = document.getElementById("bands");
+      bandsEl.innerHTML = "";
+
+      if (!current && !next) {
+        document.getElementById("nowName").textContent = "Stengt";
+        document.getElementById("nowTime").textContent = `Dagens bånd er ferdig ${CONFIG.endTime}`;
+        document.getElementById("countdown").textContent = "--";
+        document.getElementById("statusText").textContent = `Åpent for båndvisning ${CONFIG.startTime}–${CONFIG.endTime}`;
+      } else if (!current && next) {
+        document.getElementById("nowName").textContent = "Ikke startet";
+        document.getElementById("nowTime").textContent = `Første bånd starter ${CONFIG.startTime}`;
+        const nextDate = new Date(now);
+        nextDate.setHours(Math.floor(next.start / 60), next.start % 60, 0, 0);
+        document.getElementById("countdown").textContent = formatCountdown(nextDate - now);
+        document.getElementById("statusText").textContent = `Neste: ${next.label} kl. ${minutesToTime(next.start)}`;
+      } else {
+        document.getElementById("nowName").textContent = current.label;
+        document.getElementById("nowTime").textContent = `${minutesToTime(current.start)} – ${minutesToTime(current.end)}`;
+        const endDate = new Date(now);
+        endDate.setHours(Math.floor(current.end / 60), current.end % 60, 0, 0);
+        document.getElementById("countdown").textContent = formatCountdown(endDate - now);
+        document.getElementById("statusText").textContent = next
+          ? `Neste: ${next.label} kl. ${minutesToTime(next.start)}`
+          : "Siste bånd for dagen";
+        applyColor(document.getElementById("nowCard"), current.color);
+      }
+
+      schedule.forEach(slot => {
+        const row = document.createElement("div");
+        row.className = "band";
+        if (currentMinutes >= slot.end) row.classList.add("past");
+        if (current && slot.index === current.index) row.classList.add("current");
+        if (next && slot.index === next.index) row.classList.add("next");
+        applyColor(row, slot.color);
+
+        const badge = current && slot.index === current.index
+          ? "NÅ"
+          : next && slot.index === next.index
+            ? "NESTE"
+            : currentMinutes >= slot.end
+              ? "FERDIG"
+              : "KOMMER";
+
+        row.innerHTML = `
+          <div class="bandTime">${minutesToTime(slot.start)}</div>
+          <div class="bandName">${slot.label}</div>
+          <div class="badge">${badge}</div>
+        `;
+        bandsEl.appendChild(row);
+      });
+    }
+
+    render();
+    setInterval(render, 1000);
+  </script>
+</body>
+</html>
