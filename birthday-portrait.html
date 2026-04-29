@@ -5,7 +5,6 @@
 <meta http-equiv="refresh" content="300">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rush Bursdag TV</title>
-
 <style>
 html, body {
   margin: 0;
@@ -44,14 +43,21 @@ body {
   display: flex;
 }
 
+/*
+  BAKGRUNNSBILDE:
+  Legg bildet ditt i GitHub-repoet med filnavn:
+  birthday-bg.png
+
+  Da får skjermen samme design som bildet du viste.
+*/
 #birthdayView {
   position: relative;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-image: url('birthday-bg.png');
-  background-size: contain;
-  background-position: center center;
+  background-size: auto 100%;
+  background-position: center top;
   background-repeat: no-repeat;
   background-color: #000000;
 }
@@ -60,8 +66,8 @@ body {
   position: absolute;
   left: 5vw;
   right: 5vw;
-  top: 50%;
-  transform: translateY(-2%);
+  top: 52%;
+  transform: translateY(0);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,7 +77,7 @@ body {
 }
 
 .nameText {
-  font-size: 7.6vh;
+  font-size: 8.2vh;
   line-height: 0.95;
   font-weight: 900;
   color: #ffffff;
@@ -85,16 +91,9 @@ body {
   overflow-wrap: anywhere;
 }
 
-/* Flere navn samtidig */
+/* Hvis flere bursdager vises samtidig, gjør navnene litt mindre */
 .namesMany .nameText {
-  font-size: 4.7vh;
-  line-height: 0.95;
-}
-
-/* Veldig mange navn samtidig */
-.namesLots .nameText {
-  font-size: 3.8vh;
-  line-height: 0.95;
+  font-size: 5.6vh;
 }
 
 #adView {
@@ -205,38 +204,24 @@ body {
 
 <script>
 /*
-  SETT INN WEB APP-LENKEN FRA GOOGLE APPS SCRIPT HER SENERE.
+  SETT INN WEB APP-LENKEN FRA GOOGLE APPS SCRIPT HER.
   Eksempel:
   var DATA_URL = "https://script.google.com/macros/s/AKfycbxxxxxxx/exec";
 */
 var DATA_URL = "";
 
-/*
-  TESTMODUS:
-  true = viser testnavn fra listen din hele tiden, så vi kan se designet.
-  false = bruker tidene og viser reklame når ingen bursdag er aktiv.
-*/
-var FORCE_SHOW_TEST_BIRTHDAYS = true;
-
-/*
-  Testdata fra arket du viste.
-  start = START / hoppetid
-  roomTime = ROOM TIME
-*/
+/* Testdata brukes bare hvis DATA_URL er tom. */
 var TEST_DATA = [
   { name: "Arleen", start: "14:30", roomTime: "16:00" },
-  { name: "Jennie", start: "16:30", roomTime: "17:30" },
-  { name: "Ulrik, Theodor, Tobias", start: "16:30", roomTime: "18:00" },
-  { name: "Henrik, Vegard", start: "17:00", roomTime: "18:00" },
-  { name: "Theo, Mathias, Alva, Sondre, Niko", start: "18:00", roomTime: "19:30" }
+  { name: "Jennie", start: "16:30", roomTime: "17:30" }
 ];
 
 var birthdayData = [];
 var adIndex = 0;
-
 var ads = [
   {
-    headline: "BOOK BURSDAG\nHOS RUSH",
+    headline: "BOOK BURSDAG
+HOS RUSH",
     text: "Feir dagen med hopping, pizza og eget bursdagsrom"
   },
   {
@@ -263,10 +248,8 @@ function formatClock(d) {
 
 function minutesFromTime(hhmm) {
   if (!hhmm) return null;
-
   var parts = String(hhmm).trim().split(":");
   if (parts.length < 2) return null;
-
   return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
 }
 
@@ -282,7 +265,6 @@ function nowMinutes(now) {
 function isActiveBirthday(item, now) {
   var startMin = minutesFromTime(item.start);
   var roomMin = minutesFromTime(item.roomTime);
-
   if (startMin === null || roomMin === null) return false;
 
   var showFrom = startMin - 15;
@@ -302,10 +284,9 @@ function getActiveBirthdays(now) {
   for (var i = 0; i < birthdayData.length; i++) {
     var item = birthdayData[i];
     var name = normalizeName(item.name);
-
     if (!name) continue;
 
-    if (FORCE_SHOW_TEST_BIRTHDAYS || isActiveBirthday(item, now)) {
+    if (isActiveBirthday(item, now)) {
       active.push(name);
     }
   }
@@ -324,17 +305,9 @@ function renderBirthdays(names) {
   setActive("birthdayView");
 
   var container = document.getElementById("names");
-
-  if (names.length >= 5) {
-    container.className = "namesLots";
-  } else if (names.length > 1) {
-    container.className = "namesMany";
-  } else {
-    container.className = "";
-  }
+  container.className = names.length > 1 ? "namesMany" : "";
 
   var html = "";
-
   for (var i = 0; i < names.length; i++) {
     html += '<div class="nameText">' + escapeHtml(names[i]) + '</div>';
   }
@@ -346,8 +319,8 @@ function renderAd() {
   setActive("adView");
 
   var ad = ads[adIndex % ads.length];
-
-  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/\n/g, "<br>");
+  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/
+/g, "<br>");
   document.getElementById("adText").innerHTML = escapeHtml(ad.text);
 }
 
@@ -366,7 +339,6 @@ function escapeHtml(text) {
 
 function tick() {
   var now = new Date();
-
   document.getElementById("adBottom").innerHTML = formatClock(now);
 
   if (!birthdayData || birthdayData.length === 0) {
@@ -400,11 +372,9 @@ function loadDataJsonp() {
   var script = document.createElement("script");
   script.id = "birthdayDataScript";
   script.src = DATA_URL + "?callback=receiveBirthdayData&v=" + Date.now();
-
   script.onerror = function() {
     renderError();
   };
-
   document.body.appendChild(script);
 }
 
@@ -416,17 +386,13 @@ function receiveBirthdayData(data) {
   } else {
     birthdayData = [];
   }
-
   tick();
 }
 
 loadDataJsonp();
-
 setInterval(tick, 1000);
 setInterval(loadDataJsonp, 60000);
-setInterval(function() {
-  adIndex++;
-}, 12000);
+setInterval(function() { adIndex++; }, 12000);
 </script>
 </body>
 </html>
