@@ -18,12 +18,11 @@ html, body {
 body { color: #f4f4f4; }
 
 #page {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
-  padding: 2.2vh 2.4vw 2.0vh 2.4vw;
+  padding: 2.0vh 1.8vw 1.6vh 1.8vw;
   background: linear-gradient(to right, #17232e, #1d2a37, #17232e);
-  overflow: hidden;
 }
 
 #normalView {
@@ -33,90 +32,95 @@ body { color: #f4f4f4; }
   flex-direction: column;
 }
 
-#header {
-  position: relative;
-  width: 100%;
-  height: 9.2vh;
-  flex: 0 0 9.2vh;
-  margin-top: 1.0vh;
-  order#title {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0.2vh;
-  text-align: center;
-  font-size: 4.8vh;
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.08vh;
-}
-#clock
-#clock {
-  position: absolute;
-  right: 0.2vw;
-  bottom: 0.45vh;
-  font-size: 4.2vh;
-  font-weight: 900;
-  line-height: 1;#bands {
+/* Båndene ligger øverst. HOPPETID og klokke ligger nederst. */
+#bands {
   width: 100%;
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 2.0vh;
-  order:.band {
+  gap: 1.05vh;
+  order: 1;
+}
+
+#header {
+  position: relative;
+  width: 100%;
+  height: 10.5vh;
+  flex: 0 0 10.5vh;
+  order: 2;
+  margin-top: 1.2vh;
+}
+#title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.7vh;
+  text-align: center;
+  font-size: 5.4vh;
+  font-weight: 900;
+  line-height: 1;
+}
+#clock {
+  position: absolute;
+  right: 0.4vw;
+  bottom: 1.4vh;
+  font-size: 5.4vh;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.band {
   width: 100%;
   flex: 1 1 0;
   min-height: 0;
-  border-radius: 3.0vh;
+  border-radius: 2.8vh;
   box-sizing: border-box;
-  padding: 0 4.0vw 0 5.2vw;
+  padding: 0 3.6vw 0 5.2vw;
   overflow: hidden;
 }
-.bandTable
 .bandTable {
   width: 100%;
   height: 100%;
   border-collapse: collapse;
   table-layout: fixed;
 }
-.bandLeft, .bandRight { vertical-align: middle; }
+.bandLeft, .bandRight {
+  vertical-align: middle;
+}
 .bandLeft {
-  width: 47%;
+  width: 50%;
   text-align: left;
 }
 .bandRight {
-  width: 53%;
+  width: 50%;
   text-align: right;
 }
 .name {
-  font-size: 3.7vh;
+  font-size: 3.9vh;
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  .time {
-  font-size: 3.35vh;
+}
+.time {
+  font-size: 3.6vh;
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
-  transform: translateY(0.08vh);
 }
 
-.doneBandwhite-space: nowrap;
-}
-
-.doneBand {
-  opacity: 0.40;
-}
 .nextBand {
-  outline: 0.65vh solid rgba(255,255,255,0.96);
-  outline-offset: -0.65vh;
-  box-shadow: 0 0 2.5vh rgba(255,255,255,0.45);
+  outline: 0.62vh solid rgba(255,255,255,0.96);
+  outline-offset: -0.62vh;
+  box-shadow: 0 0 2.2vh rgba(255,255,255,0.45);
+}
+.doneBand {
+  opacity: 0.52;
 }
 .emptyBand {
-  opacity: 0.18;
+  opacity: 0.12;
 }
 
 .pink { background: #f63ea0; color: #000000; }
@@ -130,7 +134,6 @@ body { color: #f4f4f4; }
 .black { background: #000000; color: #ffffff; }
 .white { background: #ffffff; color: #000000; }
 .mini { background: #9fe9f2; color: #000000; }
-.after { background: #6a217e; color: #ffffff; }
 
 .hero {
   display: none;
@@ -155,7 +158,7 @@ body { color: #f4f4f4; }
   z-index: 2;
 }
 .heroTitle {
-  font-size: 6.2vh;
+  font-size: 7vh;
   font-weight: 900;
   line-height: 1;
   margin-bottom: 2vh;
@@ -163,7 +166,7 @@ body { color: #f4f4f4; }
 }
 .heroTime {
   display: inline-block;
-  font-size: 4.4vh;
+  font-size: 5vh;
   font-weight: 900;
   line-height: 1;
   color: #ffffff;
@@ -176,11 +179,11 @@ body { color: #f4f4f4; }
 <body>
   <div id="page">
     <div id="normalView">
+      <div id="bands"></div>
       <div id="header">
         <div id="title">HOPPETID</div>
         <div id="clock">00:00</div>
       </div>
-      <div id="bands"></div>
     </div>
 
     <div id="miniHero" class="hero">
@@ -252,8 +255,8 @@ var afterDarkDates = {
   "2026-06-12": true
 };
 
-/* Høykant-TV: 8 rader totalt = siste ferdige + 7 kommende */
-var visibleBands = 8;
+/* Gammel viste 5. Denne viser dobbelt: 10. */
+var visibleBands = 10;
 
 function pad(n) { return (n < 10 ? "0" : "") + n; }
 function formatClock(d) { return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
@@ -322,14 +325,14 @@ function computeRows(now) {
 
   var rows = [];
 
+  /* Kun siste ferdige bånd. */
   if (firstFuture > 0) {
-    var lastDone = plan[firstFuture - 1];
+    var prev = plan[firstFuture - 1];
     rows.push({
-      label: lastDone.label,
-      color: lastDone.color,
+      label: prev.label,
+      color: prev.color,
       status: "done",
-      remaining: 0,
-      out: lastDone.out
+      remaining: 0
     });
   }
 
@@ -338,21 +341,15 @@ function computeRows(now) {
       label: plan[i].label,
       color: plan[i].color,
       status: "active",
-      remaining: msAtToday(plan[i].out, now) - nowMs,
-      out: plan[i].out
+      remaining: msAtToday(plan[i].out, now) - nowMs
     });
   }
 
-  while (rows.length < visibleBands) {
-    rows.push({
-      label: "",
-      color: "black",
-      status: "empty",
-      remaining: 0,
-      out: ""
-    });
+  while (rows.length < visibleBands && plan.length > 0) {
+    rows.push({ label: "", color: "black", status: "empty", remaining: 0 });
   }
 
+  /* Samme som gammel: ferdig nederst og kommende oppover. */
   rows.reverse();
   return rows;
 }
@@ -362,13 +359,11 @@ function showNormal() {
   document.getElementById("miniHero").style.display = "none";
   document.getElementById("afterHero").style.display = "none";
 }
-
 function showMini() {
   document.getElementById("normalView").style.display = "none";
   document.getElementById("miniHero").style.display = "block";
   document.getElementById("afterHero").style.display = "none";
 }
-
 function showAfter() {
   document.getElementById("normalView").style.display = "none";
   document.getElementById("miniHero").style.display = "none";
@@ -382,30 +377,29 @@ function renderNormal(now) {
   var rows = computeRows(now).slice(0, visibleBands);
   var html = "";
 
-  /* Nederste bånd som ikke er ferdig skal vise minutter og sekunder.
-     Alle andre kommende bånd viser timer og minutter. */
+  /* Nederste ikke-ferdige bånd får sekunder. Resten viser timer/minutter. */
   var lowestActiveIndex = -1;
-  for (var n = rows.length - 1; n >= 0; n--) {
-    if (rows[n].status === "active") {
-      lowestActiveIndex = n;
+  for (var j = rows.length - 1; j >= 0; j--) {
+    if (rows[j].status === "active") {
+      lowestActiveIndex = j;
       break;
     }
   }
 
   for (var i = 0; i < rows.length; i++) {
     var r = rows[i];
-    var extraClass = "";
     var timeText = "";
+    var extraClass = "";
 
     if (r.status === "done") {
-      extraClass = " doneBand";
       timeText = "FERDIG";
+      extraClass = " doneBand";
     } else if (r.status === "empty") {
-      extraClass = " emptyBand";
       timeText = "";
+      extraClass = " emptyBand";
     } else if (i === lowestActiveIndex) {
-      extraClass = " nextBand";
       timeText = formatRemaining(r.remaining, true);
+      extraClass = " nextBand";
     } else {
       timeText = formatRemaining(r.remaining, false);
     }
