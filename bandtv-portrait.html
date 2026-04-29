@@ -67,7 +67,7 @@ body { color: #f4f4f4; }
   position: absolute;
   right: 2px;
   top: 0;
-  font-size: clamp(44px, 9vw, 86px);
+  font-size: clamp(34px, 6vw, 64px);
   font-weight: 900;
   line-height: 0.95;
 }
@@ -325,6 +325,7 @@ function computeRows(now) {
   var firstFuture = -1;
   var i;
 
+  // Finn første bånd som ikke er ferdig enda
   for (i = 0; i < plan.length; i++) {
     if (msAtToday(plan[i].out, now) > nowMs) {
       firstFuture = i;
@@ -335,19 +336,19 @@ function computeRows(now) {
 
   var rows = [];
 
-  /* Ta med ett ferdig bånd nederst/øverst i rekken, slik gammel versjon gjorde */
+  // Ta KUN med siste ferdige bånd, ikke alle ferdige
   if (firstFuture > 0) {
-    var prev = plan[firstFuture - 1];
+    var lastDone = plan[firstFuture - 1];
     rows.push({
-      label: prev.label,
-      color: prev.color,
+      label: lastDone.label,
+      color: lastDone.color,
       status: "done",
       remaining: 0,
-      out: prev.out
+      out: lastDone.out
     });
   }
 
-  /* Fyll på med kommende bånd til vi har 8 totalt */
+  // Ta med de neste kommende båndene til totalt 8 rader
   for (i = firstFuture; i < plan.length && rows.length < visibleBands; i++) {
     rows.push({
       label: plan[i].label,
@@ -358,6 +359,7 @@ function computeRows(now) {
     });
   }
 
+  // Fyll tomme rader hvis dagen nesten er ferdig
   while (rows.length < visibleBands) {
     rows.push({
       label: "",
@@ -368,7 +370,7 @@ function computeRows(now) {
     });
   }
 
-  /* Samme prinsipp som gammel: ferdig nederst og kommende bygger oppover */
+  // Samme rekkefølge som gammel: siste ferdige nederst, kommende oppover
   rows.reverse();
 
   return rows;
@@ -396,7 +398,7 @@ function renderNormal(now) {
   showNormal();
   document.getElementById("clock").innerHTML = formatClock(now);
 
-  var rows = computeRows(now);
+  var rows = computeRows(now).slice(0, visibleBands);
   var html = "";
 
   var nextIndex = -1;
