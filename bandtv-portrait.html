@@ -53,7 +53,7 @@ body { color: #f4f4f4; }
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.25vh;
+  gap: 2.0vh;
 }
 
 #header {
@@ -82,6 +82,18 @@ body { color: #f4f4f4; }
   line-height: 1;
 }
 
+#doneBandArea {
+  width: 100%;
+  height: 9.5vh;
+  flex: 0 0 9.5vh;
+  margin-top: 0.8vh;
+}
+
+#doneBandArea .band {
+  height: 100%;
+  flex: none;
+}
+
 .band {
   width: 100%;
   flex: 1 1 0;
@@ -98,7 +110,7 @@ body { color: #f4f4f4; }
 .name {
   flex: 1 1 auto;
   min-width: 0;
-  font-size: 3.9vh !important;
+  font-size: 5.85vh !important;
   font-weight: 900;
   line-height: 0.9;
   white-space: nowrap;
@@ -107,7 +119,7 @@ body { color: #f4f4f4; }
 }
 .time {
   flex: 0 0 auto;
-  font-size: 3.1vh !important;
+  font-size: 4.65vh !important;
   font-weight: 900;
   line-height: 0.9;
   white-space: nowrap;
@@ -188,6 +200,8 @@ body { color: #f4f4f4; }
         <div id="title">HOPPETID</div>
         <div id="clock">00:00</div>
       </div>
+
+      <div id="doneBandArea"></div>
     </div>
 
     <div id="miniHero" class="hero">
@@ -380,29 +394,38 @@ function showAfter() {
 
 function renderNormal(now) {
   showNormal();
+
   document.getElementById("clock").innerHTML = formatClock(now);
 
   var rows = computeRows(now).slice(hiddenFarthestBands, totalBandsBeforeBrand);
+  var doneRow = null;
+  var activeRows = [];
+
+  for (var rIndex = 0; rIndex < rows.length; rIndex++) {
+    if (rows[rIndex].status === "done") {
+      doneRow = rows[rIndex];
+    } else {
+      activeRows.push(rows[rIndex]);
+    }
+  }
+
   var html = "";
 
-  /* Nederste ikke-ferdige bånd får sekunder. Resten viser timer/minutter. */
+  /* Nederste aktive bånd viser sekunder. Alle andre kommende viser timer/minutter. */
   var lowestActiveIndex = -1;
-  for (var j = rows.length - 1; j >= 0; j--) {
-    if (rows[j].status === "active") {
+  for (var j = activeRows.length - 1; j >= 0; j--) {
+    if (activeRows[j].status === "active") {
       lowestActiveIndex = j;
       break;
     }
   }
 
-  for (var i = 0; i < rows.length; i++) {
-    var r = rows[i];
+  for (var i = 0; i < activeRows.length; i++) {
+    var r = activeRows[i];
     var timeText = "";
     var extraClass = "";
 
-    if (r.status === "done") {
-      timeText = "FERDIG";
-      extraClass = " doneBand";
-    } else if (r.status === "empty") {
+    if (r.status === "empty") {
       timeText = "";
       extraClass = " emptyBand";
     } else if (i === lowestActiveIndex) {
@@ -414,12 +437,22 @@ function renderNormal(now) {
 
     html += ''
       + '<div class="band ' + r.color + extraClass + '">'
-      +   '<div class="name">' + r.label + '</div>'
-      +   '<div class="time">' + timeText + '</div>'
+      +   '<div class="name" style="font-size:5.85vh !important; line-height:0.9 !important;">' + r.label + '</div>'
+      +   '<div class="time" style="font-size:4.65vh !important; line-height:0.9 !important;">' + timeText + '</div>'
       + '</div>';
   }
 
   document.getElementById("bands").innerHTML = html;
+
+  var doneHtml = "";
+  if (doneRow) {
+    doneHtml = ''
+      + '<div class="band ' + doneRow.color + ' doneBand">'
+      +   '<div class="name" style="font-size:5.85vh !important; line-height:0.9 !important;">' + doneRow.label + '</div>'
+      +   '<div class="time" style="font-size:4.65vh !important; line-height:0.9 !important;">FERDIG</div>'
+      + '</div>';
+  }
+  document.getElementById("doneBandArea").innerHTML = doneHtml;
 }
 
 function renderMini(now) {
