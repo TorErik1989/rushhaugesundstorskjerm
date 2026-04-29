@@ -73,7 +73,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 0;
   text-align: center;
 }
 
@@ -121,8 +120,7 @@ body {
 
 /* Flere navn samtidig */
 .namesMany {
-  top: 29%;
-  gap: 0;
+  top: 29% !important;
 }
 
 .namesMany .nameCard {
@@ -138,8 +136,7 @@ body {
 
 /* Mange bursdager samtidig */
 .namesLots {
-  top: 27%;
-  gap: 0;
+  top: 27% !important;
 }
 
 .namesLots .nameCard {
@@ -288,8 +285,7 @@ var adIndex = 0;
 
 var ads = [
   {
-    headline: "BOOK BURSDAG
-HOS RUSH",
+    headline: "BOOK BURSDAG\nHOS RUSH",
     text: "Feir dagen med hopping, pizza og eget bursdagsrom"
   },
   {
@@ -397,8 +393,7 @@ function renderAd() {
   setActive("adView");
 
   var ad = ads[adIndex % ads.length];
-  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/
-/g, "<br>");
+  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/\n/g, "<br>");
   document.getElementById("adText").innerHTML = escapeHtml(ad.text);
 }
 
