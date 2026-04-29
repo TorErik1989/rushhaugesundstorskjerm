@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta http-equiv="refresh" content="300">
 <title>Rush BandTV Portrett</title>
-
 <style>
 html, body {
   margin: 0;
@@ -16,10 +15,7 @@ html, body {
   font-family: Arial, Helvetica, sans-serif;
   cursor: none;
 }
-
-body {
-  color: #f4f4f4;
-}
+body { color: #f4f4f4; }
 
 #page {
   width: 100%;
@@ -36,23 +32,21 @@ body {
   flex-direction: column;
 }
 
-/* Øverste tekst */
 #brand {
   width: 100%;
-  height: 7.2vh;
-  flex: 0 0 7.2vh;
+  height: 7.6vh;
+  flex: 0 0 7.6vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 3.7vh;
+  font-size: 4.6vh;
   font-weight: 900;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.10em;
   color: #ffffff;
   text-transform: uppercase;
 }
 
-/* Båndområdet */
 #bands {
   width: 100%;
   flex: 1 1 auto;
@@ -62,36 +56,32 @@ body {
   gap: 1.25vh;
 }
 
-/* Nederste HOPPETID + klokke */
 #header {
   position: relative;
   width: 100%;
-  height: 8.0vh;
-  flex: 0 0 8.0vh;
+  height: 8.8vh;
+  flex: 0 0 8.8vh;
   margin-top: 0.9vh;
 }
-
 #title {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0.8vh;
   text-align: center;
-  font-size: 4.1vh;
+  font-size: 5.0vh;
   font-weight: 900;
   line-height: 1;
 }
-
 #clock {
   position: absolute;
   right: 0.5vw;
   bottom: 0.8vh;
-  font-size: 4.1vh;
+  font-size: 5.0vh;
   font-weight: 900;
   line-height: 1;
 }
 
-/* Selve fargebåndet */
 .band {
   width: 100%;
   flex: 1 1 0;
@@ -100,25 +90,24 @@ body {
   box-sizing: border-box;
   padding: 0 4.0vw 0 5.0vw;
   overflow: hidden;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2vw;
 }
-
 .name {
   flex: 1 1 auto;
   min-width: 0;
+  font-size: 7.8vh !important;
   font-weight: 900;
   line-height: 0.9;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .time {
   flex: 0 0 auto;
+  font-size: 6.2vh !important;
   font-weight: 900;
   line-height: 0.9;
   white-space: nowrap;
@@ -130,71 +119,25 @@ body {
   outline-offset: -0.48vh;
   box-shadow: 0 0 1.8vh rgba(255,255,255,0.45);
 }
-
 .doneBand {
   opacity: 0.52;
 }
-
 .emptyBand {
   opacity: 0.12;
 }
 
-.pink {
-  background: #f63ea0;
-  color: #000000;
-}
+.pink { background: #f63ea0; color: #000000; }
+.red { background: #ff1414; color: #ffffff; }
+.silver { background: #d9d9d9; color: #000000; }
+.green { background: #62bb2b; color: #000000; }
+.orange { background: #ff6419; color: #000000; }
+.blue { background: #4e90df; color: #ffffff; }
+.yellow { background: #f2ee18; color: #000000; }
+.purple { background: #6a217e; color: #ffffff; }
+.black { background: #000000; color: #ffffff; }
+.white { background: #ffffff; color: #000000; }
+.mini { background: #9fe9f2; color: #000000; }
 
-.red {
-  background: #ff1414;
-  color: #ffffff;
-}
-
-.silver {
-  background: #d9d9d9;
-  color: #000000;
-}
-
-.green {
-  background: #62bb2b;
-  color: #000000;
-}
-
-.orange {
-  background: #ff6419;
-  color: #000000;
-}
-
-.blue {
-  background: #4e90df;
-  color: #ffffff;
-}
-
-.yellow {
-  background: #f2ee18;
-  color: #000000;
-}
-
-.purple {
-  background: #6a217e;
-  color: #ffffff;
-}
-
-.black {
-  background: #000000;
-  color: #ffffff;
-}
-
-.white {
-  background: #ffffff;
-  color: #000000;
-}
-
-.mini {
-  background: #9fe9f2;
-  color: #000000;
-}
-
-/* Minisprett / After Dark helskjerm */
 .hero {
   display: none;
   width: 100%;
@@ -205,16 +148,11 @@ body {
   background-repeat: no-repeat;
   position: relative;
 }
-
 .heroOverlay {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  left: 0; right: 0; top: 0; bottom: 0;
   background: rgba(0,0,0,0.22);
 }
-
 .heroContent {
   position: absolute;
   left: 5vw;
@@ -222,7 +160,6 @@ body {
   bottom: 5vh;
   z-index: 2;
 }
-
 .heroTitle {
   font-size: 7vh;
   font-weight: 900;
@@ -230,7 +167,6 @@ body {
   margin-bottom: 2vh;
   color: #ffffff;
 }
-
 .heroTime {
   display: inline-block;
   font-size: 5vh;
@@ -243,14 +179,11 @@ body {
 }
 </style>
 </head>
-
 <body>
   <div id="page">
     <div id="normalView">
       <div id="brand">RUSH TRAMPOLINEPARK</div>
-
       <div id="bands"></div>
-
       <div id="header">
         <div id="title">HOPPETID</div>
         <div id="clock">00:00</div>
@@ -327,24 +260,15 @@ var afterDarkDates = {
 };
 
 /*
-  Gammel viste 5 bånd.
-  Denne henter 10, men skjuler de 3 som er lengst unna.
-  Resultat: RUSH TRAMPOLINEPARK + 7 relevante bånd.
+  Gammel viste 5 bånd. Denne regner først 10, men skjuler de 3 som er lengst unna.
+  Resultat: RUSH TRAMPOLINEPARK øverst + 7 relevante bånd.
 */
 var totalBandsBeforeBrand = 10;
 var hiddenFarthestBands = 3;
 
-function pad(n) {
-  return (n < 10 ? "0" : "") + n;
-}
-
-function formatClock(d) {
-  return pad(d.getHours()) + ":" + pad(d.getMinutes());
-}
-
-function dateKey(d) {
-  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
-}
+function pad(n) { return (n < 10 ? "0" : "") + n; }
+function formatClock(d) { return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+function dateKey(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
 
 function msAtToday(hhmm, now) {
   var parts = hhmm.split(":");
@@ -364,7 +288,6 @@ function formatRemaining(ms, withSeconds) {
     if (h > 0) return h + " t " + m + " min " + s + " sek";
     return m + " min " + s + " sek";
   }
-
   if (h > 0) return h + " t " + m + " min";
   return m + " min";
 }
@@ -376,21 +299,17 @@ function isWeekend(now) {
 
 function isMini(now) {
   if (!isWeekend(now)) return false;
-
   var start = msAtToday("09:30", now);
   var end = msAtToday("11:00", now);
   var t = now.getTime();
-
   return t >= start && t < end;
 }
 
 function isAfterDark(now) {
   if (!afterDarkDates[dateKey(now)]) return false;
-
   var start = msAtToday("20:00", now);
   var end = msAtToday("22:00", now);
   var t = now.getTime();
-
   return t >= start && t < end;
 }
 
@@ -410,12 +329,11 @@ function computeRows(now) {
       break;
     }
   }
-
   if (firstFuture === -1) firstFuture = plan.length;
 
   var rows = [];
 
-  /* Kun siste ferdige bånd */
+  /* Kun siste ferdige bånd. */
   if (firstFuture > 0) {
     var prev = plan[firstFuture - 1];
     rows.push({
@@ -426,7 +344,6 @@ function computeRows(now) {
     });
   }
 
-  /* Kommende bånd */
   for (i = firstFuture; i < plan.length && rows.length < totalBandsBeforeBrand; i++) {
     rows.push({
       label: plan[i].label,
@@ -437,20 +354,11 @@ function computeRows(now) {
   }
 
   while (rows.length < totalBandsBeforeBrand && plan.length > 0) {
-    rows.push({
-      label: "",
-      color: "black",
-      status: "empty",
-      remaining: 0
-    });
+    rows.push({ label: "", color: "black", status: "empty", remaining: 0 });
   }
 
-  /*
-    Samme prinsipp som gammel:
-    ferdig nederst og kommende oppover.
-  */
+  /* Samme som gammel: ferdig nederst og kommende oppover. */
   rows.reverse();
-
   return rows;
 }
 
@@ -459,13 +367,11 @@ function showNormal() {
   document.getElementById("miniHero").style.display = "none";
   document.getElementById("afterHero").style.display = "none";
 }
-
 function showMini() {
   document.getElementById("normalView").style.display = "none";
   document.getElementById("miniHero").style.display = "block";
   document.getElementById("afterHero").style.display = "none";
 }
-
 function showAfter() {
   document.getElementById("normalView").style.display = "none";
   document.getElementById("miniHero").style.display = "none";
@@ -474,18 +380,13 @@ function showAfter() {
 
 function renderNormal(now) {
   showNormal();
-
   document.getElementById("clock").innerHTML = formatClock(now);
 
   var rows = computeRows(now).slice(hiddenFarthestBands, totalBandsBeforeBrand);
   var html = "";
 
-  /*
-    Nederste aktive bånd viser sekunder.
-    Alle andre kommende viser timer/minutter.
-  */
+  /* Nederste ikke-ferdige bånd får sekunder. Resten viser timer/minutter. */
   var lowestActiveIndex = -1;
-
   for (var j = rows.length - 1; j >= 0; j--) {
     if (rows[j].status === "active") {
       lowestActiveIndex = j;
@@ -511,14 +412,10 @@ function renderNormal(now) {
       timeText = formatRemaining(r.remaining, false);
     }
 
-    /*
-      Fontstørrelse er satt direkte her fordi enkelte TV-nettlesere
-      ignorerer klassebasert font-size.
-    */
     html += ''
       + '<div class="band ' + r.color + extraClass + '">'
-      +   '<div class="name" style="font-size:8.8vh !important; line-height:0.9 !important;">' + r.label + '</div>'
-      +   '<div class="time" style="font-size:7.0vh !important; line-height:0.9 !important;">' + timeText + '</div>'
+      +   '<div class="name">' + r.label + '</div>'
+      +   '<div class="time">' + timeText + '</div>'
       + '</div>';
   }
 
@@ -527,14 +424,12 @@ function renderNormal(now) {
 
 function renderMini(now) {
   showMini();
-
   var left = msAtToday("11:00", now) - now.getTime();
   document.getElementById("miniTime").innerHTML = formatRemaining(left, true);
 }
 
 function renderAfter(now) {
   showAfter();
-
   var left = msAtToday("22:00", now) - now.getTime();
   document.getElementById("afterTime").innerHTML = formatRemaining(left, true);
 }
