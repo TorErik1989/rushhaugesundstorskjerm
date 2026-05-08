@@ -142,83 +142,19 @@ body {
   font-size: 4.95vh;
 }
 
-/* ISSTRIPE NEDERST */
+/* ISSTRIPE NEDERST - bruker bildefil: icebar-diplomis.png */
 #iceBar {
   position: absolute;
-  left: 3vw;
-  right: 3vw;
-  bottom: 2.0vh;
-  height: 15.5vh;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22.5vh;
   z-index: 4;
-  box-sizing: border-box;
-  border-radius: 3.0vh;
-  padding: 1.2vh 2.0vw;
-  background: rgba(255,255,255,0.18);
-  border: 0.22vh solid rgba(255,255,255,0.45);
-  box-shadow:
-    0 1.0vh 2.6vh rgba(0,0,0,0.34),
-    inset 0 0.12vh 0 rgba(255,255,255,0.35);
-  backdrop-filter: blur(10px) saturate(135%);
-  -webkit-backdrop-filter: blur(10px) saturate(135%);
-  overflow: hidden;
-}
-
-#iceTitle {
-  height: 3.3vh;
-  line-height: 3.3vh;
-  text-align: center;
-  font-size: 2.8vh;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #ffffff;
-  text-shadow: 0 0.35vh 0.8vh rgba(0,0,0,0.65);
-}
-
-#iceItems {
-  height: calc(100% - 3.3vh);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.iceItem {
-  width: 24%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border-radius: 2.0vh;
-  background: rgba(0,0,0,0.22);
-  box-sizing: border-box;
-  padding: 0.5vh 0.5vw;
-}
-
-.iceEmoji {
-  font-size: 4.2vh;
-  line-height: 1;
-  margin-bottom: 0.2vh;
-}
-
-.iceName {
-  font-size: 2.0vh;
-  line-height: 1;
-  font-weight: 900;
-  color: #ffffff;
-  text-shadow: 0 0.25vh 0.55vh rgba(0,0,0,0.72);
-  white-space: nowrap;
-}
-
-.icePrice {
-  margin-top: 0.4vh;
-  font-size: 2.7vh;
-  line-height: 1;
-  font-weight: 900;
-  color: #fff36b;
-  text-shadow: 0 0.25vh 0.55vh rgba(0,0,0,0.72);
-  white-space: nowrap;
+  background-image: url('icebar-diplomis.png');
+  background-size: 100% 100%;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  box-shadow: 0 -1.0vh 2.5vh rgba(0,0,0,0.34);
 }
 
 #adView {
@@ -313,31 +249,7 @@ body {
     <img id="birthdayBg" src="birthday-bg.png" alt="Gratulerer med dagen">
     <div id="names"></div>
 
-    <div id="iceBar">
-      <div id="iceTitle">Noe godt etter hoppingen?</div>
-      <div id="iceItems">
-        <div class="iceItem">
-          <div class="iceEmoji">🍦</div>
-          <div class="iceName">Diplom-Is</div>
-          <div class="icePrice">fra 25,-</div>
-        </div>
-        <div class="iceItem">
-          <div class="iceEmoji">🍫</div>
-          <div class="iceName">Royal / Sandwich</div>
-          <div class="icePrice">fra 35,-</div>
-        </div>
-        <div class="iceItem">
-          <div class="iceEmoji">🥤</div>
-          <div class="iceName">Slush</div>
-          <div class="icePrice">fra 39,-</div>
-        </div>
-        <div class="iceItem">
-          <div class="iceEmoji">🍿</div>
-          <div class="iceName">Popcorn</div>
-          <div class="icePrice">fra 35,-</div>
-        </div>
-      </div>
-    </div>
+    <div id="iceBar"></div>
   </section>
 
   <section id="adView">
