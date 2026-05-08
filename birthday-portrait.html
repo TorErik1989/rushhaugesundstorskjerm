@@ -51,7 +51,7 @@ body {
   background: #000;
 }
 
-/* Bildet ditt bør være 1080x1920 eller samme forhold som TV-en. */
+/* Bildet bør være 1080x1920 eller samme forhold som TV-en. */
 #birthdayBg {
   position: absolute;
   inset: 0;
@@ -268,10 +268,13 @@ body {
 */
 var DATA_URL = "";
 
-/* true mens vi tester design */
+/*
+  true = viser testnavn hele tiden mens vi tester design.
+  false = henter navn fra DATA_URL. Hvis listen er tom, vises reklame.
+*/
 var FORCE_SHOW_TEST_BIRTHDAYS = true;
 
-/* Testdata fra arket du viste. */
+/* Testdata. Brukes bare når DATA_URL er tom eller FORCE_SHOW_TEST_BIRTHDAYS = true. */
 var TEST_DATA = [
   { name: "Arleen", start: "14:30", roomTime: "16:00" },
   { name: "Jennie", start: "16:30", roomTime: "17:30" },
@@ -311,34 +314,6 @@ function formatClock(d) {
   return pad(d.getHours()) + ":" + pad(d.getMinutes());
 }
 
-function minutesFromTime(hhmm) {
-  if (!hhmm) return null;
-  var parts = String(hhmm).trim().split(":");
-  if (parts.length < 2) return null;
-  return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
-}
-
-function nowMinutes(now) {
-  return now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
-}
-
-/*
-  Regel:
-  Vises fra 15 min før START/hoppetid
-  til 60 min etter ROOM TIME.
-*/
-function isActiveBirthday(item, now) {
-  var startMin = minutesFromTime(item.start);
-  var roomMin = minutesFromTime(item.roomTime);
-  if (startMin === null || roomMin === null) return false;
-
-  var showFrom = startMin - 15;
-  var showTo = roomMin + 60;
-  var current = nowMinutes(now);
-
-  return current >= showFrom && current <= showTo;
-}
-
 function normalizeName(name) {
   return String(name || "").trim();
 }
@@ -347,8 +322,6 @@ function formatBirthdayName(name) {
   var clean = normalizeName(name);
   if (!clean) return "";
 
-  // Hvis det er flere navn i samme felt, f.eks. "Ulrik, Theodor, Tobias",
-  // vises det som "Ulrik, Theodor og Tobias".
   var parts = clean.split(",").map(function(part) {
     return part.trim();
   }).filter(function(part) {
@@ -361,16 +334,19 @@ function formatBirthdayName(name) {
   return parts.slice(0, -1).join(", ") + " og " + parts[parts.length - 1];
 }
 
-function getActiveBirthdays(now) {
+function getBirthdaysToShow() {
+  var source = birthdayData;
+
+  if (FORCE_SHOW_TEST_BIRTHDAYS || !DATA_URL) {
+    source = TEST_DATA;
+  }
+
   var active = [];
 
-  for (var i = 0; i < birthdayData.length; i++) {
-    var item = birthdayData[i];
+  for (var i = 0; i < source.length; i++) {
+    var item = source[i];
     var name = formatBirthdayName(item.name);
     if (!name) continue;
-
-    // Ny regel: vis alle bursdagene som ligger i dagens liste hele dagen.
-    // Hvis listen er tom, vises reklame.
     active.push(name);
   }
 
@@ -434,19 +410,10 @@ function tick() {
   var now = new Date();
   document.getElementById("adBottom").innerHTML = formatClock(now);
 
-  if (!birthdayData || birthdayData.length === 0) {
-    if (!DATA_URL) {
-      birthdayData = TEST_DATA;
-    } else {
-      renderError();
-      return;
-    }
-  }
+  var names = getBirthdaysToShow();
 
-  var activeNames = getActiveBirthdays(now);
-
-  if (activeNames.length > 0) {
-    renderBirthdays(activeNames);
+  if (names.length > 0) {
+    renderBirthdays(names);
   } else {
     renderAd();
   }
@@ -479,6 +446,7 @@ function receiveBirthdayData(data) {
   } else {
     birthdayData = [];
   }
+
   tick();
 }
 
