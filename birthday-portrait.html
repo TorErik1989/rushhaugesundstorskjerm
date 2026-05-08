@@ -84,7 +84,6 @@ body {
   border-radius: 3.0vh;
   margin-bottom: 1.4vh;
 
-  /* Klarglass/frostet effekt */
   background: rgba(255, 255, 255, 0.18);
   border: 0.22vh solid rgba(255, 255, 255, 0.42);
   box-shadow:
@@ -118,7 +117,6 @@ body {
   overflow-wrap: anywhere;
 }
 
-/* Flere navn samtidig */
 .namesMany {
   top: 29% !important;
 }
@@ -134,7 +132,6 @@ body {
   font-size: 6.9vh;
 }
 
-/* Mange bursdager samtidig */
 .namesLots {
   top: 27% !important;
 }
@@ -261,20 +258,10 @@ body {
 </div>
 
 <script>
-/*
-  SETT INN WEB APP-LENKEN FRA GOOGLE APPS SCRIPT HER SENERE.
-  Eksempel:
-  var DATA_URL = "https://script.google.com/macros/s/AKfycbxxxxxxx/exec";
-*/
 var DATA_URL = "";
 
-/*
-  true = viser testnavn hele tiden mens vi tester design.
-  false = henter navn fra DATA_URL. Hvis listen er tom, vises reklame.
-*/
 var FORCE_SHOW_TEST_BIRTHDAYS = true;
 
-/* Testdata. Brukes bare når DATA_URL er tom eller FORCE_SHOW_TEST_BIRTHDAYS = true. */
 var TEST_DATA = [
   { name: "Arleen", start: "14:30", roomTime: "16:00" },
   { name: "Jennie", start: "16:30", roomTime: "17:30" },
@@ -288,8 +275,7 @@ var adIndex = 0;
 
 var ads = [
   {
-    headline: "BOOK BURSDAG
-HOS RUSH",
+    headline: "BOOK BURSDAG\nHOS RUSH",
     text: "Feir dagen med hopping, pizza og eget bursdagsrom"
   },
   {
@@ -388,8 +374,7 @@ function renderAd() {
   setActive("adView");
 
   var ad = ads[adIndex % ads.length];
-  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/
-/g, "<br>");
+  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/\n/g, "<br>");
   document.getElementById("adText").innerHTML = escapeHtml(ad.text);
 }
 
