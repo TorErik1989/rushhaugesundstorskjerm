@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="300">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rush Bursdag TV med Isstripe</title>
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: none;
+}
+
+body {
+  color: #ffffff;
+}
+
+#page {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+
+#birthdayView,
+#adView,
+#errorView {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+#birthdayView.active,
+#adView.active,
+#errorView.active {
+  display: flex;
+}
+
+#birthdayView {
+  position: relative;
+  flex-direction: column;
+  overflow: hidden;
+  background: #000;
+}
+
+#birthdayBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: center center;
+  z-index: 1;
+}
+
+#names {
+  position: absolute;
+  left: 6vw;
+  right: 6vw;
+  top: 28%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.nameCard {
+  width: 100%;
+  min-height: 7.8vh;
+  box-sizing: border-box;
+  padding: 1.0vh 3vw;
+  border-radius: 3.0vh;
+  margin-bottom: 1.2vh;
+  background: rgba(255, 255, 255, 0.18);
+  border: 0.22vh solid rgba(255, 255, 255, 0.42);
+  box-shadow:
+    0 1.0vh 2.4vh rgba(0,0,0,0.28),
+    inset 0 0.12vh 0 rgba(255,255,255,0.35),
+    inset 0 -0.12vh 0 rgba(255,255,255,0.10);
+  backdrop-filter: blur(10px) saturate(135%);
+  -webkit-backdrop-filter: blur(10px) saturate(135%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nameCard:last-child {
+  margin-bottom: 0;
+}
+
+.nameText {
+  font-size: 8.2vh;
+  line-height: 0.95;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow:
+    0.16vh 0.16vh 0 #000,
+    -0.16vh 0.16vh 0 #000,
+    0.16vh -0.16vh 0 #000,
+    -0.16vh -0.16vh 0 #000,
+    0 0.7vh 1.3vh rgba(0,0,0,0.72);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.namesMany {
+  top: 27% !important;
+}
+
+.namesMany .nameCard {
+  min-height: 6.8vh;
+  border-radius: 2.6vh;
+  padding: 0.8vh 2.4vw;
+  margin-bottom: 1.0vh;
+}
+
+.namesMany .nameText {
+  font-size: 6.2vh;
+}
+
+.namesLots {
+  top: 25% !important;
+}
+
+.namesLots .nameCard {
+  min-height: 5.9vh;
+  border-radius: 2.2vh;
+  padding: 0.6vh 2.2vw;
+  margin-bottom: 0.8vh;
+}
+
+.namesLots .nameText {
+  font-size: 4.95vh;
+}
+
+/* ISSTRIPE NEDERST */
+#iceBar {
+  position: absolute;
+  left: 3vw;
+  right: 3vw;
+  bottom: 2.0vh;
+  height: 15.5vh;
+  z-index: 4;
+  box-sizing: border-box;
+  border-radius: 3.0vh;
+  padding: 1.2vh 2.0vw;
+  background: rgba(255,255,255,0.18);
+  border: 0.22vh solid rgba(255,255,255,0.45);
+  box-shadow:
+    0 1.0vh 2.6vh rgba(0,0,0,0.34),
+    inset 0 0.12vh 0 rgba(255,255,255,0.35);
+  backdrop-filter: blur(10px) saturate(135%);
+  -webkit-backdrop-filter: blur(10px) saturate(135%);
+  overflow: hidden;
+}
+
+#iceTitle {
+  height: 3.3vh;
+  line-height: 3.3vh;
+  text-align: center;
+  font-size: 2.8vh;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 0.35vh 0.8vh rgba(0,0,0,0.65);
+}
+
+#iceItems {
+  height: calc(100% - 3.3vh);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.iceItem {
+  width: 24%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 2.0vh;
+  background: rgba(0,0,0,0.22);
+  box-sizing: border-box;
+  padding: 0.5vh 0.5vw;
+}
+
+.iceEmoji {
+  font-size: 4.2vh;
+  line-height: 1;
+  margin-bottom: 0.2vh;
+}
+
+.iceName {
+  font-size: 2.0vh;
+  line-height: 1;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 0 0.25vh 0.55vh rgba(0,0,0,0.72);
+  white-space: nowrap;
+}
+
+.icePrice {
+  margin-top: 0.4vh;
+  font-size: 2.7vh;
+  line-height: 1;
+  font-weight: 900;
+  color: #fff36b;
+  text-shadow: 0 0.25vh 0.55vh rgba(0,0,0,0.72);
+  white-space: nowrap;
+}
+
+#adView {
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    radial-gradient(circle at top left, rgba(246,62,160,0.45), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(78,144,223,0.40), transparent 38%),
+    linear-gradient(to bottom, #17232e, #1d2a37, #17232e);
+  padding: 3vh 4vw;
+  box-sizing: border-box;
+}
+
+#adBrand {
+  position: absolute;
+  top: 3vh;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 4.8vh;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#adBox {
+  width: 88%;
+  border-radius: 3vh;
+  padding: 4vh 3vw;
+  background: rgba(255,255,255,0.12);
+  border: 0.25vh solid rgba(255,255,255,0.22);
+  box-shadow: 0 1.2vh 3vh rgba(0,0,0,0.22);
+}
+
+#adHeadline {
+  font-size: 7.2vh;
+  line-height: 0.95;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-shadow: 0 0.8vh 1.8vh rgba(0,0,0,0.35);
+}
+
+#adText {
+  margin-top: 3vh;
+  font-size: 4.2vh;
+  line-height: 1.08;
+  font-weight: 900;
+  color: rgba(255,255,255,0.92);
+}
+
+#adBottom {
+  position: absolute;
+  bottom: 2vh;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 5.4vh;
+  font-weight: 900;
+}
+
+#errorView {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  gap: 3vh;
+  background: #17232e;
+  padding: 4vh 4vw;
+  box-sizing: border-box;
+}
+
+#errorTitle {
+  font-size: 5.8vh;
+  font-weight: 900;
+}
+
+#errorText {
+  font-size: 3.2vh;
+  font-weight: 800;
+  max-width: 90%;
+  color: rgba(255,255,255,0.82);
+}
+</style>
+</head>
+
+<body>
+<div id="page">
+  <section id="birthdayView">
+    <img id="birthdayBg" src="birthday-bg.png" alt="Gratulerer med dagen">
+    <div id="names"></div>
+
+    <div id="iceBar">
+      <div id="iceTitle">Noe godt etter hoppingen?</div>
+      <div id="iceItems">
+        <div class="iceItem">
+          <div class="iceEmoji">🍦</div>
+          <div class="iceName">Diplom-Is</div>
+          <div class="icePrice">fra 25,-</div>
+        </div>
+        <div class="iceItem">
+          <div class="iceEmoji">🍫</div>
+          <div class="iceName">Royal / Sandwich</div>
+          <div class="icePrice">fra 35,-</div>
+        </div>
+        <div class="iceItem">
+          <div class="iceEmoji">🥤</div>
+          <div class="iceName">Slush</div>
+          <div class="icePrice">fra 39,-</div>
+        </div>
+        <div class="iceItem">
+          <div class="iceEmoji">🍿</div>
+          <div class="iceName">Popcorn</div>
+          <div class="icePrice">fra 35,-</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="adView">
+    <div id="adBrand">RUSH HAUGESUND</div>
+    <div id="adBox">
+      <div id="adHeadline">BOOK BURSDAG<br>HOS RUSH</div>
+      <div id="adText">Feir dagen med hopping, pizza og eget bursdagsrom</div>
+    </div>
+    <div id="adBottom">00:00</div>
+  </section>
+
+  <section id="errorView">
+    <div id="errorTitle">BURSDAGSSKJERM</div>
+    <div id="errorText">Mangler kobling til bursdagsdata. Legg inn Apps Script-lenken i DATA_URL.</div>
+  </section>
+</div>
+
+<script>
+var DATA_URL = "";
+var FORCE_SHOW_TEST_BIRTHDAYS = true;
+
+var TEST_DATA = [
+  { name: "Leo 10 år!", start: "10:00", roomTime: "11:30" },
+  { name: "Markus og Marita 12 år!", start: "10:00", roomTime: "11:30" }
+];
+
+var birthdayData = [];
+var adIndex = 0;
+
+var ads = [
+  {
+    headline: "BOOK BURSDAG\nHOS RUSH",
+    text: "Feir dagen med hopping, pizza og eget bursdagsrom"
+  },
+  {
+    headline: "MINISPRETT",
+    text: "For de minste hopperne lørdag og søndag"
+  },
+  {
+    headline: "RUSH AFTER DARK",
+    text: "Lys, musikk og ekstra stemning i parken"
+  },
+  {
+    headline: "KAFÉEN ER ÅPEN",
+    text: "Slush, pizza, snacks og drikke finner du i kaféen"
+  }
+];
+
+function pad(n) {
+  return (n < 10 ? "0" : "") + n;
+}
+
+function formatClock(d) {
+  return pad(d.getHours()) + ":" + pad(d.getMinutes());
+}
+
+function normalizeName(name) {
+  return String(name || "").trim();
+}
+
+function formatBirthdayName(name) {
+  var clean = normalizeName(name);
+  if (!clean) return "";
+
+  var parts = clean.split(",").map(function(part) {
+    return part.trim();
+  }).filter(function(part) {
+    return part.length > 0;
+  });
+
+  if (parts.length <= 1) return clean;
+  if (parts.length === 2) return parts[0] + " og " + parts[1];
+
+  return parts.slice(0, -1).join(", ") + " og " + parts[parts.length - 1];
+}
+
+function getBirthdaysToShow() {
+  var source = birthdayData;
+
+  if (FORCE_SHOW_TEST_BIRTHDAYS || !DATA_URL) {
+    source = TEST_DATA;
+  }
+
+  var active = [];
+
+  for (var i = 0; i < source.length; i++) {
+    var item = source[i];
+    var name = formatBirthdayName(item.name);
+    if (!name) continue;
+    active.push(name);
+  }
+
+  return active;
+}
+
+function setActive(viewId) {
+  document.getElementById("birthdayView").className = "";
+  document.getElementById("adView").className = "";
+  document.getElementById("errorView").className = "";
+  document.getElementById(viewId).className = "active";
+}
+
+function renderBirthdays(names) {
+  setActive("birthdayView");
+
+  var container = document.getElementById("names");
+
+  if (names.length >= 5) {
+    container.className = "namesLots";
+  } else if (names.length > 1) {
+    container.className = "namesMany";
+  } else {
+    container.className = "";
+  }
+
+  var html = "";
+  for (var i = 0; i < names.length; i++) {
+    html += ''
+      + '<div class="nameCard">'
+      +   '<div class="nameText">' + escapeHtml(names[i]) + '</div>'
+      + '</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+function renderAd() {
+  setActive("adView");
+
+  var ad = ads[adIndex % ads.length];
+  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/\n/g, "<br>");
+  document.getElementById("adText").innerHTML = escapeHtml(ad.text);
+}
+
+function renderError() {
+  setActive("errorView");
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function tick() {
+  var now = new Date();
+  document.getElementById("adBottom").innerHTML = formatClock(now);
+
+  var names = getBirthdaysToShow();
+
+  if (names.length > 0) {
+    renderBirthdays(names);
+  } else {
+    renderAd();
+  }
+}
+
+function loadDataJsonp() {
+  if (!DATA_URL) {
+    birthdayData = TEST_DATA;
+    tick();
+    return;
+  }
+
+  var old = document.getElementById("birthdayDataScript");
+  if (old) old.remove();
+
+  var script = document.createElement("script");
+  script.id = "birthdayDataScript";
+  script.src = DATA_URL + "?callback=receiveBirthdayData&v=" + Date.now();
+  script.onerror = function() {
+    renderError();
+  };
+  document.body.appendChild(script);
+}
+
+function receiveBirthdayData(data) {
+  if (data && data.birthdays && Array.isArray(data.birthdays)) {
+    birthdayData = data.birthdays;
+  } else if (Array.isArray(data)) {
+    birthdayData = data;
+  } else {
+    birthdayData = [];
+  }
+
+  tick();
+}
+
+loadDataJsonp();
+setInterval(tick, 1000);
+setInterval(loadDataJsonp, 60000);
+setInterval(function() {
+  adIndex++;
+}, 12000);
+</script>
+</body>
+</html>
