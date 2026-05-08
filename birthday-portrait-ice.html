@@ -269,12 +269,33 @@ body {
 
 <script>
 var DATA_URL = "";
-var FORCE_SHOW_TEST_BIRTHDAYS = true;
 
+/*
+  false = siden bruker datoen og viser riktige bursdager automatisk.
+  true = viser TEST_DATA hele tiden, kun for testing.
+*/
+var FORCE_SHOW_TEST_BIRTHDAYS = false;
+
+/* Brukes bare hvis FORCE_SHOW_TEST_BIRTHDAYS = true */
 var TEST_DATA = [
   { name: "Leo 10 år!", start: "10:00", roomTime: "11:30" },
   { name: "Markus og Marita 12 år!", start: "10:00", roomTime: "11:30" }
 ];
+
+/*
+  Manuell helgeliste.
+  Siden sjekker datoen selv, så du trenger ikke gjøre noe i helgen.
+*/
+var MANUAL_BIRTHDAYS_BY_DATE = {
+  "2026-05-09": [
+    { name: "May 12 år!", start: "10:00", roomTime: "11:30" }
+  ],
+  "2026-05-10": [
+    { name: "Anna og Marlene 8 år!", start: "10:00", roomTime: "11:30" },
+    { name: "Olivia 8 år!", start: "10:00", roomTime: "11:30" },
+    { name: "Alvaro 12 år!", start: "10:00", roomTime: "11:30" }
+  ]
+};
 
 var birthdayData = [];
 var adIndex = 0;
@@ -306,6 +327,10 @@ function formatClock(d) {
   return pad(d.getHours()) + ":" + pad(d.getMinutes());
 }
 
+function dateKey(d) {
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+}
+
 function normalizeName(name) {
   return String(name || "").trim();
 }
@@ -327,10 +352,14 @@ function formatBirthdayName(name) {
 }
 
 function getBirthdaysToShow() {
-  var source = birthdayData;
+  var source = [];
 
-  if (FORCE_SHOW_TEST_BIRTHDAYS || !DATA_URL) {
+  if (FORCE_SHOW_TEST_BIRTHDAYS) {
     source = TEST_DATA;
+  } else if (DATA_URL) {
+    source = birthdayData;
+  } else {
+    source = MANUAL_BIRTHDAYS_BY_DATE[dateKey(new Date())] || [];
   }
 
   var active = [];
