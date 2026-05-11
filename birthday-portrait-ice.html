@@ -5,6 +5,7 @@
 <meta http-equiv="refresh" content="300">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rush Bursdag TV med Isstripe</title>
+
 <style>
 html, body {
   margin: 0;
@@ -43,6 +44,7 @@ body {
   display: flex;
 }
 
+/* BURSDAGSVISNING */
 #birthdayView {
   position: relative;
   flex-direction: column;
@@ -50,6 +52,7 @@ body {
   background: #000;
 }
 
+/* Bakgrunnsbildet ditt */
 #birthdayBg {
   position: absolute;
   inset: 0;
@@ -60,6 +63,7 @@ body {
   z-index: 1;
 }
 
+/* Navnene */
 #names {
   position: absolute;
   left: 6vw;
@@ -157,6 +161,7 @@ body {
   box-shadow: 0 -1.0vh 2.5vh rgba(0,0,0,0.34);
 }
 
+/* REKLAMEVISNING */
 #adView {
   position: relative;
   flex-direction: column;
@@ -218,6 +223,7 @@ body {
   font-weight: 900;
 }
 
+/* FEILVISNING */
 #errorView {
   align-items: center;
   justify-content: center;
@@ -248,7 +254,6 @@ body {
   <section id="birthdayView">
     <img id="birthdayBg" src="birthday-bg.png" alt="Gratulerer med dagen">
     <div id="names"></div>
-
     <div id="iceBar"></div>
   </section>
 
@@ -268,36 +273,31 @@ body {
 </div>
 
 <script>
+/*
+  Senere kan denne kobles til Google Apps Script Web App.
+  Nå står den tom fordi vi bruker manuelle/test-bursdager.
+*/
 var DATA_URL = "";
 
 /*
-  false = siden bruker datoen og viser riktige bursdager automatisk.
-  true = viser TEST_DATA hele tiden, kun for testing.
+  true = viser TEST_DATA uansett dato.
+  false = bruker MANUAL_BIRTHDAYS_BY_DATE etter dagens dato.
 */
-var FORCE_SHOW_TEST_BIRTHDAYS = false;
+var FORCE_SHOW_TEST_BIRTHDAYS = true;
 
-/* Brukes bare hvis FORCE_SHOW_TEST_BIRTHDAYS = true */
+/* Vises nå med én gang */
 var TEST_DATA = [
-  { name: "Leo 10 år!", start: "10:00", roomTime: "11:30" },
-  { name: "Markus og Marita 12 år!", start: "10:00", roomTime: "11:30" }
+  { name: "Sigrid 10 år", start: "10:00", roomTime: "11:30" },
+  { name: "Loke og Magnus 6 år", start: "10:00", roomTime: "11:30" }
 ];
 
 /*
-  Manuell helgeliste.
-  Siden sjekker datoen selv, så du trenger ikke gjøre noe i helgen.
+  Datostyrt liste. Denne brukes først når FORCE_SHOW_TEST_BIRTHDAYS = false.
 */
 var MANUAL_BIRTHDAYS_BY_DATE = {
-  "2026-05-08": [
-    { name: "Leo 10 år!", start: "10:00", roomTime: "11:30" },
-    { name: "Markus og Marita 12 år!", start: "10:00", roomTime: "11:30" }
-  ],
-  "2026-05-09": [
-    { name: "May 12 år!", start: "10:00", roomTime: "11:30" }
-  ],
-  "2026-05-10": [
-    { name: "Anna og Marlene 8 år!", start: "10:00", roomTime: "11:30" },
-    { name: "Olivia 8 år!", start: "10:00", roomTime: "11:30" },
-    { name: "Alvaro 12 år!", start: "10:00", roomTime: "11:30" }
+  "2026-05-11": [
+    { name: "Sigrid 10 år", start: "10:00", roomTime: "11:30" },
+    { name: "Loke og Magnus 6 år", start: "10:00", roomTime: "11:30" }
   ]
 };
 
