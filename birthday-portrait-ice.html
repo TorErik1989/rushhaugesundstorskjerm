@@ -291,13 +291,12 @@ var DATA_URL = "";
 
 /*
   true = viser testnavn hele tiden.
-  false = henter navn fra DATA_URL. Hvis ingen bursdager, vises reklame.
+  false = bruker DATA_URL. Hvis DATA_URL er tom, vises reklame.
 */
 var FORCE_SHOW_TEST_BIRTHDAYS = false;
 
 /*
-  Testdata. Brukes bare når FORCE_SHOW_TEST_BIRTHDAYS = true
-  eller når DATA_URL er tom.
+  Testdata. Brukes bare når FORCE_SHOW_TEST_BIRTHDAYS = true.
 */
 var TEST_DATA = [
   { name: "Sigrid 10 år" },
@@ -355,10 +354,14 @@ function formatBirthdayName(name) {
 }
 
 function getBirthdaysToShow() {
-  var source = birthdayData;
+  var source = [];
 
-  if (FORCE_SHOW_TEST_BIRTHDAYS || !DATA_URL) {
+  if (FORCE_SHOW_TEST_BIRTHDAYS) {
     source = TEST_DATA;
+  } else if (DATA_URL) {
+    source = birthdayData;
+  } else {
+    source = [];
   }
 
   var active = [];
@@ -456,7 +459,7 @@ function tick() {
 
 function loadDataJsonp() {
   if (!DATA_URL) {
-    birthdayData = TEST_DATA;
+    birthdayData = [];
     tick();
     return;
   }
