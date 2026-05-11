@@ -5,6 +5,7 @@
 <meta http-equiv="refresh" content="300">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rush Bursdag TV med Isstripe</title>
+
 <style>
 html, body {
   margin: 0;
@@ -43,6 +44,7 @@ body {
   display: flex;
 }
 
+/* BURSDAGSVISNING */
 #birthdayView {
   position: relative;
   flex-direction: column;
@@ -50,6 +52,7 @@ body {
   background: #000;
 }
 
+/* Bakgrunnsbildet ditt */
 #birthdayBg {
   position: absolute;
   inset: 0;
@@ -60,11 +63,12 @@ body {
   z-index: 1;
 }
 
+/* Navnene */
 #names {
   position: absolute;
   left: 6vw;
   right: 6vw;
-  top: 26%;
+  top: 28%;
   z-index: 3;
   display: flex;
   flex-direction: column;
@@ -75,11 +79,11 @@ body {
 
 .nameCard {
   width: 100%;
-  min-height: 7.4vh;
+  min-height: 7.8vh;
   box-sizing: border-box;
-  padding: 0.9vh 3vw;
+  padding: 1.0vh 3vw;
   border-radius: 3.0vh;
-  margin-bottom: 1.0vh;
+  margin-bottom: 1.2vh;
   background: rgba(255, 255, 255, 0.18);
   border: 0.22vh solid rgba(255, 255, 255, 0.42);
   box-shadow:
@@ -98,7 +102,7 @@ body {
 }
 
 .nameText {
-  font-size: 7.6vh;
+  font-size: 8.2vh;
   line-height: 0.95;
   font-weight: 900;
   color: #ffffff;
@@ -113,147 +117,51 @@ body {
 }
 
 .namesMany {
-  top: 25% !important;
+  top: 27% !important;
 }
 
 .namesMany .nameCard {
-  min-height: 6.4vh;
+  min-height: 6.8vh;
   border-radius: 2.6vh;
-  padding: 0.7vh 2.4vw;
-  margin-bottom: 0.9vh;
+  padding: 0.8vh 2.4vw;
+  margin-bottom: 1.0vh;
 }
 
 .namesMany .nameText {
-  font-size: 5.8vh;
+  font-size: 6.2vh;
 }
 
 .namesLots {
-  top: 23% !important;
+  top: 25% !important;
 }
 
 .namesLots .nameCard {
-  min-height: 5.6vh;
+  min-height: 5.9vh;
   border-radius: 2.2vh;
-  padding: 0.55vh 2.2vw;
-  margin-bottom: 0.7vh;
+  padding: 0.6vh 2.2vw;
+  margin-bottom: 0.8vh;
 }
 
 .namesLots .nameText {
-  font-size: 4.65vh;
+  font-size: 4.95vh;
 }
 
-/* ISMENY NEDERST - kun bilde og pris, sortert lavest til høyest */
+/* ISSTRIPE NEDERST - bruker bildefil: icebar-diplomis.png */
 #iceBar {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 24.5vh;
+  height: 22.5vh;
   z-index: 4;
-  box-sizing: border-box;
-  padding: 1.0vh 1.2vw 1.1vh 1.2vw;
-  background: linear-gradient(to bottom, #fff4a6 0%, #ffe172 45%, #ffd042 100%);
-  border-top: 0.35vh solid rgba(215, 35, 50, 0.95);
+  background-image: url('icebar-diplomis.png');
+  background-size: 100% 100%;
+  background-position: center bottom;
+  background-repeat: no-repeat;
   box-shadow: 0 -1.0vh 2.5vh rgba(0,0,0,0.34);
-  overflow: hidden;
 }
 
-#iceLogoRow {
-  position: absolute;
-  top: 0.2vh;
-  left: 0;
-  right: 0;
-  height: 2.8vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-#iceLogoPill {
-  height: 2.8vh;
-  min-width: 18vw;
-  padding: 0 2.2vw;
-  border-radius: 0 0 1.8vh 1.8vh;
-  background: rgba(255,255,255,0.88);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #c8193b;
-  font-size: 2.0vh;
-  line-height: 1;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  box-shadow: 0 0.35vh 1.0vh rgba(0,0,0,0.16);
-}
-
-#iceGrid {
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  column-gap: 0.65vw;
-  row-gap: 0.65vh;
-  padding-top: 2.3vh;
-  box-sizing: border-box;
-}
-
-.iceGroup {
-  position: relative;
-  min-width: 0;
-  height: 100%;
-  border-radius: 1.8vh;
-  background: rgba(255,255,255,0.32);
-  border: 0.12vh solid rgba(255,255,255,0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  box-shadow: inset 0 0.1vh 0 rgba(255,255,255,0.35);
-}
-
-.iceImages {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.05vw;
-  box-sizing: border-box;
-  padding: 0.25vh 0.25vw 2.45vh 0.25vw;
-}
-
-.iceImages img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  display: block;
-  filter: drop-shadow(0 0.38vh 0.45vh rgba(0,0,0,0.25));
-}
-
-.iceImages.two img { max-width: 49%; }
-.iceImages.three img { max-width: 33%; }
-
-.icePrice {
-  position: absolute;
-  right: 0.35vw;
-  bottom: 0.35vh;
-  min-width: 4.6vh;
-  height: 2.7vh;
-  border-radius: 1.5vh;
-  padding: 0 0.55vh;
-  background: #d7192f;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.65vh;
-  font-weight: 900;
-  line-height: 1;
-  box-shadow: 0 0.25vh 0.7vh rgba(0,0,0,0.28);
-  white-space: nowrap;
-}
-
+/* REKLAMEVISNING */
 #adView {
   position: relative;
   flex-direction: column;
@@ -315,6 +223,7 @@ body {
   font-weight: 900;
 }
 
+/* FEILVISNING */
 #errorView {
   align-items: center;
   justify-content: center;
@@ -345,67 +254,7 @@ body {
   <section id="birthdayView">
     <img id="birthdayBg" src="birthday-bg.png" alt="Gratulerer med dagen">
     <div id="names"></div>
-
-    <div id="iceBar">
-      <div id="iceLogoRow"><div id="iceLogoPill">Diplom-Is</div></div>
-      <div id="iceGrid">
-        <!-- 29,- -->
-        <div class="iceGroup">
-          <div class="iceImages"><img src="https://aps.brandmaster.com/v03/product/12843/11005/xlarge_webp/hovedbilde/diplom_is_handel_artnr_11005__xlarge.webp" alt="Lollipop"></div>
-          <div class="icePrice">29,-</div>
-        </div>
-
-        <!-- 35,- -->
-        <div class="iceGroup">
-          <div class="iceImages two"><img src="https://aps.brandmaster.com/v03/product/12843/12175/large_webp/hovedbilde/diplom_is_handel_artnr_12175__large.webp" alt="Litago Jordbær"><img src="https://aps.brandmaster.com/v03/product/12843/12174/large_webp/hovedbilde/diplom_is_handel_artnr_12174__large.webp" alt="Litago Sjokolade"></div>
-          <div class="icePrice">35,-</div>
-        </div>
-        <div class="iceGroup">
-          <div class="iceImages"><img src="https://aps.brandmaster.com/v03/product/12843/00400/xlarge_webp/hovedbilde/diplom_is_handel_artnr_00400__xlarge.webp" alt="Sandwich"></div>
-          <div class="icePrice">35,-</div>
-        </div>
-        <div class="iceGroup">
-          <div class="iceImages"><img src="https://aps.brandmaster.com/v03/product/12843/12077/large_webp/hovedbilde/diplom_is_handel_artnr_12077__large.webp" alt="Kjempe-Yes"></div>
-          <div class="icePrice">35,-</div>
-        </div>
-        <div class="iceGroup">
-          <div class="iceImages"><img src="https://aps.brandmaster.com/v03/product/12843/12065/xlarge_webp/hovedbilde/diplom_is_handel_artnr_12065__xlarge.webp" alt="Sitting Original"></div>
-          <div class="icePrice">35,-</div>
-        </div>
-
-        <!-- 39,- -->
-        <div class="iceGroup">
-          <div class="iceImages three"><img src="https://aps.brandmaster.com/v03/product/12843/00500/xlarge_webp/hovedbilde/diplom_is_handel_artnr_00500__xlarge.webp" alt="Krone-is Jordbær"><img src="https://aps.brandmaster.com/v03/product/12843/00501/xlarge_webp/hovedbilde/diplom_is_handel_artnr_00501__xlarge.webp" alt="Krone-is Sjokolade"><img src="https://aps.brandmaster.com/v03/product/12843/12176/xlarge_webp/hovedbilde/diplom_is_handel_artnr_12176__xlarge.webp" alt="Krone-is Sjokkomums"></div>
-          <div class="icePrice">39,-</div>
-        </div>
-        <div class="iceGroup">
-          <div class="iceImages two"><img src="https://aps.brandmaster.com/v03/product/12843/11137/xlarge_webp/hovedbilde/diplom_is_handel_artnr_11137__xlarge.webp" alt="Gullpinne"><img src="https://aps.brandmaster.com/v03/product/12843/12203/xlarge_webp/hovedbilde/diplom_is_handel_artnr_12203__xlarge.webp" alt="Gullpinne Pistasj"></div>
-          <div class="icePrice">39,-</div>
-        </div>
-
-        <!-- 45,- -->
-        <div class="iceGroup">
-          <div class="iceImages"><img src="https://aps.brandmaster.com/v03/product/12843/12204/xlarge_webp/hovedbilde/diplom_is_handel_artnr_12204__xlarge.webp" alt="Royal Peanøtt og Salt Karamell"></div>
-          <div class="icePrice">45,-</div>
-        </div>
-        <div class="iceGroup">
-          <div class="iceImages"><img src="https://aps.brandmaster.com/v03/product/12843/07517/xlarge_webp/hovedbilde/diplom_is_handel_artnr_07517__xlarge.webp" alt="Lion"></div>
-          <div class="icePrice">45,-</div>
-        </div>
-        <div class="iceGroup">
-          <div class="iceImages two"><img src="https://aps.brandmaster.com/v03/product/12843/11934/xlarge_webp/hovedbilde/diplom_is_handel_artnr_11934__xlarge.webp" alt="Royal Original"><img src="https://aps.brandmaster.com/v03/product/12843/11934/xlarge_webp/hovedbilde/diplom_is_handel_artnr_11934__xlarge.webp" alt="Royal Mørk"></div>
-          <div class="icePrice">45,-</div>
-        </div>
-        <div class="iceGroup">
-          <div class="iceImages"><img src="https://aps.brandmaster.com/v03/product/12843/11888/xlarge_webp/hovedbilde/diplom_is_handel_artnr_11888__xlarge.webp" alt="Royal Trippel Magi"></div>
-          <div class="icePrice">45,-</div>
-        </div>
-        <div class="iceGroup">
-          <div class="iceImages"><img src="https://www.diplom-is.no/_next/image?q=75&url=https%3A%2F%2Fapi.diplom-is.no%2Fsite%2Fdiplomis%2Fmaster%2F_%2Fimage%2F7324ff03-ac1b-47e1-a24c-65df491b1e73%3A2cf711a08696200a9127040492c23856943a8544%2Fwidth-800%2F12041_Royal_Hvit_sjoko2024_LowRes.png&w=1200" alt="Royal Hvit Sjokolade Jordbær"></div>
-          <div class="icePrice">45,-</div>
-        </div>
-      </div>
-    </div>
+    <div id="iceBar"></div>
   </section>
 
   <section id="adView">
@@ -424,36 +273,31 @@ body {
 </div>
 
 <script>
+/*
+  Senere kan denne kobles til Google Apps Script Web App.
+  Nå står den tom fordi vi bruker manuelle/test-bursdager.
+*/
 var DATA_URL = "";
 
 /*
-  false = siden bruker datoen og viser riktige bursdager automatisk.
-  true = viser TEST_DATA hele tiden, kun for testing.
+  true = viser TEST_DATA uansett dato.
+  false = bruker MANUAL_BIRTHDAYS_BY_DATE etter dagens dato.
 */
-var FORCE_SHOW_TEST_BIRTHDAYS = false;
+var FORCE_SHOW_TEST_BIRTHDAYS = true;
 
-/* Brukes bare hvis FORCE_SHOW_TEST_BIRTHDAYS = true */
+/* Vises nå med én gang */
 var TEST_DATA = [
-  { name: "Leo 10 år!", start: "10:00", roomTime: "11:30" },
-  { name: "Markus og Marita 12 år!", start: "10:00", roomTime: "11:30" }
+  { name: "Sigrid 10 år", start: "10:00", roomTime: "11:30" },
+  { name: "Loke og Magnus 6 år", start: "10:00", roomTime: "11:30" }
 ];
 
 /*
-  Manuell bursdagsliste.
-  Siden sjekker datoen selv.
+  Datostyrt liste. Denne brukes først når FORCE_SHOW_TEST_BIRTHDAYS = false.
 */
 var MANUAL_BIRTHDAYS_BY_DATE = {
   "2026-05-11": [
-    { name: "Sigrid 10 år!", start: "10:00", roomTime: "11:30" },
-    { name: "Loke og Magnus 6 år!", start: "10:00", roomTime: "11:30" }
-  ],
-  "2026-05-09": [
-    { name: "May 12 år!", start: "10:00", roomTime: "11:30" }
-  ],
-  "2026-05-10": [
-    { name: "Anna og Marlene 8 år!", start: "10:00", roomTime: "11:30" },
-    { name: "Olivia 8 år!", start: "10:00", roomTime: "11:30" },
-    { name: "Alvaro 12 år!", start: "10:00", roomTime: "11:30" }
+    { name: "Sigrid 10 år", start: "10:00", roomTime: "11:30" },
+    { name: "Loke og Magnus 6 år", start: "10:00", roomTime: "11:30" }
   ]
 };
 
@@ -462,8 +306,7 @@ var adIndex = 0;
 
 var ads = [
   {
-    headline: "BOOK BURSDAG
-HOS RUSH",
+    headline: "BOOK BURSDAG\nHOS RUSH",
     text: "Feir dagen med hopping, pizza og eget bursdagsrom"
   },
   {
@@ -570,8 +413,7 @@ function renderAd() {
   setActive("adView");
 
   var ad = ads[adIndex % ads.length];
-  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/
-/g, "<br>");
+  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/\n/g, "<br>");
   document.getElementById("adText").innerHTML = escapeHtml(ad.text);
 }
 
