@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="refresh" content="300">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rush Bursdag TV med Isstripe</title>
+<title>Rush Bursdag TV</title>
 
 <style>
 html, body {
@@ -36,6 +36,8 @@ body {
   width: 100%;
   height: 100%;
   display: none;
+  box-sizing: border-box;
+  padding-bottom: 24vh;
 }
 
 #birthdayView.active,
@@ -52,7 +54,6 @@ body {
   background: #000;
 }
 
-/* Bakgrunnsbildet ditt */
 #birthdayBg {
   position: absolute;
   inset: 0;
@@ -63,12 +64,11 @@ body {
   z-index: 1;
 }
 
-/* Navnene */
 #names {
   position: absolute;
   left: 6vw;
   right: 6vw;
-  top: 28%;
+  top: 27%;
   z-index: 3;
   display: flex;
   flex-direction: column;
@@ -79,19 +79,22 @@ body {
 
 .nameCard {
   width: 100%;
-  min-height: 7.8vh;
+  min-height: 8.4vh;
   box-sizing: border-box;
-  padding: 1.0vh 3vw;
+  padding: 1.1vh 3vw;
   border-radius: 3.0vh;
-  margin-bottom: 1.2vh;
+  margin-bottom: 1.8vh;
+
   background: rgba(255, 255, 255, 0.18);
   border: 0.22vh solid rgba(255, 255, 255, 0.42);
   box-shadow:
     0 1.0vh 2.4vh rgba(0,0,0,0.28),
     inset 0 0.12vh 0 rgba(255,255,255,0.35),
     inset 0 -0.12vh 0 rgba(255,255,255,0.10);
+
   backdrop-filter: blur(10px) saturate(135%);
   -webkit-backdrop-filter: blur(10px) saturate(135%);
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,7 +105,7 @@ body {
 }
 
 .nameText {
-  font-size: 8.2vh;
+  font-size: 8.85vh;
   line-height: 0.95;
   font-weight: 900;
   color: #ffffff;
@@ -116,49 +119,36 @@ body {
   overflow-wrap: anywhere;
 }
 
+/* Flere bursdager */
 .namesMany {
-  top: 27% !important;
-}
-
-.namesMany .nameCard {
-  min-height: 6.8vh;
-  border-radius: 2.6vh;
-  padding: 0.8vh 2.4vw;
-  margin-bottom: 1.0vh;
-}
-
-.namesMany .nameText {
-  font-size: 6.2vh;
-}
-
-.namesLots {
   top: 25% !important;
 }
 
+.namesMany .nameCard {
+  min-height: 7.5vh;
+  border-radius: 2.6vh;
+  padding: 0.9vh 2.4vw;
+  margin-bottom: 1.4vh;
+}
+
+.namesMany .nameText {
+  font-size: 6.9vh;
+}
+
+/* Mange bursdager */
+.namesLots {
+  top: 22% !important;
+}
+
 .namesLots .nameCard {
-  min-height: 5.9vh;
+  min-height: 6.2vh;
   border-radius: 2.2vh;
-  padding: 0.6vh 2.2vw;
-  margin-bottom: 0.8vh;
+  padding: 0.7vh 2.2vw;
+  margin-bottom: 1.0vh;
 }
 
 .namesLots .nameText {
-  font-size: 4.95vh;
-}
-
-/* ISSTRIPE NEDERST - bruker bildefil: icebar-diplomis.png */
-#iceBar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 22.5vh;
-  z-index: 4;
-  background-image: url('icebar-diplomis.png');
-  background-size: 100% 100%;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  box-shadow: 0 -1.0vh 2.5vh rgba(0,0,0,0.34);
+  font-size: 5.4vh;
 }
 
 /* REKLAMEVISNING */
@@ -172,8 +162,8 @@ body {
     radial-gradient(circle at top left, rgba(246,62,160,0.45), transparent 35%),
     radial-gradient(circle at bottom right, rgba(78,144,223,0.40), transparent 38%),
     linear-gradient(to bottom, #17232e, #1d2a37, #17232e);
-  padding: 3vh 4vw;
-  box-sizing: border-box;
+  padding-left: 4vw;
+  padding-right: 4vw;
 }
 
 #adBrand {
@@ -215,7 +205,7 @@ body {
 
 #adBottom {
   position: absolute;
-  bottom: 2vh;
+  bottom: 25vh;
   left: 0;
   right: 0;
   text-align: center;
@@ -231,8 +221,8 @@ body {
   flex-direction: column;
   gap: 3vh;
   background: #17232e;
-  padding: 4vh 4vw;
-  box-sizing: border-box;
+  padding-left: 4vw;
+  padding-right: 4vw;
 }
 
 #errorTitle {
@@ -246,15 +236,31 @@ body {
   max-width: 90%;
   color: rgba(255,255,255,0.82);
 }
+
+/* FAST ISSTRIPE - VISES HELE TIDEN */
+#iceBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24vh;
+  z-index: 50;
+  pointer-events: none;
+
+  background-image: url('icebar-diplomis-v23.png');
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: 100% auto;
+}
 </style>
 </head>
 
 <body>
 <div id="page">
+
   <section id="birthdayView">
     <img id="birthdayBg" src="birthday-bg.png" alt="Gratulerer med dagen">
     <div id="names"></div>
-    <div id="iceBar"></div>
   </section>
 
   <section id="adView">
@@ -270,36 +276,33 @@ body {
     <div id="errorTitle">BURSDAGSSKJERM</div>
     <div id="errorText">Mangler kobling til bursdagsdata. Legg inn Apps Script-lenken i DATA_URL.</div>
   </section>
+
+  <div id="iceBar"></div>
+
 </div>
 
 <script>
 /*
-  Senere kan denne kobles til Google Apps Script Web App.
-  Nå står den tom fordi vi bruker manuelle/test-bursdager.
+  SETT INN WEB APP-LENKEN FRA GOOGLE APPS SCRIPT HER NÅR DEN ER KLAR.
+  Eksempel:
+  var DATA_URL = "https://script.google.com/macros/s/AKfycbxxxxxxx/exec";
 */
 var DATA_URL = "";
 
 /*
-  true = viser TEST_DATA uansett dato.
-  false = bruker MANUAL_BIRTHDAYS_BY_DATE etter dagens dato.
+  true = viser testnavn hele tiden.
+  false = henter navn fra DATA_URL. Hvis ingen bursdager, vises reklame.
 */
 var FORCE_SHOW_TEST_BIRTHDAYS = true;
 
-/* Vises nå med én gang */
-var TEST_DATA = [
-  { name: "Sigrid 10 år", start: "10:00", roomTime: "11:30" },
-  { name: "Loke og Magnus 6 år", start: "10:00", roomTime: "11:30" }
-];
-
 /*
-  Datostyrt liste. Denne brukes først når FORCE_SHOW_TEST_BIRTHDAYS = false.
+  Testdata. Brukes bare når FORCE_SHOW_TEST_BIRTHDAYS = true
+  eller når DATA_URL er tom.
 */
-var MANUAL_BIRTHDAYS_BY_DATE = {
-  "2026-05-11": [
-    { name: "Sigrid 10 år", start: "10:00", roomTime: "11:30" },
-    { name: "Loke og Magnus 6 år", start: "10:00", roomTime: "11:30" }
-  ]
-};
+var TEST_DATA = [
+  { name: "Sigrid 10 år" },
+  { name: "Loke og Magnus 6 år" }
+];
 
 var birthdayData = [];
 var adIndex = 0;
@@ -331,10 +334,6 @@ function formatClock(d) {
   return pad(d.getHours()) + ":" + pad(d.getMinutes());
 }
 
-function dateKey(d) {
-  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
-}
-
 function normalizeName(name) {
   return String(name || "").trim();
 }
@@ -356,22 +355,29 @@ function formatBirthdayName(name) {
 }
 
 function getBirthdaysToShow() {
-  var source = [];
+  var source = birthdayData;
 
-  if (FORCE_SHOW_TEST_BIRTHDAYS) {
+  if (FORCE_SHOW_TEST_BIRTHDAYS || !DATA_URL) {
     source = TEST_DATA;
-  } else if (DATA_URL) {
-    source = birthdayData;
-  } else {
-    source = MANUAL_BIRTHDAYS_BY_DATE[dateKey(new Date())] || [];
   }
 
   var active = [];
 
   for (var i = 0; i < source.length; i++) {
     var item = source[i];
-    var name = formatBirthdayName(item.name);
+    var rawName = "";
+
+    if (typeof item === "string") {
+      rawName = item;
+    } else if (item && item.name) {
+      rawName = item.name;
+    } else if (item && item.names) {
+      rawName = item.names;
+    }
+
+    var name = formatBirthdayName(rawName);
     if (!name) continue;
+
     active.push(name);
   }
 
@@ -413,12 +419,17 @@ function renderAd() {
   setActive("adView");
 
   var ad = ads[adIndex % ads.length];
-  document.getElementById("adHeadline").innerHTML = escapeHtml(ad.headline).replace(/\n/g, "<br>");
+  document.getElementById("adHeadline").innerHTML =
+    escapeHtml(ad.headline).replace(/\n/g, "<br>");
   document.getElementById("adText").innerHTML = escapeHtml(ad.text);
 }
 
-function renderError() {
+function renderError(message) {
   setActive("errorView");
+
+  if (message) {
+    document.getElementById("errorText").innerHTML = escapeHtml(message);
+  }
 }
 
 function escapeHtml(text) {
@@ -456,9 +467,11 @@ function loadDataJsonp() {
   var script = document.createElement("script");
   script.id = "birthdayDataScript";
   script.src = DATA_URL + "?callback=receiveBirthdayData&v=" + Date.now();
+
   script.onerror = function() {
-    renderError();
+    renderError("Klarte ikke å hente bursdagsdata.");
   };
+
   document.body.appendChild(script);
 }
 
@@ -475,8 +488,10 @@ function receiveBirthdayData(data) {
 }
 
 loadDataJsonp();
+
 setInterval(tick, 1000);
 setInterval(loadDataJsonp, 60000);
+
 setInterval(function() {
   adIndex++;
 }, 12000);
