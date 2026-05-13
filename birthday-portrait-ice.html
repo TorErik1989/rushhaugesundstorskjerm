@@ -159,13 +159,32 @@ body {
   overflow: hidden;
 }
 
-/* Svart toppfelt kun på reklame */
-#adWelcome {
+/* Summerpass/reklamebildet */
+#adImage {
   position: absolute;
-  top: 0;
   left: 0;
   right: 0;
-  height: 11vh;
+  top: 0;
+  bottom: 31vh;
+
+  width: 100%;
+  height: calc(100% - 31vh);
+
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+  z-index: 1;
+
+  background: #000;
+}
+
+/* Velkommen-tekst mellom reklamebilde og isstripe */
+#adWelcome {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24vh;
+  height: 7vh;
   z-index: 5;
 
   display: flex;
@@ -176,7 +195,7 @@ body {
   color: #ffffff;
 
   text-align: center;
-  font-size: 4.4vh;
+  font-size: 3.8vh;
   line-height: 1;
   font-weight: 900;
   letter-spacing: 0.05em;
@@ -188,25 +207,6 @@ body {
     0.14vh -0.14vh 0 #000,
     -0.14vh -0.14vh 0 #000,
     0 0.6vh 1.4vh rgba(0,0,0,0.85);
-}
-
-/* Summerpass/reklamebildet */
-#adImage {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 11vh;
-  bottom: 24vh;
-
-  width: 100%;
-  height: calc(100% - 35vh);
-
-  object-fit: contain;
-  object-position: center center;
-  display: block;
-  z-index: 1;
-
-  background: #000;
 }
 
 /* Ikke brukt nå */
