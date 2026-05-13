@@ -2,7 +2,6 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="300">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rush Bursdag TV</title>
 
@@ -151,7 +150,7 @@ body {
   font-size: 5.4vh;
 }
 
-/* REKLAMEVISNING - VISES NÅR DET IKKE ER BURSDAGER */
+/* REKLAMEVISNING */
 #adView {
   position: relative;
   align-items: center;
@@ -160,28 +159,50 @@ body {
   overflow: hidden;
 }
 
-/* Selve reklamebildet */
+/* Summerpass/reklamebildet */
 #adImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
   display: block;
+  z-index: 1;
 }
 
-/* Diskret klokke oppe til høyre */
-#adClock {
+/* Litt mørk overlay for at velkomstteksten skal bli lesbar */
+#adOverlay {
   position: absolute;
-  top: 2vh;
-  right: 2vw;
-  z-index: 5;
-  font-size: 3.2vh;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.50), rgba(0,0,0,0.04) 28%, rgba(0,0,0,0.10) 100%);
+  pointer-events: none;
+}
+
+/* Vises kun på reklame */
+#adWelcome {
+  position: absolute;
+  top: 3.2vh;
+  left: 4vw;
+  right: 4vw;
+  z-index: 4;
+
+  text-align: center;
+  font-size: 5.2vh;
+  line-height: 1.0;
   font-weight: 900;
-  color: rgba(255,255,255,0.92);
-  background: rgba(0,0,0,0.45);
-  padding: 0.8vh 1.3vw;
-  border-radius: 999px;
-  text-shadow: 0 0.3vh 0.8vh rgba(0,0,0,0.9);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  color: #ffffff;
+  text-shadow:
+    0.18vh 0.18vh 0 #000,
+    -0.18vh 0.18vh 0 #000,
+    0.18vh -0.18vh 0 #000,
+    -0.18vh -0.18vh 0 #000,
+    0 0.8vh 1.8vh rgba(0,0,0,0.85);
 }
 
 /* FEILVISNING */
@@ -236,12 +257,13 @@ body {
 
   <section id="adView">
     <img id="adImage" src="summerpass-earlybird.jpg" alt="Summer Pass Early Bird">
-    <div id="adClock">00:00</div>
+    <div id="adOverlay"></div>
+    <div id="adWelcome">Velkommen til Rush Haugesund</div>
   </section>
 
   <section id="errorView">
     <div id="errorTitle">BURSDAGSSKJERM</div>
-    <div id="errorText">Mangler kobling til bursdagsdata. Legg inn Apps Script-lenken i DATA_URL.</div>
+    <div id="errorText">Klarte ikke å hente bursdagsdata.</div>
   </section>
 
   <div id="iceBar"></div>
@@ -249,34 +271,18 @@ body {
 </div>
 
 <script>
-/*
-  SETT INN WEB APP-LENKEN FRA GOOGLE APPS SCRIPT HER.
-*/
 var DATA_URL = "https://script.google.com/macros/s/AKfycbxwDaLfvI7kTMUuv3e9kq_yo4NvQmAReGcD1N90-05yaA1Bfr3qDEdh1uga6KnYtjA4/exec";
 
-/*
-  true = viser testnavn hele tiden.
-  false = bruker DATA_URL.
-*/
 var FORCE_SHOW_TEST_BIRTHDAYS = false;
 
-/*
-  Testdata. Brukes bare når FORCE_SHOW_TEST_BIRTHDAYS = true.
-*/
 var TEST_DATA = [
   { name: "Sigrid 10 år" },
   { name: "Loke og Magnus 6 år" }
 ];
 
 var birthdayData = [];
-
-function pad(n) {
-  return (n < 10 ? "0" : "") + n;
-}
-
-function formatClock(d) {
-  return pad(d.getHours()) + ":" + pad(d.getMinutes());
-}
+var activeView = "";
+var lastRenderedNamesKey = "";
 
 function normalizeName(name) {
   return String(name || "").trim();
@@ -333,14 +339,23 @@ function getBirthdaysToShow() {
 }
 
 function setActive(viewId) {
+  if (activeView === viewId) return;
+
   document.getElementById("birthdayView").className = "";
   document.getElementById("adView").className = "";
   document.getElementById("errorView").className = "";
+
   document.getElementById(viewId).className = "active";
+  activeView = viewId;
 }
 
 function renderBirthdays(names) {
   setActive("birthdayView");
+
+  var namesKey = names.join("||");
+  if (namesKey === lastRenderedNamesKey) return;
+
+  lastRenderedNamesKey = namesKey;
 
   var container = document.getElementById("names");
 
@@ -364,14 +379,26 @@ function renderBirthdays(names) {
 }
 
 function renderAd() {
+  lastRenderedNamesKey = "";
   setActive("adView");
 }
 
 function renderError(message) {
+  lastRenderedNamesKey = "";
   setActive("errorView");
 
   if (message) {
     document.getElementById("errorText").innerHTML = escapeHtml(message);
+  }
+}
+
+function renderCurrentState() {
+  var names = getBirthdaysToShow();
+
+  if (names.length > 0) {
+    renderBirthdays(names);
+  } else {
+    renderAd();
   }
 }
 
@@ -384,27 +411,10 @@ function escapeHtml(text) {
     .replace(/'/g, "&#039;");
 }
 
-function tick() {
-  var now = new Date();
-
-  var clock = document.getElementById("adClock");
-  if (clock) {
-    clock.innerHTML = formatClock(now);
-  }
-
-  var names = getBirthdaysToShow();
-
-  if (names.length > 0) {
-    renderBirthdays(names);
-  } else {
-    renderAd();
-  }
-}
-
 function loadDataJsonp() {
   if (!DATA_URL) {
     birthdayData = [];
-    tick();
+    renderCurrentState();
     return;
   }
 
@@ -431,13 +441,29 @@ function receiveBirthdayData(data) {
     birthdayData = [];
   }
 
-  tick();
+  renderCurrentState();
 }
 
+function preloadImages() {
+  var images = [
+    "birthday-bg.png",
+    "summerpass-earlybird.jpg",
+    "icebar-diplomis-v23.png"
+  ];
+
+  for (var i = 0; i < images.length; i++) {
+    var img = new Image();
+    img.src = images[i];
+  }
+}
+
+/* Start */
+preloadImages();
+renderAd();
 loadDataJsonp();
 
-setInterval(tick, 1000);
-setInterval(loadDataJsonp, 15000);
+/* Hent nye bursdagsdata hvert 30. sekund */
+setInterval(loadDataJsonp, 30000);
 </script>
 </body>
 </html>
