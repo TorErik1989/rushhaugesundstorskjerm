@@ -159,50 +159,59 @@ body {
   overflow: hidden;
 }
 
-/* Summerpass/reklamebildet */
-#adImage {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  display: block;
-  z-index: 1;
-}
-
-/* Litt mørk overlay for at velkomstteksten skal bli lesbar */
-#adOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background:
-    linear-gradient(to bottom, rgba(0,0,0,0.50), rgba(0,0,0,0.04) 28%, rgba(0,0,0,0.10) 100%);
-  pointer-events: none;
-}
-
-/* Vises kun på reklame */
+/* Svart toppfelt kun på reklame */
 #adWelcome {
   position: absolute;
-  top: 3.2vh;
-  left: 4vw;
-  right: 4vw;
-  z-index: 4;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 11vh;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #000;
+  color: #ffffff;
 
   text-align: center;
-  font-size: 5.2vh;
-  line-height: 1.0;
+  font-size: 4.4vh;
+  line-height: 1;
   font-weight: 900;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 
-  color: #ffffff;
   text-shadow:
-    0.18vh 0.18vh 0 #000,
-    -0.18vh 0.18vh 0 #000,
-    0.18vh -0.18vh 0 #000,
-    -0.18vh -0.18vh 0 #000,
-    0 0.8vh 1.8vh rgba(0,0,0,0.85);
+    0.14vh 0.14vh 0 #000,
+    -0.14vh 0.14vh 0 #000,
+    0.14vh -0.14vh 0 #000,
+    -0.14vh -0.14vh 0 #000,
+    0 0.6vh 1.4vh rgba(0,0,0,0.85);
+}
+
+/* Summerpass/reklamebildet */
+#adImage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 11vh;
+  bottom: 24vh;
+
+  width: 100%;
+  height: calc(100% - 35vh);
+
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+  z-index: 1;
+
+  background: #000;
+}
+
+/* Ikke brukt nå */
+#adOverlay {
+  display: none;
 }
 
 /* FEILVISNING */
@@ -256,9 +265,9 @@ body {
   </section>
 
   <section id="adView">
+    <div id="adWelcome">Velkommen til Rush Haugesund</div>
     <img id="adImage" src="summerpass-earlybird.jpg" alt="Summer Pass Early Bird">
     <div id="adOverlay"></div>
-    <div id="adWelcome">Velkommen til Rush Haugesund</div>
   </section>
 
   <section id="errorView">
